@@ -1,0 +1,421 @@
+@media (max-width: 1199px) {
+    .menu-center {
+        display: none;
+    }
+    .menu-wrapper {
+        grid-template-columns: 1fr 1fr;
+        gap: 70px;
+    }
+    .menuThreed1,
+    .menuThreed2,
+    .menuThreed3,
+    .menuThreed4 {
+        display: none;
+    }
+    .menu-content a,
+    .lets-tog {
+        font-size: 30px;
+    }
+}
+@media (max-width: 991px) {
+    .portfoilo-box-main {
+        column-count: 2;
+        column-gap: 30px;
+        margin-top: 30px;
+    }
+    .group-split-main {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        flex-wrap: wrap;
+        max-width: 500px;
+        margin: 0 auto;
+    }
+    .plan-box2 {
+        margin-left: 0;
+        margin-top: 30px;
+    }
+    .img-sec-contact {
+        max-width: max-content;
+        width: 100%;
+    }
+    .contrn-dhj {
+        margin-bottom: 30px;
+    }
+    .tag-list-medi-list-main {
+        flex-direction: column;
+    }
+    .video-container iframe {
+        width: 100%;
+        height: 400px;
+    }
+}
+@media (max-width: 850px) {
+    .secOneImg-main h1,
+    .secOneImg-main span {
+        position: unset;
+        font-size: 80px;
+    }
+    .secOneImg-main {
+        flex-direction: column;
+    }
+    .photoroom1 {
+        right: 0;
+        top: 100px;
+    }
+    .photoroom2 {
+        left: 0;
+        bottom: 50px;
+    }
+    .fur-box-main {
+        display: none;
+    }
+    .expe-mainia {
+        position: unset;
+        margin-top: 30px;
+    }
+    .secOneImg-main {
+        margin: 10px 0 20px 0;
+    }
+}
+@media (max-width: 767px) {
+    .section-one,
+    .section-service,
+    .section-about,
+    .section-portfolio,
+    .section-testimonials,
+    .section-resume,
+    .section-pricing,
+    .section-blog,
+    .section-contact {
+        padding: 30px 12px;
+    }
+    .content-section-one {
+        padding: 20px 12px;
+    }
+    .container {
+        padding: 0 12px;
+    }
+    .menu-bottom {
+        display: none;
+    }
+    .menu-wrapper {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+    .social-menu {
+        gap: 5px;
+        margin: 10px 0;
+    }
+    .lets-tog {
+        font-size: 27px;
+    }
+    .contact-email {
+        gap: 0;
+        flex-direction: column;
+    }
+    .contact-email a {
+        font-size: 20px;
+        line-height: 35px;
+    }
+    .sionate {
+        font-size: 18px;
+        line-height: 28px;
+    }
+    .service-box {
+        padding: 20px;
+        margin: 0 auto;
+        height: 320px;
+    }
+    .serv-num {
+        font-size: 150px;
+        line-height: 160px;
+        left: -35px;
+        bottom: -25px;
+    }
+    .service-box-main-col {
+        display: none;
+    }
+    .igital {
+        font-size: 18px;
+        line-height: 28px;
+    }
+    .sec-heading p,
+    .sec-heading span {
+        font-size: 18px;
+    }
+    .sec-heading {
+        margin-bottom: 15px;
+    }
+    .about-me-datils-main {
+        gap: 25px;
+    }
+    .about-detail {
+        font-size: 18px;
+    }
+    .adewd {
+        font-size: 28px;
+        line-height: normal;
+        padding-bottom: 15px;
+    }
+    .next-prev-cont-main {
+        padding-top: 0;
+    }
+    .skill-grid-main {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    .awrd-box h3 {
+        font-size: 55px;
+        line-height: 60px;
+        padding-bottom: 10px;
+    }
+    .awrd-box p {
+        font-size: 18px;
+        line-height: 26px;
+    }
+    .appFor {
+        font-size: 26px;
+        padding: 15px 0 10px 0;
+    }
+    .client-style .featured-wrapper,
+    .client-hover-img {
+        padding: 30px 15px;
+    }
+    .features {
+        gap: 40px;
+    }
+    .contact-form-img {
+        display: flex;
+        gap: 30px;
+        margin: 30px 0;
+        flex-direction: column-reverse;
+        align-items: center;
+    }
+    .video-container iframe {
+        width: 100%;
+        height: 300px;
+    }
+}
+@media (max-width: 700px) {
+    header {
+        padding: 20px 12px 0 12px;
+    }
+    .menu-btn {
+        width: 50px;
+        height: 50px;
+        background: transparent;
+    }
+    .menu-btn span {
+        background-color: var(--text-color);
+    }
+    .back-btn img {
+        filter: var(--icons-filter);
+    }
+    .content-more-box {
+        margin: 20px 0;
+    }
+    .menu-btn-main p {
+        display: none;
+    }
+    .menu-btn-main {
+        padding: 3px;
+    }
+    .about-me-datils-main {
+        flex-direction: column;
+        gap: 50px;
+    }
+    .about-img {
+        padding-left: 0;
+    }
+    .about-img-container::before {
+        left: -20px;
+        top: -20px;
+    }
+    .awrd-projects-main {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .clients-logos {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+@media (max-width: 660px) {
+    .pricing-card {
+        display: block;
+    }
+    .plan-action button {
+        position: unset;
+    }
+    .plan-label {
+        writing-mode: unset;
+        transform: unset;
+        min-height: 100%;
+        justify-content: center;
+    }
+    .price {
+        font-size: 50px;
+        margin-bottom: 25px;
+        text-align: center;
+    }
+    .plan-action {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 20px;
+    }
+    .features {
+        gap: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+}
+@media (max-width: 600px) {
+    .skill-grid-main {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .interests-box-main {
+        grid-template-columns: repeat(1, 1fr);
+    }
+}
+@media (max-width: 575px) {
+    .menu-content {
+        grid-template-columns: repeat(2, 160px);
+    }
+    .secOneImg-main h1,
+    .secOneImg-main span {
+        position: unset;
+        font-size: 65px;
+    }
+    .about-img-container::before,
+    .about-img-container::after {
+        display: none;
+    }
+    .about-me-datils-main {
+        margin: 30px 0;
+        gap: 30px;
+    }
+    .portfoilo-box-main {
+        column-count: 1;
+        margin-top: 25px;
+    }
+    .portfoilo-box img {
+        width: 100%;
+    }
+    .clients-logos {
+        display: grid;
+        grid-template-columns: repeat(1, 1fr);
+    }
+    .plan-header,
+    .plan-body {
+        padding: 20px;
+    }
+    .basic-plan-main {
+        padding-bottom: 15px;
+    }
+    .choosplan {
+        margin-top: 20px;
+    }
+    .plan-body ul li {
+        padding-bottom: 10px;
+    }
+    .title {
+        font-size: 22px;
+    }
+    .form-row {
+        display: flex;
+        gap: 0px;
+        margin-top: 20px;
+        flex-direction: column;
+    }
+    .map-iframe {
+        margin-bottom: 20px;
+    }
+    .imgs-group-content {
+        grid-template-columns: repeat(1, 1fr);
+        justify-items: center;
+    }
+    .imgs-group-content img {
+        width: 100%;
+    }
+    .content-more-box p {
+        font-size: 18px;
+    }
+    .order-list li {
+        font-size: 18px;
+        line-height: 28px;
+    }
+    .theChlaa {
+        padding-bottom: 10px;
+    }
+    .tag-list-main {
+        flex-wrap: wrap;
+    }
+    .next-prev-cont {
+        position: unset;
+        font-size: 16px;
+        text-transform: uppercase;
+    }
+}
+@media (max-width: 500px) {
+    .menu-list-main {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    .menu-list-main li {
+        padding: 15px 5px;
+    }
+    .menu-list-main li a {
+        font-size: 16px;
+    }
+    .adewd {
+        font-size: 24px;
+        line-height: normal;
+        padding-bottom: 10px;
+    }
+    .awrd-box h3 {
+        font-size: 45px;
+        line-height: 55px;
+        padding-bottom: 7px;
+    }
+    .yct-box-main {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .preloader .loading {
+        letter-spacing: 5px;
+    }
+    .photoroom2 {
+        display: none;
+    }
+    .photoroom1 {
+        right: 0;
+        top: 70px;
+        width: 110px;
+    }
+}
+@media (max-width: 450px) {
+    .about-deatils-head {
+        margin-left: 0px;
+        width: 100%;
+    }
+    .about-detail-info {
+        font-size: 18px;
+    }
+    .about-detail {
+        font-size: 20px;
+    }
+    .about-detail-info::before {
+        content: ":";
+        margin-right: 20px;
+    }
+    .about-img {
+        width: 100%;
+    }
+    .skill-grid-main {
+        grid-template-columns: repeat(1, 1fr);
+    }
+    .secOneImg-main h1,
+    .secOneImg-main span {
+        font-size: 55px;
+        text-align: center;
+    }
+}
