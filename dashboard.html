@@ -179,19 +179,24 @@
     </div>
 
     <script>
-      document.addEventListener('DOMContentLoaded', () => {
-        checkAuth();
-      });
+      document.addEventListener('DOMContentLoaded', checkAuth());
 
       async function checkAuth() {
-        const token = localStorage.getItem('accessToken');
+        const res = await fetch(`${APP_CONFIG.API_URL}/auth/refresh`, {
+          method: 'POST',
+          credentials: 'include',
+        });
 
-        if(!token) {
-            window.location.href = '/login.html';
-            return;
+        if(!res.ok) {
+          window.location.href = '/';
+          return;
         }
 
-        const res = await fetch(`${APP_CONFIG.API_URL}/auth/@me`, {
+        window.accessToken = await res.json();
+      }
+
+      async function loadDashboardData(token) {
+        const res = await fetch(`${APP_CONFIG.API_URL}auth/@me`, {
             method: 'GET',
             headers: {
               Authorization: `Bearer ${token}`,

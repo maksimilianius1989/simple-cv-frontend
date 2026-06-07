@@ -19,8 +19,10 @@
           <a href="#">Тарифи</a>
           <a href="#">FAQ</a>
         </nav>
-        <a class="btn-primary" href="/dashboard.html" target="_blank"
-          >Перейти в кабінет</a
+        <a
+          class="btn-primary telegram-link"
+          href="https://t.me/SimpleCVLife_bot"
+          >Telegram Bot</a
         >
       </div>
     </header>
@@ -42,7 +44,7 @@
 
           <div class="hero-buttons">
             <a
-              class="btn-primary"
+              class="btn-primary telegram-link"
               href="https://t.me/SimpleCVLife_bot"
               target="_blank"
               >Створити резюме</a
@@ -70,5 +72,12 @@
         </p>
       </div>
     </section>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const links = document.querySelectorAll(".telegram-link");
+        links.forEach((link) => link.href = APP_CONFIG.TELEGRAM_BOT);
+      });
+    </script>
   </body>
 </html>
