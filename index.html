@@ -3,7 +3,6 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" href="/assets/favicon.ico" />
     <title>Simple CV Life</title>
     <link rel="stylesheet" href="/assets/css/index.css" />
     <script src="/assets/js/config.js"></script>
@@ -54,7 +53,7 @@
         </div>
 
         <div class="hero-visual">
-          <img src="/assets/img/team.png" alt="Alex & Emma" />
+          <img src="/storage/assets/img/team.png" alt="Alex & Emma" />
 
           <div class="floating-card card1">✓ Аналізую резюме</div>
           <div class="floating-card card2">✓ Cover Letter</div>
@@ -75,8 +74,8 @@
 
     <script>
       document.addEventListener("DOMContentLoaded", () => {
-        const links = document.querySelectorAll(".telegram-link");
-        links.forEach((link) => link.href = APP_CONFIG.TELEGRAM_BOT);
+        const telegramLinks = document.querySelectorAll(".telegram-link");
+        telegramLinks.forEach((link) => link.href = APP_CONFIG.TELEGRAM_BOT);
       });
     </script>
   </body>
