@@ -14,7 +14,19 @@
     <script src="/assets/js/config.js"></script>
   </head>
   <body>
-    <div class="container">
+    <div id="app-loader" class="container-preloader">
+      <div class="loader-overlay">
+        <div class="loader-content">
+          <div class="loader-spinner"></div>
+
+          <h2>Завантажуємо ваш контент...</h2>
+
+          <p>Це займе всього кілька секунд</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="container" id="container">
       <!-- ========================= -->
       <!-- ШАБЛОНИ -->
       <!-- ========================= -->
@@ -178,31 +190,32 @@
     </div>
 
     <script>
-      document.addEventListener('DOMContentLoaded', checkAuth());
+      document.addEventListener("DOMContentLoaded", checkAuth());
 
       async function checkAuth() {
         const res = await fetch(`${APP_CONFIG.API_URL}/auth/refresh`, {
-          method: 'POST',
-          credentials: 'include',
+          method: "POST",
+          credentials: "include",
         });
 
-        if(!res.ok) {
-          window.location.href = '/';
+        if (!res.ok) {
+          window.location.href = "/";
           return;
         }
 
-        window.accessToken = await res.json();
+        localStorage.setItem('accessToken', (await res.json()).accessToken);
+
+        document.getElementById('container').style.display = "block";
+        document.getElementById('app-loader').style.display = "none";
       }
 
       async function loadDashboardData(token) {
         const res = await fetch(`${APP_CONFIG.API_URL}auth/@me`, {
-            method: 'GET',
-            headers: {
-              Authorization: `Bearer ${token}`,
-            }
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         });
-
-        console.log(await res.json());
       }
     </script>
   </body>
