@@ -35,16 +35,6 @@
       <section class="resume-section">
         <div class="section-header">
           <h2>Мої резюме</h2>
-
-          <div class="filters">
-            <input type="text" placeholder="Пошук резюме..." />
-
-            <select>
-              <option>Усі резюме</option>
-              <option>Оновлені</option>
-              <option>Чернетки</option>
-            </select>
-          </div>
         </div>
 
         <div class="resume-grid">
@@ -64,81 +54,16 @@
             </div>
           </div>
 
-          <div class="resume-card">
-            <div class="resume-preview"></div>
-
-            <div class="resume-content">
-              <h3>UX/UI Designer</h3>
-              <span>Оновлено 10.05.2024</span>
-            </div>
-
-            <div class="resume-actions">
-              <button><i class="fa-solid fa-eye"></i></button>
-              <button><i class="fa-solid fa-pen"></i></button>
-              <button><i class="fa-solid fa-copy"></i></button>
-              <button><i class="fa-solid fa-trash"></i></button>
-            </div>
-          </div>
-
-          <div class="resume-card">
-            <div class="resume-preview"></div>
-
-            <div class="resume-content">
-              <h3>Marketing Specialist</h3>
-              <span>Оновлено 08.05.2024</span>
-            </div>
-
-            <div class="resume-actions">
-              <button><i class="fa-solid fa-eye"></i></button>
-              <button><i class="fa-solid fa-pen"></i></button>
-              <button><i class="fa-solid fa-copy"></i></button>
-              <button><i class="fa-solid fa-trash"></i></button>
-            </div>
-          </div>
-
-          <div class="resume-card">
-            <div class="resume-preview"></div>
-
-            <div class="resume-content">
-              <h3>Frontend Developer</h3>
-              <span>Оновлено 05.05.2024</span>
-            </div>
-
-            <div class="resume-actions">
-              <button><i class="fa-solid fa-eye"></i></button>
-              <button><i class="fa-solid fa-pen"></i></button>
-              <button><i class="fa-solid fa-copy"></i></button>
-              <button><i class="fa-solid fa-trash"></i></button>
-            </div>
-          </div>
-
-          <div class="resume-card">
-            <div class="resume-preview"></div>
-
-            <div class="resume-content">
-              <h3>Sales Manager</h3>
-              <span>Оновлено 03.05.2024</span>
-            </div>
-
-            <div class="resume-actions">
-              <button><i class="fa-solid fa-eye"></i></button>
-              <button><i class="fa-solid fa-pen"></i></button>
-              <button><i class="fa-solid fa-copy"></i></button>
-              <button><i class="fa-solid fa-trash"></i></button>
-            </div>
-          </div>
-
           <div class="resume-create">
             <i class="fa-solid fa-plus"></i>
             <h3>Створити нове резюме</h3>
-            <p>Почніть із шаблону або з нуля</p>
           </div>
         </div>
       </section>
     </div>
 
     <script>
-      document.addEventListener("DOMContentLoaded", checkAuth());
+      document.addEventListener("DOMContentLoaded", () => checkAuth());
 
       async function checkAuth() {
         const res = await fetch(`${APP_CONFIG.API_URL}/auth/refresh`, {
