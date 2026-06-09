@@ -11,7 +11,9 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
       rel="stylesheet"
     />
-    <script src="/assets/js/config.js"></script>
+    <script defer src="/assets/js/config.js"></script>
+    <script defer src="/assets/js/main.js"></script>
+    <script defer src="/assets/js/dashboard.js"></script>
   </head>
   <body>
     <div id="app-loader" class="container-preloader">
@@ -27,7 +29,6 @@
     </div>
 
     <div class="container" id="container">
- 
       <!-- ========================= -->
       <!-- МОЇ РЕЗЮМЕ -->
       <!-- ========================= -->
@@ -37,23 +38,7 @@
           <h2>Мої резюме</h2>
         </div>
 
-        <div class="resume-grid">
-          <div class="resume-card">
-            <div class="resume-preview"></div>
-
-            <div class="resume-content">
-              <h3>Project Manager</h3>
-              <span>Оновлено 12.05.2024</span>
-            </div>
-
-            <div class="resume-actions">
-              <button><i class="fa-solid fa-eye"></i></button>
-              <button><i class="fa-solid fa-pen"></i></button>
-              <button><i class="fa-solid fa-copy"></i></button>
-              <button><i class="fa-solid fa-trash"></i></button>
-            </div>
-          </div>
-
+        <div class="resume-grid" id="resume-container">
           <div class="resume-create">
             <i class="fa-solid fa-plus"></i>
             <h3>Створити нове резюме</h3>
@@ -63,33 +48,7 @@
     </div>
 
     <script>
-      document.addEventListener("DOMContentLoaded", () => checkAuth());
-
-      async function checkAuth() {
-        const res = await fetch(`${APP_CONFIG.API_URL}/auth/refresh`, {
-          method: "POST",
-          credentials: "include",
-        });
-
-        if (!res.ok) {
-          window.location.href = "/";
-          return;
-        }
-
-        localStorage.setItem('accessToken', (await res.json()).accessToken);
-
-        document.getElementById('container').style.display = "block";
-        document.getElementById('app-loader').style.display = "none";
-      }
-
-      async function loadDashboardData(token) {
-        const res = await fetch(`${APP_CONFIG.API_URL}auth/@me`, {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-      }
+      document.addEventListener("DOMContentLoaded", async () => await getCvs());
     </script>
   </body>
 </html>
