@@ -25,7 +25,11 @@ function renderCard(cvs) {
     const card = document.createElement("div");
     card.classList.add("resume-card");
     card.innerHTML = `
-    <div class="resume-preview"></div>
+    <img
+      src="${APP_CONFIG.API_URL}/previews/${cv.id}-small.png"
+      alt="Preview"
+      oneerror="this.src='/assets/img/pdf-placeholder.png"
+    />
     <div class="resume-content">
       <h3>${cv.title}</h3>
       <span>${updatedAt}</span>
