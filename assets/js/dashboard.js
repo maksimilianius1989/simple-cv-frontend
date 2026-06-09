@@ -1,10 +1,5 @@
 async function getCvs() {
-  const cvs = await authFetch(`${APP_CONFIG.API_URL}/cv`, {
-    method: "GET",
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem(ACCESS_TOKEN)}`,
-    },
-  });
+  const cvs = await authFetch(`${APP_CONFIG.API_URL}/cv`, { method: "GET" });
 
   renderCard(await cvs.json());
   hidePreloader();

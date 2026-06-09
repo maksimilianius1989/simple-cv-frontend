@@ -9,6 +9,10 @@ async function authFetch(url, options = {}) {
     },
   });
 
+  if (res.status == 200) {
+    return res;
+  }
+
   if (res.status === 401) {
     const refreshed = await refreshTokent();
 
@@ -26,9 +30,11 @@ async function authFetch(url, options = {}) {
         Authorization: `Bearer ${token}`,
       },
     });
+
+    return res;
   }
 
-  return res;
+  throw new Error("Response error", res);
 }
 
 async function refreshTokent() {
