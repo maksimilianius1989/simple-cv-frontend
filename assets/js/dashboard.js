@@ -36,8 +36,8 @@ function renderCard(cvs) {
     </div>
 
     <div class="resume-actions">
-      <button><i class="fa-solid fa-eye"></i></button>
-      <button><i class="fa-solid fa-file-pdf"></i></button>
+      <a href="${cv.previewPath}" trarget="_blank"><i class="fa-solid fa-eye"></i></a>
+      <a href="${cv.pdfPath}" trarget="_blank"><i class="fa-solid fa-file-pdf"></i></a>
       <button><i class="fa-solid fa-trash"></i></button>
     </div>`;
 
