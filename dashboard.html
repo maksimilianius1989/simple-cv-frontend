@@ -40,8 +40,8 @@
 
         <div class="resume-grid" id="resume-container">
           <a
-            class="resume-create"
-            href="https://t.me/simplecvlifetest_bot"
+            class="resume-create telegram-link"
+            href="https://t.me/SimpleCVLife_bot"
             target="_blank"
           >
             <i class="fa-solid fa-plus"></i>
@@ -52,7 +52,12 @@
     </div>
 
     <script>
-      document.addEventListener("DOMContentLoaded", async () => await getCvs());
+      document.addEventListener("DOMContentLoaded", async () => {
+        const telegramLinks = document.querySelectorAll(".telegram-link");
+        telegramLinks.forEach((link) => link.href = APP_CONFIG.TELEGRAM_BOT);
+
+        await getCvs()
+      });
     </script>
   </body>
 </html>
