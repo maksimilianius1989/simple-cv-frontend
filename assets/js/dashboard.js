@@ -25,20 +25,21 @@ function renderCard(cvs) {
     const card = document.createElement("div");
     card.classList.add("resume-card");
     card.innerHTML = `
+    <a href="${APP_CONFIG.API_URL}${cv.previewPath}" target="_blank">
     <img
-      src="${APP_CONFIG.API_URL}/previews/${cv.id}-small.png"
-      alt="Preview"
-      oneerror="this.src='/assets/img/pdf-placeholder.png"
+          src="${APP_CONFIG.API_URL}/uploads/previews/${cv.id}-small.png"
+          alt="Preview"
+          oneerror="this.src='/assets/img/pdf-placeholder.png"
     />
+    </a>
+   
     <div class="resume-content">
       <h3>${cv.title}</h3>
       <span>${updatedAt}</span>
     </div>
 
     <div class="resume-actions">
-      <a href="${cv.previewPath}" trarget="_blank"><i class="fa-solid fa-eye"></i></a>
-      <a href="${cv.pdfPath}" trarget="_blank"><i class="fa-solid fa-file-pdf"></i></a>
-      <button><i class="fa-solid fa-trash"></i></button>
+      <a href="${APP_CONFIG.API_URL}${cv.pdfPath}" target="_blank"><i class="fa-solid fa-file-pdf"></i></a>
     </div>`;
 
     container.prepend(card);

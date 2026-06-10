@@ -26,8 +26,16 @@
 
 body {
   background:
-    radial-gradient(circle at top left, rgba(43, 127, 255, 0.2), transparent 30%),
-    radial-gradient(circle at top right, rgba(255, 95, 191, 0.15), transparent 25%),
+    radial-gradient(
+      circle at top left,
+      rgba(43, 127, 255, 0.2),
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at top right,
+      rgba(255, 95, 191, 0.15),
+      transparent 25%
+    ),
     var(--bg);
   color: var(--text);
 }
@@ -170,9 +178,18 @@ body {
   backdrop-filter: blur(20px);
 }
 
-.card1 { top: 10%; left: -30px; }
-.card2 { top: 40%; right: -20px; }
-.card3 { bottom: 15%; left: -20px; }
+.card1 {
+  top: 10%;
+  left: -30px;
+}
+.card2 {
+  top: 40%;
+  right: -20px;
+}
+.card3 {
+  bottom: 15%;
+  left: -20px;
+}
 
 /* =====================
    CARDS / ABOUT
@@ -203,7 +220,11 @@ body {
 ===================== */
 .templates-section,
 .resume-section {
-  background: linear-gradient(180deg, rgba(20, 31, 80, 0.7), rgba(8, 13, 32, 0.95));
+  background: linear-gradient(
+    180deg,
+    rgba(20, 31, 80, 0.7),
+    rgba(8, 13, 32, 0.95)
+  );
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 24px;
   padding: 30px;
@@ -275,8 +296,9 @@ body {
 
 .resume-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
   gap: 25px;
+  align-items: start;
 }
 
 .resume-card {
@@ -304,17 +326,23 @@ body {
   margin-top: 18px;
 }
 
-.resume-actions button {
+.resume-actions a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
   width: 42px;
   height: 42px;
-  border: none;
+
   border-radius: 10px;
   background: #101f45;
   color: white;
   cursor: pointer;
+
+  transition: 0.2s;
 }
 
-.resume-actions button:hover {
+.resume-actions a:hover {
   background: #2563eb;
 }
 
@@ -337,6 +365,21 @@ body {
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
 }
 
+a {
+  color: inherit;
+  text-decoration: none;
+  outline: none;
+}
+
+a:visited,
+a:hover,
+a:active,
+a:focus {
+  color: inherit;
+  text-decoration: none;
+  outline: none;
+}
+
 /* =====================
    PRELOADER
 ===================== */
@@ -347,7 +390,11 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: radial-gradient(circle at center, rgba(22, 28, 72, 0.85), rgba(5, 9, 30, 0.95));
+  background: radial-gradient(
+    circle at center,
+    rgba(22, 28, 72, 0.85),
+    rgba(5, 9, 30, 0.95)
+  );
   backdrop-filter: blur(12px);
 }
 
