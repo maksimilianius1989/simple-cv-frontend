@@ -36,6 +36,11 @@
       <section class="resume-section">
         <div class="section-header">
           <h2>Мої резюме</h2>
+
+          <button id="logout-btn" class="logout-btn">
+            <i class="fa-solid fa-right-from-bracket"></i>
+            Вийти
+          </button>
         </div>
 
         <div class="resume-grid" id="resume-container">
@@ -73,6 +78,12 @@
 
         await getCvs();
       });
+
+      document
+        .getElementById("logout-btn")
+        ?.addEventListener("click", async () => {
+          logout();
+        });
     </script>
   </body>
 </html>
