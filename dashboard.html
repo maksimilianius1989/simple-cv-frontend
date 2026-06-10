@@ -51,12 +51,27 @@
       </section>
     </div>
 
+    <div id="resume-modal" class="modal hidden">
+      <div class="modal-overlay"></div>
+
+      <div class="modal-content">
+        <span class="modal-close">&times;</span>
+
+        <img id="modal-image" src="" alt="Resume" />
+
+        <div class="modal-letter">
+          <h3>Супровідний лист</h3>
+          <p id="modal-text"></p>
+        </div>
+      </div>
+    </div>
+
     <script>
       document.addEventListener("DOMContentLoaded", async () => {
         const telegramLinks = document.querySelectorAll(".telegram-link");
-        telegramLinks.forEach((link) => link.href = APP_CONFIG.TELEGRAM_BOT);
+        telegramLinks.forEach((link) => (link.href = APP_CONFIG.TELEGRAM_BOT));
 
-        await getCvs()
+        await getCvs();
       });
     </script>
   </body>

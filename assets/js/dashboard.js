@@ -25,13 +25,14 @@ function renderCard(cvs) {
     const card = document.createElement("div");
     card.classList.add("resume-card");
     card.innerHTML = `
-    <a href="${APP_CONFIG.API_URL}${cv.previewPath}" target="_blank">
-    <img
+    <div class="resume-card" 
+     data-image="${APP_CONFIG.API_URL}${cv.previewPath}"
+     data-letter="${cv.coverLetter}">
+      <img
           src="${APP_CONFIG.API_URL}/uploads/previews/${cv.id}-small.png"
           alt="Preview"
-          oneerror="this.src='/assets/img/pdf-placeholder.png"
-    />
-    </a>
+      />
+    </div>
    
     <div class="resume-content">
       <h3>${cv.title}</h3>
@@ -45,3 +46,31 @@ function renderCard(cvs) {
     container.prepend(card);
   });
 }
+
+document.addEventListener("click", (e) => {
+  const card = e.target.closest(".resume-card");
+  if (!card) return;
+
+  const image = card.dataset.image;
+  const letter =
+  !card.dataset.letter ||
+  card.dataset.letter === "null" ||
+  card.dataset.letter === "undefined"
+    ? "Немає супровідного листа"
+    : card.dataset.letter;
+
+  document.getElementById("modal-image").src = image;
+  document.getElementById("modal-text").textContent = letter;
+
+  document.getElementById("resume-modal").classList.remove("hidden");
+});
+
+// close modal
+document.addEventListener("click", (e) => {
+  if (
+    e.target.classList.contains("modal-overlay") ||
+    e.target.classList.contains("modal-close")
+  ) {
+    document.getElementById("resume-modal").classList.add("hidden");
+  }
+});
