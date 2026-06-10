@@ -11,15 +11,9 @@
     <header class="header">
       <div class="container header-wrapper">
         <div class="logo">Simple CV Life</div>
-        <nav class="nav">
-          <a href="#">Що це?</a>
-          <a href="#">Як працює</a>
-          <a href="#">Приклади</a>
-          <a href="#">Тарифи</a>
-          <a href="#">FAQ</a>
-        </nav>
         <a
           class="btn-primary telegram-link"
+          id="main-btn"
           href="https://t.me/SimpleCVLife_bot"
           >Telegram Bot</a
         >
@@ -48,7 +42,6 @@
               target="_blank"
               >Створити резюме</a
             >
-            <a class="btn-secondary" href="#">Переглянути приклад</a>
           </div>
         </div>
 
@@ -72,63 +65,24 @@
       </div>
     </section>
 
-         <!-- ========================= -->
-      <!-- ШАБЛОНИ -->
-      <!-- ========================= -->
-
-      <section class="templates-section">
-        <div class="section-header">
-          <h2>Виберіть шаблон резюме</h2>
-
-          <a href="#">
-            Переглянути всі шаблони
-            <i class="fa-solid fa-arrow-right"></i>
-          </a>
-        </div>
-
-        <div class="templates-row">
-          <div class="template-card active">
-            <div class="template-preview"></div>
-            <h3>Classic</h3>
-            <p>Популярний</p>
-          </div>
-
-          <div class="template-card">
-            <div class="template-preview"></div>
-            <h3>Modern</h3>
-            <p>Сучасний</p>
-          </div>
-
-          <div class="template-card">
-            <div class="template-preview"></div>
-            <h3>Creative</h3>
-            <p>Креативний</p>
-          </div>
-
-          <div class="template-card">
-            <div class="template-preview"></div>
-            <h3>Minimal</h3>
-            <p>Мінімалістичний</p>
-          </div>
-
-          <div class="template-card">
-            <div class="template-preview"></div>
-            <h3>Executive</h3>
-            <p>Для керівників</p>
-          </div>
-
-          <div class="template-card">
-            <div class="template-preview"></div>
-            <h3>Technical</h3>
-            <p>Технічний</p>
-          </div>
-        </div>
-      </section>
-
     <script>
       document.addEventListener("DOMContentLoaded", () => {
         const telegramLinks = document.querySelectorAll(".telegram-link");
         telegramLinks.forEach((link) => link.href = APP_CONFIG.TELEGRAM_BOT);
+
+        const token = localStorage.getItem(ACCESS_TOKEN);
+        const mainBtn = document.getElementById("main-btn");
+
+        if(token && mainBtn) {
+          mainBtn.textContent = "Особистий кабінет";
+          mainBtn.href = "/dashboard.html";
+          mainBtn.classList.remove("telegram-link");
+          mainBtn.classList.add("btn-secondary");
+        }
+
+        console.log(token);
+        console.log(mainBtn);
+        
       });
     </script>
   </body>
