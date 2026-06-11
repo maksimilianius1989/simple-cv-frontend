@@ -8,6 +8,11 @@
     <script src="/assets/js/config.js"></script>
   </head>
   <body>
+    <nav class="top-legal-menu">
+      <div class="container top-legal-menu__inner">
+        <a href="/terms.html">Юридична інформація</a>
+      </div>
+    </nav>
     <header class="header">
       <div class="container header-wrapper">
         <div class="logo">Simple CV Life</div>
@@ -68,12 +73,12 @@
     <script>
       document.addEventListener("DOMContentLoaded", () => {
         const telegramLinks = document.querySelectorAll(".telegram-link");
-        telegramLinks.forEach((link) => link.href = APP_CONFIG.TELEGRAM_BOT);
+        telegramLinks.forEach((link) => (link.href = APP_CONFIG.TELEGRAM_BOT));
 
         const token = localStorage.getItem(ACCESS_TOKEN);
         const mainBtn = document.getElementById("main-btn");
 
-        if(token && mainBtn) {
+        if (token && mainBtn) {
           mainBtn.textContent = "Особистий кабінет";
           mainBtn.href = "/dashboard.html";
           mainBtn.classList.remove("telegram-link");
@@ -82,7 +87,6 @@
 
         console.log(token);
         console.log(mainBtn);
-        
       });
     </script>
   </body>

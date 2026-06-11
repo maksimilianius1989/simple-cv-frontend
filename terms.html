@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="uk">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Legal | Simple CV Life</title>
+
+    <link rel="stylesheet" href="/assets/css/main.css" />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+      rel="stylesheet"
+    />
+
+    <style>
+      /* ===== LEGAL PAGE WRAPPER ===== */
+      .legal-wrapper {
+        max-width: 900px;
+        margin: 60px auto;
+        padding: 0 24px;
+      }
+
+      .legal-title {
+        font-size: 36px;
+        margin-bottom: 10px;
+      }
+
+      .legal-subtitle {
+        color: var(--muted);
+        margin-bottom: 30px;
+        font-size: 16px;
+      }
+
+      /* ===== HEADER (USING GLOBAL STYLE) ===== */
+      .legal-header {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+
+        background: rgba(5, 8, 22, 0.8);
+        backdrop-filter: blur(20px);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      }
+
+      .legal-header-inner {
+        max-width: 1280px;
+        margin: auto;
+        padding: 0 24px;
+        height: 88px;
+
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .legal-logo {
+        font-weight: 700;
+        font-size: 22px;
+      }
+
+      /* ===== BACK BUTTON (MATCH YOUR UI) ===== */
+      .back-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+
+        padding: 12px 18px;
+        border-radius: 14px;
+
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        color: var(--text);
+
+        text-decoration: none;
+
+        transition: 0.2s;
+      }
+
+      .back-link:hover {
+        background: rgba(255, 255, 255, 0.08);
+        transform: translateY(-2px);
+      }
+
+      /* ===== CARDS ===== */
+      .legal-grid {
+        display: grid;
+        gap: 16px;
+      }
+
+      .legal-card {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        padding: 18px 20px;
+
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 20px;
+
+        transition: 0.2s;
+      }
+
+      .legal-card:hover {
+        transform: translateY(-4px);
+        border-color: rgba(255, 255, 255, 0.2);
+      }
+
+      .legal-card i {
+        color: var(--muted);
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- ===== HEADER ===== -->
+    <header class="legal-header">
+      <div class="legal-header-inner">
+        <div class="legal-logo">Simple CV Life</div>
+
+        <a href="/" class="back-link">
+          <i class="fa-solid fa-arrow-left"></i>
+          Назад на сайт
+        </a>
+      </div>
+    </header>
+
+    <!-- ===== CONTENT ===== -->
+    <div class="legal-wrapper">
+      <h1 class="legal-title">Юридична інформація</h1>
+      <p class="legal-subtitle">
+        Усі правила, політики та умови використання сервісу
+      </p>
+
+      <div class="legal-grid">
+        <a class="legal-card" href="/storage/assets/terms/privacy-policy-v1.0.pdf" target="_blank">
+          <span>🔐 Політика конфіденційності</span>
+          <i class="fa-solid fa-arrow-right"></i>
+        </a>
+
+        <a class="legal-card" href="/storage/assets/terms/user-agreement-v1.0.pdf" target="_blank">
+          <span>📄 Користувацька угода</span>
+          <i class="fa-solid fa-arrow-right"></i>
+        </a>
+
+        <a class="legal-card" href="/storage/assets/terms/terms-of-use-v1.0.pdf" target="_blank">
+          <span>📘 Умови користування</span>
+          <i class="fa-solid fa-arrow-right"></i>
+        </a>
+      </div>
+    </div>
+  </body>
+</html>

@@ -527,3 +527,28 @@ a:focus {
 .logout-btn i {
   font-size: 14px;
 }
+
+.top-legal-menu {
+  background: #0f172a;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.top-legal-menu__inner {
+  display: flex;
+  justify-content: center;
+  gap: 25px;
+
+  padding: 10px 0;
+}
+
+.top-legal-menu a {
+  font-size: 13px;
+  color: #cbd5e1;
+  text-decoration: none;
+
+  transition: 0.2s;
+}
+
+.top-legal-menu a:hover {
+  color: #ffffff;
+}
