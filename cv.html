@@ -41,7 +41,7 @@
 
       .cv-preview img {
         width: 100%;
-        max-width: 600px;
+        max-width: 1000px;
         border-radius: 12px;
         box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
       }
@@ -95,6 +95,18 @@
   </head>
 
   <body>
+    <header class="header">
+      <div class="container header-wrapper">
+        <a href="/" class="logo">Simple CV Life</a>
+        <a
+          class="btn-primary telegram-link"
+          id="main-btn"
+          href="https://t.me/SimpleCVLife_bot"
+          >Telegram Bot</a
+        >
+      </div>
+    </header>
+
     <div class="cv-page">
       <div class="cv-container">
         <!-- LEFT: PREVIEW -->
@@ -118,6 +130,24 @@
 
     <script>
       document.addEventListener("DOMContentLoaded", () => loadCV());
+      
+      
+
+
+       document.addEventListener("DOMContentLoaded", () => {
+        const telegramLinks = document.querySelectorAll(".telegram-link");
+        telegramLinks.forEach((link) => (link.href = APP_CONFIG.TELEGRAM_BOT));
+
+        const token = localStorage.getItem(ACCESS_TOKEN);
+        const mainBtn = document.getElementById("main-btn");
+
+        if (token && mainBtn) {
+          mainBtn.textContent = "Особистий кабінет";
+          mainBtn.href = "/dashboard.html";
+          mainBtn.classList.remove("telegram-link");
+          mainBtn.classList.add("btn-secondary");
+        }
+      });
     </script>
   </body>
 </html>

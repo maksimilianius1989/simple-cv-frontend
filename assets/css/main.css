@@ -309,8 +309,21 @@ body {
   transition: 0.3s;
 }
 
+.resume-card.published {
+    border: 2px solid #3b82f6;
+
+    box-shadow:
+        0 0 5px rgba(59, 130, 246, 0.5),
+        0 0 15px rgba(59, 130, 246, 0.4),
+        0 0 30px rgba(59, 130, 246, 0.3);
+}
+
 .resume-card:hover {
   transform: translateY(-5px);
+}
+
+.resume-card img {
+  width: stretch;
 }
 
 .resume-preview {

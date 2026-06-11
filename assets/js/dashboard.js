@@ -1,7 +1,7 @@
 async function getCvs() {
   const cvs = await authFetch(`${APP_CONFIG.API_URL}/cv`, { method: "GET" });
 
-  renderCard(await cvs.json());
+  renderCard(await cvs?.json());
   hidePreloader();
 }
 
@@ -10,9 +10,19 @@ function hidePreloader() {
   document.getElementById("app-loader").style.display = "none";
 }
 
+function dateFormated(date) {
+  return new Date(date).toLocaleString("uk-UA", {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+}
+
 function renderCard(cvs) {
   const container = document.getElementById("resume-container");
-  container.innerHTML =  `
+  container.innerHTML = `
     <a
       class="resume-create telegram-link"
       href="${APP_CONFIG.TELEGRAM_BOT}"
@@ -24,23 +34,20 @@ function renderCard(cvs) {
   `;
 
   cvs.forEach((cv) => {
-    const updatedAt = new Date(cv.updatedAt).toLocaleString("uk-UA", {
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit",
-      hour: "2-digit",
-      minute: "2-digit",
-    });
-
     const card = document.createElement("div");
-
-    card.classList.add("resume-card");
 
     card.dataset.id = cv.id;
     card.dataset.published = cv.isPublished;
     card.dataset.slug = cv.publicSlug ?? "";
     card.dataset.image = `${APP_CONFIG.API_URL}${cv.previewPath}`;
     card.dataset.letter = cv.coverLetter ?? "";
+
+
+    card.classList.add("resume-card");
+
+    if (cv.isPublished) {
+      card.classList.add("published");
+    }
 
     card.innerHTML = `
         <img
@@ -50,8 +57,15 @@ function renderCard(cvs) {
 
         <div class="resume-content">
           <h3>${cv.title}</h3>
-          <span>${updatedAt}</span>
-        </div>
+          <p>Оновлено: ${dateFormated(cv.updatedAt)}</p></br>
+         ${
+           cv.isPublished
+             ? `
+              <p>Кількість переглядів: ${cv.viewsCount}</p>
+              <p>Дата публікації: ${dateFormated(cv.publishedAt)} до ${dateFormated(cv.publishedUntil)}</p>
+              `
+             : ''
+         }
 
         <div class="resume-actions">
           <a href="${APP_CONFIG.API_URL}${cv.pdfPath}" target="_blank">
@@ -143,8 +157,6 @@ document.addEventListener("click", async (e) => {
     }
 
     alert("Резюме успішно опубліковано");
-
-
 
     await getCvs();
   } catch (error) {
