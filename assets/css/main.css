@@ -566,3 +566,11 @@ a:focus {
   justify-content: center;
   align-items: center;
 }
+
+.resume-actions .publish-btn:hover {
+  background: #16a34a;
+}
+
+.resume-actions .copy-link-btn:hover {
+  background: #7c3aed;
+}
