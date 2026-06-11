@@ -552,3 +552,17 @@ a:focus {
 .top-legal-menu a:hover {
   color: #ffffff;
 }
+
+.footer {
+  margin-top: 80px;
+  padding: 20px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 14px;
+}
+
+.footer-inner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
