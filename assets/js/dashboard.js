@@ -57,11 +57,13 @@ function renderCard(cvs) {
 
         <div class="resume-content">
           <h3>${cv.title}</h3>
-          <p>Оновлено: ${dateFormated(cv.updatedAt)}</p></br>
+          <p>Створено: ${dateFormated(cv.createdAt)}</p>
+          <p>Кількість переглядів: ${cv.viewsCount}</p>
+          </br>
          ${
            cv.isPublished
              ? `
-              <p>Кількість переглядів: ${cv.viewsCount}</p>
+              
               <p>Дата публікації: ${dateFormated(cv.publishedAt)} до ${dateFormated(cv.publishedUntil)}</p>
               `
              : ''
@@ -76,7 +78,7 @@ function renderCard(cvs) {
             cv.isPublished
               ? `
               <a href="/cv.html?slug=${cv.publicSlug}" target="_blank" title="Переглянути">
-                <i class="fa-solid fa-eye"></i><span>${cv.viewsCount}</span>
+                <i class="fa-solid fa-eye"></i>
               </a>
 
               <a href="#" class="copy-link-btn" title="Скопіювати посилання">
@@ -93,6 +95,10 @@ function renderCard(cvs) {
               </a>
               `
           }
+
+          <a href="#" class="delete-btn" title="Видалити">
+            <i class="fa-solid fa-trash-can"></i>
+          </a>
         </div>
       `;
 
@@ -213,5 +219,37 @@ document.addEventListener("click", async (e) => {
   } catch (err) {
     console.error(err);
     alert("Не вдалося скопіювати");
+  }
+});
+
+document.addEventListener("click", async (e) => {
+  const publishBtn = e.target.closest(".delete-btn");
+
+  if (!publishBtn) {
+    return;
+  }
+
+  e.preventDefault();
+
+  const card = publishBtn.closest(".resume-card");
+  const cvId = card.dataset.id;
+
+  try {
+    const response = await authFetch(
+      `${APP_CONFIG.API_URL}/cv/${cvId}/delete`,
+      {
+        method: "POST",
+      },
+    );
+
+    if (!response.ok) {
+      throw new Error("Не вдалося видалити резюме");
+    }
+
+    alert("Резюме видалено");
+
+    await getCvs();
+  } catch (error) {
+    alert(error.message);
   }
 });

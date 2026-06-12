@@ -310,16 +310,22 @@ body {
 }
 
 .resume-card.published {
-    border: 2px solid #3b82f6;
+  border: 2px solid #3b82f6;
 
-    box-shadow:
-        0 0 5px rgba(59, 130, 246, 0.5),
-        0 0 15px rgba(59, 130, 246, 0.4),
-        0 0 30px rgba(59, 130, 246, 0.3);
+  box-shadow:
+    0 0 5px rgba(59, 130, 246, 0.5),
+    0 0 15px rgba(59, 130, 246, 0.4),
+    0 0 30px rgba(59, 130, 246, 0.3);
 }
 
 .resume-card:hover {
   transform: translateY(-5px);
+  border: 2px solid lab(48.79% 12.52 -27.29);
+
+  box-shadow:
+    0 0 5px hwb(247 18% 56% / 0.5),
+    0 0 15px rgba(58, 78, 110, 0.4),
+    0 0 30px rgba(98, 111, 132, 0.3);
 }
 
 .resume-card img {
@@ -480,7 +486,7 @@ a:focus {
 .modal-overlay {
   position: absolute;
   inset: 0;
-  background: rgba(0,0,0,0.7);
+  background: rgba(0, 0, 0, 0.7);
 }
 
 .modal-content {
