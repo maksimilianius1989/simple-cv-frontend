@@ -20,6 +20,109 @@ function dateFormated(date) {
   });
 }
 
+function countryToFlag(countryCode) {
+  if (!countryCode) {
+    return "🌍";
+  }
+
+  return countryCode
+    .toUpperCase()
+    .split("")
+    .map((char) => String.fromCodePoint(127397 + char.charCodeAt()))
+    .join("");
+}
+
+function renderAnalytics(analytics) {
+  return `
+    <div class="views-wrapper">
+      <span class="views-count">
+        👁️ Кількість переглядів: ${analytics.totalViews}
+      </span>
+
+      <div class="views-tooltip">
+        <div class="tooltip-section">
+          <div class="tooltip-title">👀 Всього переглядів</div>
+          <div class="tooltip-value">${analytics.totalViews}</div>
+        </div>
+
+        <div class="tooltip-section">
+          <div class="tooltip-title">👥 Унікальних відвідувачів</div>
+          <div class="tooltip-value">${analytics.uniqueVisitors}</div>
+        </div>
+
+        ${
+          analytics.countries?.length
+            ? `
+          <div class="tooltip-section">
+            <div class="tooltip-title">🌍 Країни</div>
+
+            ${analytics.countries
+              .map(
+                (country) => `
+                <div class="tooltip-row">
+                  <span>
+                    ${countryToFlag(country.country)}
+                    ${country.country}
+                  </span>
+
+                  <span>${country.views}</span>
+                </div>
+              `,
+              )
+              .join("")}
+          </div>
+        `
+            : ""
+        }
+
+        ${
+          analytics.cities?.length
+            ? `
+          <div class="tooltip-section">
+            <div class="tooltip-title">📍 Міста</div>
+
+            ${analytics.cities
+              .map(
+                (city) => `
+                <div class="tooltip-row">
+                  <span>${city.city}</span>
+
+                  <span>${city.views}</span>
+                </div>
+              `,
+              )
+              .join("")}
+          </div>
+        `
+            : ""
+        }
+
+        ${
+          analytics.devices?.length
+            ? `
+          <div class="tooltip-section">
+            <div class="tooltip-title">💻 Пристрої</div>
+
+            ${analytics.devices
+              .map(
+                (device) => `
+                <div class="tooltip-row">
+                  <span>${device.device}</span>
+
+                  <span>${device.views}</span>
+                </div>
+              `,
+              )
+              .join("")}
+          </div>
+        `
+            : ""
+        }
+      </div>
+    </div>
+  `;
+}
+
 function renderCard(cvs) {
   const container = document.getElementById("resume-container");
   container.innerHTML = `
@@ -42,7 +145,6 @@ function renderCard(cvs) {
     card.dataset.image = `${APP_CONFIG.API_URL}${cv.previewPath}`;
     card.dataset.letter = cv.coverLetter ?? "";
 
-
     card.classList.add("resume-card");
 
     if (cv.isPublished) {
@@ -58,7 +160,9 @@ function renderCard(cvs) {
         <div class="resume-content">
           <h3>${cv.title}</h3>
           <p>Створено: ${dateFormated(cv.createdAt)}</p>
-          <p>Кількість переглядів: ${cv.viewsCount}</p>
+          
+          ${renderAnalytics(cv.analytics)}
+          
           </br>
          ${
            cv.isPublished
@@ -66,7 +170,7 @@ function renderCard(cvs) {
               
               <p>Дата публікації: ${dateFormated(cv.publishedAt)} до ${dateFormated(cv.publishedUntil)}</p>
               `
-             : ''
+             : ""
          }
 
         <div class="resume-actions">

@@ -593,3 +593,108 @@ a:focus {
 .resume-actions .copy-link-btn:hover {
   background: #7c3aed;
 }
+
+.views-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.views-count {
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.views-count:hover {
+    color: #75a8ff;
+}
+
+.views-tooltip {
+    position: absolute;
+    left: 0;
+    top: calc(100% + 12px);
+
+    width: 320px;
+
+    background: rgba(7, 15, 42, 0.97);
+    backdrop-filter: blur(14px);
+
+    border: 1px solid rgba(117, 168, 255, 0.3);
+    border-radius: 20px;
+
+    padding: 20px;
+
+    box-shadow:
+        0 0 30px rgba(44, 102, 255, 0.25),
+        0 12px 40px rgba(0, 0, 0, 0.45);
+
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+
+    transition: all 0.2s ease;
+
+    z-index: 999;
+}
+
+.views-wrapper:hover .views-tooltip {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.views-tooltip::before {
+    content: "";
+
+    position: absolute;
+    top: -8px;
+    left: 28px;
+
+    width: 16px;
+    height: 16px;
+
+    background: rgba(7, 15, 42, 0.97);
+
+    border-top: 1px solid rgba(117, 168, 255, 0.3);
+    border-left: 1px solid rgba(117, 168, 255, 0.3);
+
+    transform: rotate(45deg);
+}
+
+.tooltip-section {
+    margin-bottom: 18px;
+}
+
+.tooltip-section:last-child {
+    margin-bottom: 0;
+}
+
+.tooltip-title {
+    font-size: 14px;
+    font-weight: 700;
+
+    color: #75a8ff;
+
+    margin-bottom: 10px;
+}
+
+.tooltip-value {
+    font-size: 28px;
+    font-weight: 700;
+
+    color: white;
+}
+
+.tooltip-row {
+    display: flex;
+    justify-content: space-between;
+
+    color: rgba(255, 255, 255, 0.9);
+
+    padding: 6px 0;
+
+    font-size: 14px;
+}
+
+.tooltip-row:not(:last-child) {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
