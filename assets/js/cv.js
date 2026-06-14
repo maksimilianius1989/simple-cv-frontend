@@ -21,11 +21,10 @@ async function loadCV() {
     return;
   }
 
-  document.getElementById("cv-image").src = APP_CONFIG.API_URL + cv.previewPath;
+  document.getElementById("cv-image").src = `${APP_CONFIG.API_URL}/files/${cv.files.PREVIEW}`;
 
   document.getElementById("cv-letter").textContent =
     cv.coverLetter || "Немає супровідного листа";
 
-  document.getElementById("download-pdf").href =
-    APP_CONFIG.API_URL + cv.pdfPath;
+  document.getElementById("download-pdf").href = `${APP_CONFIG.API_URL}/files/${cv.files.PDF}`;
 }

@@ -142,7 +142,7 @@ function renderCard(cvs) {
     card.dataset.id = cv.id;
     card.dataset.published = cv.isPublished;
     card.dataset.slug = cv.publicSlug ?? "";
-    card.dataset.image = `${APP_CONFIG.API_URL}${cv.previewPath}`;
+    card.dataset.image = `${APP_CONFIG.API_URL}/files/${cv.files.PREVIEW}`;
     card.dataset.letter = cv.coverLetter ?? "";
 
     card.classList.add("resume-card");
@@ -153,7 +153,7 @@ function renderCard(cvs) {
 
     card.innerHTML = `
         <img
-          src="${APP_CONFIG.API_URL}/uploads/previews/${cv.id}-small.png"
+          src="${APP_CONFIG.API_URL}/files/${cv.files.PREVIEW_THUMBNAIL}"
           alt="Preview"
         />
 
@@ -174,7 +174,7 @@ function renderCard(cvs) {
          }
 
         <div class="resume-actions">
-          <a href="${APP_CONFIG.API_URL}${cv.pdfPath}" target="_blank">
+          <a href="${APP_CONFIG.API_URL}/files/${cv.files.PDF}" target="_blank">
             <i class="fa-solid fa-file-pdf"></i>
           </a>
 
