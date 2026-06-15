@@ -152,7 +152,7 @@ function renderCard(cvs) {
     }
 
     card.innerHTML = `
-        <img
+        <img class="cv-preview-thumbnail"
           src="${APP_CONFIG.API_URL}/files/${cv.files.PREVIEW_THUMBNAIL}"
           alt="Preview"
         />
@@ -211,13 +211,13 @@ function renderCard(cvs) {
 }
 
 document.addEventListener("click", (e) => {
-  if (e.target.closest(".resume-actions")) {
+  const img = e.target.closest(".cv-preview-thumbnail");
+
+  if (!img) {
     return;
   }
 
   const card = e.target.closest(".resume-card");
-  if (!card) return;
-
   const image = card.dataset.image;
   const letter =
     !card.dataset.letter ||
