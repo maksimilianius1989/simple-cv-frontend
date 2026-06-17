@@ -91,6 +91,46 @@
           grid-template-columns: 1fr;
         }
       }
+
+      .feedback-section {
+        max-width: 600px;
+        margin: 40px auto;
+        padding: 20px;
+        background: #111a33;
+        border-radius: 16px;
+      }
+
+      .feedback-section input,
+      .feedback-section textarea {
+        width: 100%;
+        padding: 12px;
+        margin-bottom: 16px;
+        border-radius: 10px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        background: #0b1020;
+        color: #fff;
+        outline: none;
+        box-sizing: border-box;
+      }
+
+      .feedback-section input:focus,
+      .feedback-section textarea:focus {
+        border-color: #3b82f6;
+      }
+
+      .feedback-section textarea {
+        min-height: 120px;
+        resize: vertical;
+      }
+
+      #feedback-status {
+        color: chocolate;
+      }
+
+      #send-feedback:disabled {
+        opacity: 0.3;
+        cursor: not-allowed;
+      }
     </style>
   </head>
 
@@ -124,17 +164,29 @@
             <h3>Супровідний лист</h3>
             <p id="cv-letter" class="cv-letter"></p>
           </div>
+
+          <div class="feedback-section">
+            <h3>Зворотній зв’язок</h3>
+
+            <input id="feedback-email" type="email" name="email" placeholder="Ваш email" required></input>
+            <textarea
+              id="feedback-text"
+              placeholder="Напишіть коментар або питання..."
+              required
+            ></textarea>
+
+            <button id="send-feedback" class="btn btn-primary">Надіслати</button>
+
+            <p id="feedback-status" class="feedback-status"></p>
+          </div>
+
         </div>
       </div>
     </div>
-
     <script>
       document.addEventListener("DOMContentLoaded", () => loadCV());
-      
-      
 
-
-       document.addEventListener("DOMContentLoaded", () => {
+      document.addEventListener("DOMContentLoaded", () => {
         const telegramLinks = document.querySelectorAll(".telegram-link");
         telegramLinks.forEach((link) => (link.href = APP_CONFIG.TELEGRAM_BOT));
 
@@ -148,6 +200,8 @@
           mainBtn.classList.add("btn-secondary");
         }
       });
+
+      document.getElementById('send-feedback').addEventListener('click', async (e) => sendFeedback(e));
     </script>
   </body>
 </html>

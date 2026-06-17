@@ -1,3 +1,5 @@
+window.CV = {};
+
 async function loadCV() {
   const slug = new URLSearchParams(window.location.search).get("slug");
 
@@ -14,17 +16,72 @@ async function loadCV() {
     window.location.href = "/";
     return;
   }
-  const cv = await res.json();
+  window.CV = await res.json();
 
-  if (!cv) {
+  if (!window.CV) {
     window.location.href = "/";
     return;
   }
 
-  document.getElementById("cv-image").src = `${APP_CONFIG.API_URL}/files/${cv.files.PREVIEW}`;
+  document.getElementById("cv-image").src =
+    `${APP_CONFIG.API_URL}/files/${window.CV.files.PREVIEW}`;
 
   document.getElementById("cv-letter").textContent =
-    cv.coverLetter || "Немає супровідного листа";
+    window.CV.coverLetter || "Немає супровідного листа";
 
-  document.getElementById("download-pdf").href = `${APP_CONFIG.API_URL}/files/${cv.files.PDF}`;
+  document.getElementById("download-pdf").href =
+    `${APP_CONFIG.API_URL}/files/${window.CV.files.PDF}`;
+}
+
+async function sendFeedback(event) {
+  const btn = event.target;
+
+  const emailEl = document.getElementById("feedback-email");
+  const messageEl = document.getElementById("feedback-text");
+  const statusEl = document.getElementById("feedback-status");
+
+  btn.disabled = true;
+  btn.textContent = "Відправка...";
+
+  const email = emailEl.value.trim();
+  const message = messageEl.value.trim();
+
+  try {
+    const res = await fetch(`${APP_CONFIG.API_URL}/feedback`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email,
+        message,
+        cvId: window.CV.id,
+      }),
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      const errors = Array.isArray(data.message)
+        ? data.message
+        : [data.message];
+
+      statusEl.innerHTML = errors.join("<br>");
+      statusEl.style.color = "red";
+      return;
+    }
+
+    statusEl.textContent = "Відправлено успішно!";
+    statusEl.style.color = "green";
+
+    emailEl.value = "";
+    messageEl.value = "";
+
+  } catch (e) {
+    statusEl.textContent = "Помилка мережі";
+    statusEl.style.color = "red";
+  } finally {
+    btn.disabled = false;
+    btn.textContent = "Надіслати";
+  }
 }
