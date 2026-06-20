@@ -266,8 +266,6 @@ document.addEventListener("click", async (e) => {
       throw new Error("Не вдалося опублікувати резюме");
     }
 
-    alert("Резюме успішно опубліковано");
-
     await getCvs();
   } catch (error) {
     alert(error.message);
@@ -283,6 +281,12 @@ document.addEventListener("click", async (e) => {
 
   e.preventDefault();
 
+  const isConfirmed = confirm("Ви дійсно хочене відмінити публікацію резюме?");
+
+  if (!isConfirmed) {
+    return;
+  }
+
   const card = publishBtn.closest(".resume-card");
   const cvId = card.dataset.id;
 
@@ -297,8 +301,6 @@ document.addEventListener("click", async (e) => {
     if (!response.ok) {
       throw new Error("Не вдалося відмінити публікацію резюме");
     }
-
-    alert("Резюме приховано");
 
     await getCvs();
   } catch (error) {
@@ -335,6 +337,14 @@ document.addEventListener("click", async (e) => {
 
   e.preventDefault();
 
+  const isConfirmed = confirm(
+    "Ви дійсно хочене видалити резюме? Ви більше його не відновете!",
+  );
+
+  if (!isConfirmed) {
+    return;
+  }
+
   const card = publishBtn.closest(".resume-card");
   const cvId = card.dataset.id;
 
@@ -349,8 +359,6 @@ document.addEventListener("click", async (e) => {
     if (!response.ok) {
       throw new Error("Не вдалося видалити резюме");
     }
-
-    alert("Резюме видалено");
 
     await getCvs();
   } catch (error) {
