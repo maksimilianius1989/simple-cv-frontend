@@ -87,13 +87,12 @@ async function onTelegramAuth(user) {
     const fullName = [user.first_name, user.last_name]
       .filter(Boolean)
       .join(" ");
-    const response = await fetch(`${APP_CONFIG.API_URL}/auth/oauth`, {
+    const response = await fetch(`${APP_CONFIG.API_URL}/auth/telegram/callback`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        provider: "TELEGRAM",
         providerId: String(user.id),
         name: fullName || user.username,
         tgAuthData: user,
