@@ -13,31 +13,29 @@ async function authFetch(url, options = {}) {
     return response;
   }
 
-  if(response.status !== 401) {
+  if (response.status !== 401) {
     throw new Error(`HTTP ${response.status}`);
   }
 
- 
-    const refreshed = await refreshTokent();
+  const refreshed = await refreshTokent();
 
-    if (!refreshed) {
-       await logout();
-       
-      return null;
-    }
+  if (!refreshed) {
+    await logout();
 
-    token = localStorage.getItem(ACCESS_TOKEN);
+    return null;
+  }
 
-    let res = await fetch(url, {
-      ...options,
-      headers: {
-        ...(options.headers || {}),
-        Authorization: `Bearer ${token}`,
-      },
-    });
+  token = localStorage.getItem(ACCESS_TOKEN);
 
-    return res;
+  let res = await fetch(url, {
+    ...options,
+    headers: {
+      ...(options.headers || {}),
+      Authorization: `Bearer ${token}`,
+    },
+  });
 
+  return res;
 
   const errorText = await res.text();
 
@@ -81,5 +79,36 @@ async function logout() {
   } finally {
     localStorage.removeItem(ACCESS_TOKEN);
     window.location.href = "/";
+  }
+}
+
+async function onTelegramAuth(user) {
+  try {
+    const fullName = [user.first_name, user.last_name]
+      .filter(Boolean)
+      .join(" ");
+    const response = await fetch(`${APP_CONFIG.API_URL}/auth/oauth`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        provider: "TELEGRAM",
+        providerId: String(user.id),
+        name: fullName || user.username,
+        tgAuthData: user,
+      }),
+    });
+
+    if(!response.ok) {
+      throw new Error('Server authorization error');
+    }
+
+    const data = await response.json();
+    localStorage.setItem(ACCESS_TOKEN, data.accessToken);
+    window.location.href = '/dashboard.html';
+  } catch (error) {
+    console.log("Telegram Auth Error:", error);
+    alert("Unable to log in via Telegram");
   }
 }

@@ -6,6 +6,7 @@
     <title>Simple CV Life</title>
     <link rel="stylesheet" href="/assets/css/main.css" />
     <script src="/assets/js/config.js"></script>
+    <script src="/assets/js/main.js"></script>
   </head>
   <body>
     <header class="header">
@@ -17,12 +18,21 @@
           href="https://t.me/SimpleCVLife_bot"
           >Telegram Bot</a
         >
-        <a
-          class="btn-secondary google-login-btn"
-          id="google-btn"
-          href=""
+        <a class="btn-secondary google-login-btn" id="google-btn" href=""
           >Google Sign Up</a
         >
+
+        <div id="telegram-widget-container">
+          <script
+            async
+            src="https://telegram.org/js/telegram-widget.js?22"
+            data-telegram-login="itvimax_SCV_test_bot"
+            data-size="large"
+            data-radius="10"
+            data-onauth="onTelegramAuth(user)"
+            data-request-access="write"
+          ></script>
+        </div>
       </div>
     </header>
 
@@ -85,8 +95,8 @@
         telegramLinks.forEach((link) => (link.href = APP_CONFIG.TELEGRAM_BOT));
 
         const googleBtn = document.getElementById("google-btn");
-        if(googleBtn) {
-            googleBtn.href = `${APP_CONFIG.API_URL}/auth/google`;
+        if (googleBtn) {
+          googleBtn.href = `${APP_CONFIG.API_URL}/auth/google`;
         }
 
         const token = localStorage.getItem(ACCESS_TOKEN);
@@ -97,6 +107,12 @@
           mainBtn.href = "/dashboard.html";
           mainBtn.classList.remove("telegram-link");
           mainBtn.classList.add("btn-secondary");
+
+          const tgWidget = document.getElementById("telegram-widget-container");
+          if (tgWidget) tgWidget.style.display = "none";
+
+          const googleBtn = document.getElementById("google-btn");
+          if (googleBtn) googleBtn.style.display = "none";
         }
       });
     </script>
