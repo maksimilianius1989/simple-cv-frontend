@@ -17,6 +17,12 @@
           href="https://t.me/SimpleCVLife_bot"
           >Telegram Bot</a
         >
+        <a
+          class="btn-secondary google-login-btn"
+          id="google-btn"
+          href=""
+          >Google Sign Up</a
+        >
       </div>
     </header>
 
@@ -77,6 +83,11 @@
       document.addEventListener("DOMContentLoaded", () => {
         const telegramLinks = document.querySelectorAll(".telegram-link");
         telegramLinks.forEach((link) => (link.href = APP_CONFIG.TELEGRAM_BOT));
+
+        const googleBtn = document.getElementById("google-btn");
+        if(googleBtn) {
+            googleBtn.href = `${APP_CONFIG.API_URL}/auth/google`;
+        }
 
         const token = localStorage.getItem(ACCESS_TOKEN);
         const mainBtn = document.getElementById("main-btn");
