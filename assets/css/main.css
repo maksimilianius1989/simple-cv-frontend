@@ -44,43 +44,10 @@ body {
    LAYOUT
 ===================== */
 .container {
-  max-width: 1280px;
+  position: relative;
+  min-height: 500px;
   margin: auto;
   padding: 0 24px;
-}
-
-/* =====================
-   HEADER
-===================== */
-.header {
-  position: sticky;
-  top: 0;
-  z-index: 1;
-  background: rgba(5, 8, 22, 0.8);
-  backdrop-filter: blur(20px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-.header-wrapper {
-  height: 88px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.logo {
-  font-weight: 700;
-  font-size: 24px;
-}
-
-.nav {
-  display: flex;
-  gap: 32px;
-}
-
-.nav a {
-  color: var(--muted);
-  text-decoration: none;
 }
 
 /* =====================
@@ -399,39 +366,7 @@ a:focus {
   outline: none;
 }
 
-/* =====================
-   PRELOADER
-===================== */
-.loader-overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 99999;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: radial-gradient(
-    circle at center,
-    rgba(22, 28, 72, 0.85),
-    rgba(5, 9, 30, 0.95)
-  );
-  backdrop-filter: blur(12px);
-}
 
-.loader-spinner {
-  width: 90px;
-  height: 90px;
-  border-radius: 50%;
-  border: 6px solid rgba(255, 255, 255, 0.08);
-  border-top-color: #4d7cff;
-  border-right-color: #ff5fcf;
-  animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
 
 /* =====================
    RESPONSIVE

@@ -1,0 +1,30 @@
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: rgba(5, 8, 22, 0.8);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.header-wrapper {
+  height: 88px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-weight: 700;
+  font-size: 24px;
+}
+
+.nav {
+  display: flex;
+  gap: 32px;
+}
+
+.nav a {
+  color: var(--muted);
+  text-decoration: none;
+}

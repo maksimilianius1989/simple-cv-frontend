@@ -9,32 +9,7 @@
     <script src="/assets/js/main.js"></script>
   </head>
   <body>
-    <header class="header">
-      <div class="container header-wrapper">
-        <a href="/" class="logo">Simple CV Life</a>
-        <a
-          class="btn-primary telegram-link"
-          id="main-btn"
-          href="https://t.me/SimpleCVLife_bot"
-          >Telegram Bot</a
-        >
-        <a class="btn-secondary google-login-btn" id="google-btn" href=""
-          >Google Sign Up</a
-        >
-
-        <div id="telegram-widget-container">
-          <script
-            async
-            src="https://telegram.org/js/telegram-widget.js?22"
-            data-telegram-login="itvimax_SCV_test_bot"
-            data-size="large"
-            data-radius="10"
-            data-onauth="onTelegramAuth(user)"
-            data-request-access="write"
-          ></script>
-        </div>
-      </div>
-    </header>
+    <!--# include virtual="/parts/header/"-->
 
     <section class="hero">
       <div class="container hero-grid">
@@ -81,52 +56,6 @@
       </div>
     </section>
 
-    <footer class="footer">
-      <div class="container footer-inner">
-        <span>© 2026 Simple CV Life</span>
-
-        <a href="/legal.html">Юридична інформація</a>
-      </div>
-    </footer>
-
-    <script>
-      document.addEventListener("DOMContentLoaded", () => {
-        const telegramLinks = document.querySelectorAll(".telegram-link");
-        telegramLinks.forEach((link) => (link.href = APP_CONFIG.TELEGRAM_BOT));
-
-        const googleBtn = document.getElementById("google-btn");
-        if (googleBtn) {
-          googleBtn.href = `${APP_CONFIG.API_URL}/auth/google`;
-        }
-
-        const token = localStorage.getItem(ACCESS_TOKEN);
-        const mainBtn = document.getElementById("main-btn");
-
-        if (token && mainBtn) {
-          mainBtn.textContent = "Особистий кабінет";
-          mainBtn.href = "/dashboard.html";
-          mainBtn.classList.remove("telegram-link");
-          mainBtn.classList.add("btn-secondary");
-
-          const tgWidget = document.getElementById("telegram-widget-container");
-          if (tgWidget) tgWidget.style.display = "none";
-
-          const googleBtn = document.getElementById("google-btn");
-          if (googleBtn) googleBtn.style.display = "none";
-        }
-
-        const urlParams = new URLSearchParams(window.location.search);
-        const tokenFromUrl = urlParams.get("token");
-        if (tokenFromUrl) {
-          localStorage.setItem(ACCESS_TOKEN, tokenFromUrl);
-          window.history.replaceState(
-            {},
-            document.title,
-            window.location.pathname,
-          );
-          window.location.href = "/dashboard.html";
-        }
-      });
-    </script>
+    <!--# include virtual="/parts/footer/"-->
   </body>
 </html>

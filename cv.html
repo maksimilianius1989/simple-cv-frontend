@@ -183,6 +183,9 @@
         </div>
       </div>
     </div>
+
+    <!--# include virtual="/parts/footer/"-->
+    
     <script>
       document.addEventListener("DOMContentLoaded", () => loadCV());
 
@@ -195,7 +198,7 @@
 
         if (token && mainBtn) {
           mainBtn.textContent = "Особистий кабінет";
-          mainBtn.href = "/dashboard.html";
+          mainBtn.href = "/dashboard";
           mainBtn.classList.remove("telegram-link");
           mainBtn.classList.add("btn-secondary");
         }
