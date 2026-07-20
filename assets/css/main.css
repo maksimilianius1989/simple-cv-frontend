@@ -37,6 +37,7 @@ body {
     );
   background-attachment: fixed; /* Глоу-ефекти залишаються на місці при скролі */
   min-height: 100vh;
+  overflow-x: hidden;
 }
 
 .container {
@@ -45,39 +46,6 @@ body {
   padding: 0 24px;
 
   /* border:#ffffff solid 1px; */
-}
-
-/* ===================== include header
-/* =====================
-   HEADER STYLES
-===================== */
-
-.header {
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  background: rgba(5, 8, 22, 0.8);
-  backdrop-filter: blur(20px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-.header-wrapper {
-  height: 88px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.logo {
-  font-size: 24px;
-  font-width: 700;
-  color: var(--text);
-  text-decoration: none;
-}
-
-.header-actions {
-  display: flex;
-  gap: 16px;
 }
 
 /* =====================
@@ -115,121 +83,4 @@ body {
 
 .btn-secondary:hover{
   background: rgba(255, 255, 255, 0.05);
-}
-
-.auth-dropdown {
-  position: absolute;
-  z-index: 100;
-  padding: 16px;
-  background: rgba(16,25,46,0.95);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 12px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(-10px);
-  transition: opacity 0.2s ease, transform 02s ease;
-}
-
-.auth-dropdown.is-open {
-  opacity: 1;
-  visibility: visible;
-  transform: translateY(0);
-}
-
-/* ===================== end include header
-
-
-/* =====================
-   HERO SECTION
-===================== */
-
-.hero {
-  padding: 80px 0 120px;
-}
-
-.hero-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 60px;
-  align-items: center;
-}
-
-.hero-badge {
-  display: inline-block;
-  padding: 8px 16px;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  font-size: 14px;
-  font-weight: 500;
-  margin-bottom: 24px;
-}
-
-.hero-title {
-  font-size: 64px;
-  line-height: 1.1;
-  font-weight: 700;
-  margin-bottom: 24px;
-}
-
-.hero-title span {
-  background: var(--gradient);
- -webkit-background-clip: text;
- -webkit-text-fill-color: transparent;
-}
-
-.hero-description {
-  font-size: 18px;
-  color: var(--muted);
-  line-height: 1.6;
-  margin-bottom: 32px;
-}
-
-.hero-visual {
-  position: relative;
-}
-
-.hero-img {
-  width: 100%;
-  border-radius: 32px;
-  display: block;
-}
-
-.hero-visual::before {
-  content: "";
-  position: absolute;
-  inset: -20px;
-  background: var(--gradient);
-  filter: blur(80px);
-  opacity: 0.2;
-  z-index: -1;
-}
-
-.floating-card {
-  position: absolute;
-  padding: 12px 18px;
-  background: rgba(16, 25, 46, 0.85);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 16px;
-  backdrop-filter: blur(12px);
-  font-size: 14px;
-  font-weight: 600;
-  white-space: nowrap;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-}
-
-.card-top-left {
-  top: 12%;
-  left: -40px;
-}
-
-.card-center-right {
-  top: 45%;
-  right: -30px;
-}
-
-.card-bottom-left {
-  bottom: 15%;
-  left: -20px;
 }

@@ -1,0 +1,18 @@
+.footer {
+background: #000000;
+width: 100%;
+display: block;
+}
+
+.footer-inner {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    justify-content: center;
+}
+
+.footer-inner a {
+    font-size: 14px;
+    text-decoration: none;
+    color: #ffffff;
+}
