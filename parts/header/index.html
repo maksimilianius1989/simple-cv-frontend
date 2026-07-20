@@ -1,30 +1,22 @@
-<link href="header.css">
+<link href="header.css" />
 
-<header class="header">
-    <div class="container header-wrapper">
+   <header class="header">
+      <div class="container header-wrapper">
         <a href="/" class="logo">Simple CV Life</a>
-        <a
-            class="btn-primary telegram-link"
-            id="main-btn"
-            href="https://t.me/SimpleCVLife_bot"
-            >Telegram Bot</a
-        >
-        <a class="btn-secondary google-login-btn" id="google-btn" href=""
-            >Google Sign Up</a
-        >
 
-        <div id="telegram-widget-container">
-            <script
-            async
-            src="https://telegram.org/js/telegram-widget.js?22"
-            data-telegram-login="itvimax_SCV_test_bot"
-            data-size="large"
-            data-radius="10"
-            data-onauth="onTelegramAuth(user)"
-            data-request-access="write"
-            ></script>
+        <div class="header-actions" >
+          <a href="#" class="btn-primary" id="login-trigger">Увійти</a>
+          <div class="auth-dropdown" id="login-dropdown">
+            <a href="#" class="btn-secondary">Google Sign Up</a>
+            <a
+              href="https://t.me/SimpleCVLife_bot"
+              class="btn-primary"
+              target="_blank"
+              >Telegram Bot</a
+            >
+          </div>
         </div>
-    </div>
-</header>
+      </div>
+    </header>
 
 <script src="header.js"></script>

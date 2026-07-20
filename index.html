@@ -3,59 +3,73 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Simple CV Life</title>
+    <title>Simple CV Life - Створи резюме</title>
     <link rel="stylesheet" href="/assets/css/main.css" />
     <script src="/assets/js/config.js"></script>
     <script src="/assets/js/main.js"></script>
   </head>
   <body>
-    <!--# include virtual="/parts/header/"-->
+    <!--# include virtual="/parts/header/index.html" -->
 
-    <section class="hero">
-      <div class="container hero-grid">
-        <div class="hero-content">
-          <div class="hero-badge">✨ HR Assistant</div>
+    <main>
+      <section class="hero">
+        <div class="container hero-grid">
+          <div class="hero-content">
+            <div class="hero-badge">✨ HR Assistant</div>
+            <h1 class="hero-title">
+              Створіть професійне резюме за 5 хвилин за допомогою
+              <span>Simple CV Life</span>
+            </h1>
 
-          <h1 class="hero-title">
-            Створіть професійне резюме за 5 хвилин за допомогою
-            <span>Simple CV Life</span>
-          </h1>
+            <p class="hero-description">
+              Заповніть кілька полів — ми автоматично створимо сучасний CV,
+              готовий для відправки роботодавцю.
+            </p>
 
-          <p class="hero-description">
-            Заповніть кілька полів — ми автоматично створимо сучасний CV,
-            готовий для відправки роботодавцю.
-          </p>
+            <div class="hero-buttons">
+              <a
+                href="https://t.me/SimpleCVLife_bot"
+                class="btn-primary"
+                target="_blank"
+                >Створити резюме</a
+              >
+            </div>
+          </div>
 
-          <div class="hero-buttons">
-            <a
-              class="btn-primary telegram-link"
-              href="https://t.me/SimpleCVLife_bot"
-              target="_blank"
-              >Створити резюме</a
-            >
+          <div class="hero-visual">
+            <img
+              src="/assets/img/team.png"
+              alt="Створення резюме"
+              class="hero-img"
+            />
+            <div class="floating-card card-top-left">✓ Аналізую резюме</div>
+            <div class="floating-card card-center-right">✓ Cover Letter</div>
+            <div class="floating-card card-bottom-left">✓ ATS Friendly</div>
           </div>
         </div>
+      </section>
+    </main>
 
-        <div class="hero-visual">
-          <img src="/storage/assets/img/team.png" alt="Alex & Emma" />
+    <script>
+      const triggerBtn = document.getElementById("login-trigger");
+      const drowdown = document.getElementById("login-dropdown");
 
-          <div class="floating-card card1">✓ Аналізую резюме</div>
-          <div class="floating-card card2">✓ Cover Letter</div>
-          <div class="floating-card card3">✓ ATS Friendly</div>
-        </div>
-      </div>
-    </section>
+      triggerBtn.addEventListener("click", (event) => {
+        event.stopPropagation();
 
-    <section class="about">
-      <div class="container card">
-        <h2>Що таке Simple CV Life?</h2>
-        <p>
-          Це - помічник для створення сучасних резюме, супровідних листів та
-          підготовки до співбесіди.
-        </p>
-      </div>
-    </section>
+        const rect = triggerBtn.getBoundingClientRect();
+        const topPosition = rect.bottom + window.scrollY;
+        const leftPosition = rect.left + window.scrollX;
+        drowdown.style.top = `${topPosition + 8}px`;
+        drowdown.style.left = `${leftPosition}px`;
+        drowdown.classList.toggle("is-open");
+      });
 
-    <!--# include virtual="/parts/footer/"-->
+      document.addEventListener("click", (event) => {
+        if (!drowdown.contains(event.target)) {
+          drowdown.classList.remove("is-open");
+        }
+      });
+    </script>
   </body>
 </html>
