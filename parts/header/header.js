@@ -1,4 +1,25 @@
 document.addEventListener("DOMContentLoaded", () => {
+  const triggerBtn = document.getElementById("login-trigger");
+  const dropdown = document.getElementById("login-dropdown");
+
+  triggerBtn.addEventListener("click", (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    dropdown.classList.toggle("is-open");
+    if (dropdown.classList.contains("is-open")) {
+      const rect = triggerBtn.getBoundingClientRect();
+      const topPosition = rect.bottom;
+      const leftPosition = rect.right + window.scrollX - dropdown.offsetWidth;
+      dropdown.style.top = `${topPosition + 8}px`;
+      dropdown.style.left = `${leftPosition}px`;
+    }
+  });
+  document.addEventListener("click", (event) => {
+    if (!dropdown.contains(event.target) && event.target !== triggerBtn) {
+      dropdown.classList.remove("is-open");
+    }
+  });
+
   const telegramLinks = document.querySelectorAll(".telegram-link");
   telegramLinks.forEach((link) => (link.href = APP_CONFIG.TELEGRAM_BOT));
 

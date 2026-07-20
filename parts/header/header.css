@@ -14,7 +14,6 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 100%;
 }
 
 .logo {
@@ -37,14 +36,12 @@
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 12px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(-10px);
-  transition: opacity 0.2s ease, transform 0.2s ease;
+  display: none;
 }
 
 .auth-dropdown.is-open {
-  opacity: 1;
-  visibility: visible;
-  transform: translateY(0);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  text-align: center;
 }

@@ -10,7 +10,7 @@
     <script src="/assets/js/main.js"></script>
   </head>
   <body>
-    <!--# include virtual="/parts/header/index.html" -->
+    <!--# include virtual="/parts/header/header.html" -->
 
     <main>
       <section class="hero">
@@ -51,29 +51,6 @@
       </section>
     </main>
 
-    <!--# include virtual="/parts/footer/index.html" -->
-
-    <script>
-      const triggerBtn = document.getElementById("login-trigger");
-      const dropdown = document.getElementById("login-dropdown");
-
-      triggerBtn.addEventListener("click", (event) => {
-        event.preventDefault();
-        event.stopPropagation();
-
-        const rect = triggerBtn.getBoundingClientRect();
-        const topPosition = rect.bottom;
-        const leftPosition = rect.right - dropdown.offsetWidth;
-        dropdown.style.top = `${topPosition + 8}px`;
-        dropdown.style.left = `${leftPosition}px`;
-        dropdown.classList.toggle("is-open");
-      });
-
-      document.addEventListener("click", (event) => {
-        if (!dropdown.contains(event.target)) {
-          dropdown.classList.remove("is-open");
-        }
-      });
-    </script>
+    <!--# include virtual="/parts/footer/footer.html" -->
   </body>
 </html>
