@@ -52,3 +52,33 @@ document.addEventListener("DOMContentLoaded", () => {
     window.location.href = "/dashboard";
   }
 });
+
+async function onTelegramAuth(user) {
+  try {
+    const fullName = [user.first_name, user.last_name]
+      .filter(Boolean)
+      .join(" ");
+    const response = await fetch(`${APP_CONFIG.API_URL}/auth/telegram/callback`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        providerId: String(user.id),
+        name: fullName || user.username,
+        tgAuthData: user,
+      }),
+    });
+
+    if(!response.ok) {
+      throw new Error('Server authorization error');
+    }
+
+    const data = await response.json();
+    localStorage.setItem(ACCESS_TOKEN, data.accessToken);
+    window.location.href = '/dashboard.html';
+  } catch (error) {
+    console.log("Telegram Auth Error:", error);
+    alert("Unable to log in via Telegram");
+  }
+}
