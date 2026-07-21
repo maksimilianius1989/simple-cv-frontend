@@ -13,12 +13,12 @@
     />
     <script defer src="/assets/js/config.js"></script>
     <script defer src="/assets/js/main.js"></script>
-    <script defer src="/assets/js/dashboard.js"></script>
+    <script defer src="/assets/js/dashboard.js" defer></script>
   </head>
   <body>
-    <!--# include virtual="/parts/menu/"-->
+    <!--# include virtual="/parts/menu/menu.html"-->
 
-    <!-- include virtual="/parts/preloader/"-->
+    <!-- include virtual="/parts/preloader/preloader.html"-->
 
     <div class="container" id="container">
       <!-- ========================= -->
@@ -58,14 +58,14 @@
       </div>
     </div>
 
-    <!--# include virtual="/parts/footer/"-->
+    <!--# include virtual="/parts/footer/footer.html"-->
 
     <script>
       document.addEventListener("DOMContentLoaded", async () => {
         const telegramLinks = document.querySelectorAll(".telegram-link");
         telegramLinks.forEach((link) => (link.href = APP_CONFIG.TELEGRAM_BOT));
 
-        await getCvs();
+        // await getCvs();
       });
 
       document
