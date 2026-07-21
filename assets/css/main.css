@@ -1,14 +1,11 @@
-/* 1. Глобальні змінні проекту */
 :root {
-  --bg: #050816; /* Глибокий темний фон */
-  --card: #10192e; /* Трохи світліший колір для карток */
+  --bg: #050816;
+  --card: #10192e;
   --blue: #2b7fff;
   --purple: #8f5cff;
   --pink: #ff5fbf;
-  --text: #ffffff; /* Білий колір для тексту */
-  --muted: #a8b3cf; /* Сіруватий колір для другорядного тексту */
-
-  /* Лінійний градієнт, який переливається з синього в рожевий */
+  --text: #ffffff;
+  --muted: #a8b3cf;
   --gradient: linear-gradient(135deg, #2b7fff, #8f5cff, #ff5fbf);
 }
 
@@ -22,8 +19,6 @@
 body {
   background-color: var(--bg);
   color: var(--text);
-
-  /* Створення м'якого неонового світіння на фоні за допомогою радіальних градієнтів */
   background-image:
     radial-gradient(
       circle at top left,
@@ -35,9 +30,16 @@ body {
       rgba(255, 95, 191, 0.15),
       transparent 25%
     );
-  background-attachment: fixed; /* Глоу-ефекти залишаються на місці при скролі */
+  background-attachment: fixed;
   min-height: 100vh;
   overflow-x: hidden;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1;
 }
 
 .container {
@@ -45,8 +47,6 @@ body {
   margin: 0 auto;
   padding: 0 24px;
   width: 100%;
-
-  /* border:#ffffff solid 1px; */
 }
 
 /* =====================

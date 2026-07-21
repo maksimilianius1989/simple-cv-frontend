@@ -1,18 +1,18 @@
 .footer {
-background: #000000;
-width: 100%;
-display: block;
+  background: #000000;
+  width: 100%;
+  min-height: 50px;
+  display: flex;
+  align-items: center;
 }
 
 .footer-inner {
-    display: flex;
-    gap: 16px;
-    align-items: center;
-    justify-content: center;
+  display: flex;
+  justify-content: center;
 }
 
 .footer-inner a {
-    font-size: 14px;
-    text-decoration: none;
-    color: #ffffff;
+  font-size: 14px;
+  text-decoration: none;
+  color: #ffffff;
 }
