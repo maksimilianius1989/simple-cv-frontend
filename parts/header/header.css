@@ -16,13 +16,6 @@
   align-items: center;
 }
 
-.logo {
-  font-size: 24px;
-  font-width: 700;
-  color: var(--text);
-  text-decoration: none;
-}
-
 .header-actions {
   display: flex;
   gap: 16px;

@@ -49,12 +49,20 @@ main {
   width: 100%;
 }
 
+.logo {
+  font-size: 24px;
+  font-width: 700;
+  color: var(--text);
+  text-decoration: none;
+}
+
 /* =====================
    BUTTONS STYLES
 ===================== */
 
 .btn-primary,
-.btn-secondary {
+.btn-secondary,
+.btn-danger {
   display: inline-block;
   padding: 12px 24px;
   border-radius: 12px;
@@ -84,4 +92,18 @@ main {
 
 .btn-secondary:hover{
   background: rgba(255, 255, 255, 0.05);
+}
+
+.btn-danger {
+  background: rgba(255, 75, 75, 0.15);
+  color: #ff6b6b;
+  border: 1px solid rgba(255, 75, 75,0.3);
+}
+
+.btn-danger:hover {
+  background: rgba(255, 75, 75, 0.25);
+  color: #ffffff;
+  border-color: rgba(255, 75, 75, 0.6);
+  box-shadow: 0 4px 15px rgba(255, 75, 75, 0.2);
+  transform: translateX(-1px);
 }

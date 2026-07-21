@@ -9,6 +9,7 @@
 .footer-inner {
   display: flex;
   justify-content: center;
+  gap: 16px;
 }
 
 .footer-inner a {
