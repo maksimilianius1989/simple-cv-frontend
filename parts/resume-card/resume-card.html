@@ -1,0 +1,50 @@
+<link rel="stylesheet" href="resume-card.css" />
+<script src="resume-card.js"></script>
+
+<div style="display: none">
+  <template id="resume-card-template" display="none">
+    <div class="resume-card">
+      <div class="resume-card-header">
+        <div class="card-top-badges">
+          <span class="hero-badge badge-status"></span>
+          <span class="hero-badge badge-views"></span>
+        </div>
+        <h3 class="card-title"></h3>
+        <p class="resume-card-date card-position"></p>
+      </div>
+
+      <div class="resume-actions">
+        <a
+          href="#"
+          target="_blank"
+          class="action-icon action-view"
+          title="Переглянути"
+        >
+          <i class="fa-solid fa-eye"></i>
+        </a>
+        <a
+          href="#"
+          target="_blank"
+          class="action-icon action-pdf"
+          title="Завантажити PDF"
+        >
+          <i class="fa-solid fa-file-pdf"></i>
+        </a>
+        <button class="action-icon action-copy" title="Скопіювати посилання">
+          <i class="fa-solid fa-link"></i>
+        </button>
+
+        <button
+          class="action-icon action-toggle-publish"
+          title="Зняти з публікації"
+        >
+          <i class="fa-solid fa-toggle-on"></i>
+        </button>
+
+        <button class="action-icon action-delete" title="Видалити">
+          <i class="fa-solid fa-trash-can"></i>
+        </button>
+      </div>
+    </div>
+  </template>
+</div>
