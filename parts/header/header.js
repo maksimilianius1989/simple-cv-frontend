@@ -5,6 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
   triggerBtn.addEventListener("click", (event) => {
     event.preventDefault();
     event.stopPropagation();
+
     dropdown.classList.toggle("is-open");
     if (dropdown.classList.contains("is-open")) {
       const rect = triggerBtn.getBoundingClientRect();
@@ -14,6 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
       dropdown.style.left = `${leftPosition}px`;
     }
   });
+
   document.addEventListener("click", (event) => {
     if (!dropdown.contains(event.target) && event.target !== triggerBtn) {
       dropdown.classList.remove("is-open");
@@ -33,7 +35,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (token && mainBtn) {
     mainBtn.textContent = "Особистий кабінет";
-    mainBtn.href = "/dashboard";
+    mainBtn.href = "/dashboard.html";
     mainBtn.classList.remove("telegram-link");
     mainBtn.classList.add("btn-secondary");
 
@@ -49,7 +51,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if (tokenFromUrl) {
     localStorage.setItem(ACCESS_TOKEN, tokenFromUrl);
     window.history.replaceState({}, document.title, window.location.pathname);
-    window.location.href = "/dashboard";
+    window.location.href = "/dashboard.html";
   }
 });
 

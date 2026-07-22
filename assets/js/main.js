@@ -4,7 +4,7 @@ async function authFetch(url, options = {}) {
   let response = await fetch(url, {
     ...options,
     headers: {
-      ...options.headers,
+      ...(options.headers || {}),
       Authorization: `Bearer ${token}`,
     },
   });
@@ -14,14 +14,14 @@ async function authFetch(url, options = {}) {
   }
 
   if (response.status !== 401) {
-    throw new Error(`HTTP ${response.status}`);
+    const errorText = await response.text();
+    throw new Error(`HTTP ${response.status}: ${errorText}`);
   }
 
-  const refreshed = await refreshTokent();
+  const refreshed = await refreshToken();
 
   if (!refreshed) {
     await logout();
-
     return null;
   }
 
@@ -35,15 +35,17 @@ async function authFetch(url, options = {}) {
     },
   });
 
+  if (!res.ok) {
+    const errorText = await res.text();
+    throw new Error(`Request failed: ${res.status} ${errorText}`);
+  }
+
   return res;
-
-  const errorText = await res.text();
-
-  throw new Error(`Request failed: ${res.status} ${text}`);
 }
 
 let refreshPromise = null;
-async function refreshTokent() {
+
+async function refreshToken() {
   if (refreshPromise) {
     return refreshPromise;
   }
@@ -58,10 +60,12 @@ async function refreshTokent() {
       if (!res.ok) return false;
 
       const data = await res.json();
-
       localStorage.setItem(ACCESS_TOKEN, data.accessToken);
 
       return true;
+    } catch (err) {
+      console.error("Token refresh error", err);
+      return false;
     } finally {
       refreshPromise = null;
     }
@@ -76,8 +80,20 @@ async function logout() {
       method: "POST",
       credentials: "include",
     });
+  } catch (err) {
+    console.error("Enter error:", err);
   } finally {
     localStorage.removeItem(ACCESS_TOKEN);
     window.location.href = "/";
   }
+}
+
+async function checkAuth() {
+  let token = localStorage.getItem(ACCESS_TOKEN);
+  if (token) return;
+
+  const refreshed = await refreshToken();
+  if (refreshed) return;
+
+  await logout();
 }
