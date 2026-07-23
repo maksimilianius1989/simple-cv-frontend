@@ -17,7 +17,7 @@
     <script defer src="/assets/js/dashboard.js" defer></script>
   </head>
   <body>
-    <!--# include virtual="/parts/menu/menu.html"-->
+    <!--# include virtual="/parts/header/header.html"-->
     <!-- include virtual="/parts/preloader/preloader.html"-->
 
     <main class="dashboard-main container">
@@ -54,20 +54,5 @@
     <!--# include virtual="/parts/resume-card/resume-card.html" -->
     <!--# include virtual="/parts/footer/footer.html" -->
     <!--# include virtual="/parts/modal/modal.html" -->
-
-    <script>
-      document.addEventListener("DOMContentLoaded", async () => {
-        const telegramLinks = document.querySelectorAll(".telegram-link");
-        telegramLinks.forEach((link) => (link.href = APP_CONFIG.TELEGRAM_BOT));
-
-        // await getCvs();
-      });
-
-      document
-        .getElementById("logout-btn")
-        ?.addEventListener("click", async () => {
-          logout();
-        });
-    </script>
   </body>
 </html>

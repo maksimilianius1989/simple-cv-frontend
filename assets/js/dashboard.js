@@ -5,13 +5,18 @@
 
     console.log(cvsAsJson);
 
-    const container = document.getElementById('published-container');
+    const container = document.getElementById("published-container");
 
     ResumeCard.renderResumeCards(container, cvsAsJson);
-
   }
 
-  document.addEventListener('DOMContentLoaded', () => {
+  document.addEventListener("DOMContentLoaded", () => {
     getCvs();
+
+    document
+      .getElementById("logout-btn")
+      ?.addEventListener("click", async () => {
+        logout();
+      });
   });
 })();

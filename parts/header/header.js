@@ -1,4 +1,26 @@
 document.addEventListener("DOMContentLoaded", () => {
+  loginDropdown();
+  logoutClick();
+  googleAuthRedirect();
+  updateHeaderUI();
+});
+
+window.addEventListener(EVENT_USER_LOGOUT, () => updateHeaderUI());
+async function updateHeaderUI() {
+  const guestGroup = document.getElementById("auth-guest");
+  const userGroup = document.getElementById("auth-user");
+  const isAuthenticated = checkAuth();
+
+  if (isAuthenticated) {
+    guestGroup.classList.add("is-hidden");
+    userGroup.classList.remove("is-hidden");
+  } else {
+    guestGroup.classList.remove("is-hidden");
+    userGroup.classList.add("is-hidden");
+  }
+}
+
+function loginDropdown() {
   const triggerBtn = document.getElementById("login-trigger");
   const dropdown = document.getElementById("login-dropdown");
 
@@ -21,29 +43,18 @@ document.addEventListener("DOMContentLoaded", () => {
       dropdown.classList.remove("is-open");
     }
   });
+}
 
-  const telegramLinks = document.querySelectorAll(".telegram-link");
-  telegramLinks.forEach((link) => (link.href = APP_CONFIG.TELEGRAM_BOT));
+function logoutClick() {
+  document.getElementById("logout-btn")?.addEventListener("click", async () => {
+    logout();
+  });
+}
 
+function googleAuthRedirect() {
   const googleBtn = document.getElementById("google-btn");
   if (googleBtn) {
     googleBtn.href = `${APP_CONFIG.API_URL}/auth/google`;
-  }
-
-  const token = localStorage.getItem(ACCESS_TOKEN);
-  const mainBtn = document.getElementById("main-btn");
-
-  if (token && mainBtn) {
-    mainBtn.textContent = "Особистий кабінет";
-    mainBtn.href = "/dashboard.html";
-    mainBtn.classList.remove("telegram-link");
-    mainBtn.classList.add("btn-secondary");
-
-    const tgWidget = document.getElementById("telegram-widget-container");
-    if (tgWidget) tgWidget.style.display = "none";
-
-    const googleBtn = document.getElementById("google-btn");
-    if (googleBtn) googleBtn.style.display = "none";
   }
 
   const urlParams = new URLSearchParams(window.location.search);
@@ -53,32 +64,35 @@ document.addEventListener("DOMContentLoaded", () => {
     window.history.replaceState({}, document.title, window.location.pathname);
     window.location.href = "/dashboard.html";
   }
-});
+}
 
 async function onTelegramAuth(user) {
   try {
     const fullName = [user.first_name, user.last_name]
       .filter(Boolean)
       .join(" ");
-    const response = await fetch(`${APP_CONFIG.API_URL}/auth/telegram/callback`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
+    const response = await fetch(
+      `${APP_CONFIG.API_URL}/auth/telegram/callback`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          providerId: String(user.id),
+          name: fullName || user.username,
+          tgAuthData: user,
+        }),
       },
-      body: JSON.stringify({
-        providerId: String(user.id),
-        name: fullName || user.username,
-        tgAuthData: user,
-      }),
-    });
+    );
 
-    if(!response.ok) {
-      throw new Error('Server authorization error');
+    if (!response.ok) {
+      throw new Error("Server authorization error");
     }
 
     const data = await response.json();
     localStorage.setItem(ACCESS_TOKEN, data.accessToken);
-    window.location.href = '/dashboard.html';
+    window.location.href = "/dashboard.html";
   } catch (error) {
     console.log("Telegram Auth Error:", error);
     alert("Unable to log in via Telegram");

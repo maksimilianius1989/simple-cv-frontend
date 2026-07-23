@@ -74,6 +74,7 @@ async function refreshToken() {
   return refreshPromise;
 }
 
+const EVENT_USER_LOGOUT = 'user::logout';
 async function logout() {
   try {
     await fetch(`${APP_CONFIG.API_URL}/auth/logout`, {
@@ -85,15 +86,11 @@ async function logout() {
   } finally {
     localStorage.removeItem(ACCESS_TOKEN);
     window.location.href = "/";
+    window.dispatchEvent(new CustomEvent(EVENT_USER_LOGOUT));
   }
 }
 
-async function checkAuth() {
+function checkAuth() {
   let token = localStorage.getItem(ACCESS_TOKEN);
-  if (token) return;
-
-  const refreshed = await refreshToken();
-  if (refreshed) return;
-
-  await logout();
+  return Boolean(token);
 }

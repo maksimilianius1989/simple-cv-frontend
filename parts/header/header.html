@@ -6,23 +6,34 @@
     <a href="/" class="logo">Simple CV Life</a>
 
     <div class="header-actions">
-      <a href="#" class="btn-primary" id="login-trigger">Увійти</a>
-      
-      <div class="auth-dropdown" id="login-dropdown">
-        <a href="#" id="google-btn" class="btn-secondary">Google</a>
+      <div id="auth-guest" class="auth-group">
+        <a href="#" class="btn-primary" id="login-trigger">Увійти</a>
 
-        <div id="telegram-widget-container">
-          <script
-            async
-            src="https://telegram.org/js/telegram-widget.js?22"
-            data-telegram-login="itvimax_SCV_test_bot"
-            data-size="large"
-            data-radius="10"
-            data-onauth="onTelegramAuth(user)"
-            data-request-access="write"
-          ></script>
+        <div class="auth-dropdown" id="login-dropdown">
+          <a href="#" id="google-btn" class="btn-secondary">Google</a>
+
+          <div id="telegram-widget-container">
+            <script
+              async
+              src="https://telegram.org/js/telegram-widget.js?22"
+              data-telegram-login="itvimax_SCV_test_bot"
+              data-size="large"
+              data-radius="10"
+              data-onauth="onTelegramAuth(user)"
+              data-request-access="write"
+            ></script>
+          </div>
+        </div>
+      </div>
+
+      <div id="auth-user" class="auth-group is-hidden">
+        <a class="btn-secondary" href="/dashboard.html">Кабінет</a>
+        <button class="btn-secondary">Налаштування</button>
+        <button id="logout-btn" class="btn-danger">
+          <i class="fa-solid fa-right-from-bracket"></i>
+          Вийти
+        </button>
       </div>
     </div>
   </div>
 </header>
-
