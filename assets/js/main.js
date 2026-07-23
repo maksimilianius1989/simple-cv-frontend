@@ -1,96 +1,114 @@
-async function authFetch(url, options = {}) {
-  let token = localStorage.getItem(ACCESS_TOKEN);
+class Main {
+  static async authFetch(url, options = {}) {
+    if(!Auth.checkAuth()) {
+      Auth.refreshToken();
+    }
 
-  let response = await fetch(url, {
-    ...options,
-    headers: {
-      ...(options.headers || {}),
-      Authorization: `Bearer ${token}`,
-    },
-  });
+    let token = localStorage.getItem(ACCESS_TOKEN);
 
-  if (response.ok) {
-    return response;
+    let response = await fetch(url, {
+      ...options,
+      headers: {
+        ...(options.headers || {}),
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (response.ok) {
+      return response;
+    }
+
+    if (response.status !== 401) {
+      const errorText = await response.text();
+      throw new Error(`HTTP ${response.status}: ${errorText}`);
+    }
+
+    const refreshed = await Auth.refreshToken();
+
+    if (!refreshed) {
+      await Auth.logout();
+      return null;
+    }
+
+    token = localStorage.getItem(ACCESS_TOKEN);
+
+    let res = await fetch(url, {
+      ...options,
+      headers: {
+        ...(options.headers || {}),
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!res.ok) {
+      const errorText = await res.text();
+      throw new Error(`Request failed: ${res.status} ${errorText}`);
+    }
+
+    return res;
   }
-
-  if (response.status !== 401) {
-    const errorText = await response.text();
-    throw new Error(`HTTP ${response.status}: ${errorText}`);
-  }
-
-  const refreshed = await refreshToken();
-
-  if (!refreshed) {
-    await logout();
-    return null;
-  }
-
-  token = localStorage.getItem(ACCESS_TOKEN);
-
-  let res = await fetch(url, {
-    ...options,
-    headers: {
-      ...(options.headers || {}),
-      Authorization: `Bearer ${token}`,
-    },
-  });
-
-  if (!res.ok) {
-    const errorText = await res.text();
-    throw new Error(`Request failed: ${res.status} ${errorText}`);
-  }
-
-  return res;
 }
 
-let refreshPromise = null;
+class Auth {
+  static EVENT_USER_LOGOUT = "auth::logout";
+  static refreshPromise = null;
 
-async function refreshToken() {
-  if (refreshPromise) {
-    return refreshPromise;
+  static async refreshToken() {
+    if (Auth.refreshPromise) {
+      return Auth.refreshPromise;
+    }
+
+    Auth.refreshPromise = (async () => {
+      try {
+        const res = await fetch(`${APP_CONFIG.API_URL}/auth/refresh`, {
+          method: "POST",
+          credentials: "include",
+        });
+
+        if (!res.ok) return false;
+
+        const data = await res.json();
+        localStorage.setItem(ACCESS_TOKEN, data.accessToken);
+
+        return true;
+      } catch (err) {
+        console.error("Token refresh error", err);
+        return false;
+      } finally {
+        Auth.refreshPromise = null;
+      }
+    })();
+
+    return Auth.refreshPromise;
   }
 
-  refreshPromise = (async () => {
+  static async logout() {
     try {
-      const res = await fetch(`${APP_CONFIG.API_URL}/auth/refresh`, {
+      await fetch(`${APP_CONFIG.API_URL}/auth/logout`, {
         method: "POST",
         credentials: "include",
       });
-
-      if (!res.ok) return false;
-
-      const data = await res.json();
-      localStorage.setItem(ACCESS_TOKEN, data.accessToken);
-
-      return true;
     } catch (err) {
-      console.error("Token refresh error", err);
-      return false;
+      console.error("Enter error:", err);
     } finally {
-      refreshPromise = null;
+      localStorage.removeItem(ACCESS_TOKEN);
+      window.location.href = "/";
+      window.dispatchEvent(new CustomEvent(Auth.EVENT_USER_LOGOUT));
     }
-  })();
-
-  return refreshPromise;
-}
-
-const EVENT_USER_LOGOUT = 'user::logout';
-async function logout() {
-  try {
-    await fetch(`${APP_CONFIG.API_URL}/auth/logout`, {
-      method: "POST",
-      credentials: "include",
-    });
-  } catch (err) {
-    console.error("Enter error:", err);
-  } finally {
-    localStorage.removeItem(ACCESS_TOKEN);
-    window.location.href = "/";
-    window.dispatchEvent(new CustomEvent(EVENT_USER_LOGOUT));
   }
-}
 
-function checkAuth() {
-  let token = localStorage.getItem(ACCESS_TOKEN);
-  return Boolean(token);
+  static checkAuth() {
+    let token = localStorage.getItem(ACCESS_TOKEN);
+    return Boolean(token);
+  }
+
+  static checkParamToken() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const tokenFromUrl = urlParams.get("token");
+    if (tokenFromUrl) {
+      localStorage.setItem(ACCESS_TOKEN, tokenFromUrl);
+      window.history.replaceState({}, document.title, window.location.pathname);
+      window.location.href = "/dashboard.html";
+    }
+  }
 }
