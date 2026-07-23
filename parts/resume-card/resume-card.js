@@ -2,7 +2,7 @@ class ResumeCard {
   static renderResumeCards(container, resumes) {
     const template = document.getElementById("resume-card-template");
 
-    if (!container || !template) return;
+    if (!container || !template || !resumes?.lenght) return;
 
     container.innerHTML = "";
 

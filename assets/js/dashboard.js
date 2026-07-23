@@ -9,14 +9,4 @@
 
     ResumeCard.renderResumeCards(container, cvsAsJson);
   }
-
-  document.addEventListener("DOMContentLoaded", () => {
-    getCvs();
-
-    document
-      .getElementById("logout-btn")
-      ?.addEventListener("click", async () => {
-        logout();
-      });
-  });
 })();
