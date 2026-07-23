@@ -1,9 +1,11 @@
 (function () {
-  async function getCvs() {
-    const cvs = await authFetch(`${APP_CONFIG.API_URL}/cv`, { method: "GET" });
-    const cvsAsJson = await cvs?.json();
+  document.addEventListener("DOMContentLoaded", () => {
+    getCvs();
+  });
 
-    console.log(cvsAsJson);
+  async function getCvs() {
+    const cvs = await authFetch(`${APP_CONFIG.API_URL}/cvs`, { method: "GET" });
+    const cvsAsJson = await cvs?.json();
 
     const container = document.getElementById("published-container");
 
