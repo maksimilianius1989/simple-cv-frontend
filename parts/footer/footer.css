@@ -1,19 +1,21 @@
-.footer {
-  background: #000000;
-  width: 100%;
-  min-height: 50px;
-  display: flex;
-  align-items: center;
-}
+@scope (.footer) {
+  .footer {
+    background: #000000;
+    width: 100%;
+    min-height: 50px;
+    display: flex;
+    align-items: center;
+  }
 
-.footer-inner {
-  display: flex;
-  justify-content: center;
-  gap: 16px;
-}
+  .footer-inner {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+  }
 
-.footer-inner a {
-  font-size: 14px;
-  text-decoration: none;
-  color: #ffffff;
+  .footer-inner a {
+    font-size: 14px;
+    text-decoration: none;
+    color: #ffffff;
+  }
 }
