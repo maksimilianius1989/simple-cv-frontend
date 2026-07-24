@@ -9,9 +9,11 @@ class Dashboard {
   static openDraftWindowDialog() {
     const createDraftBtn = document.querySelector('.resume-create-card');
     createDraftBtn.addEventListener('click', (event) => {
-
-
-      window.dispatchEvent(new CustomEvent('modal::open', {detail: {}}));
+      window.dispatchEvent(new CustomEvent('modal::open', {detail: {
+        titleText: 'Draft CV',
+        subtitleText: 'Створення чернетки резюме за допомогою AI',
+        contentHtml: DraftForm.getDraftFormTemplate(),
+      }}));
     });
   }
 

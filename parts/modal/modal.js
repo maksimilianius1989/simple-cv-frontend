@@ -25,17 +25,17 @@ class ModalManager {
   }
 
   handleOverlayClick = (event) => {
-    if(event.target === this.modal) {
+    if (event.target === this.modal) {
       this.closeModal();
     }
-  }
+  };
 
   openModal = (payload) => {
     if (!this.body) this.init();
 
     const data =
       payload?.detail || (payload instanceof Event ? {} : payload) || {};
-    const { badgeText, titleText, subtitleText, contentHtml, ttl} = data;
+    const { badgeText, titleText, subtitleText, contentHtml, ttl } = data;
 
     if (this.badge) {
       this.badge.textContent = badgeText || "💬 Simple CV Life";
@@ -43,11 +43,17 @@ class ModalManager {
 
     if (this.title) this.title.textContent = titleText || "";
     if (this.subtitle) this.subtitle.textContent = subtitleText || "";
-    if (this.body) this.body.innerHTML = contentHtml || "";
+    if (this.body) {
+      if (contentHtml instanceof DocumentFragment) {
+        this.body.replaceChildren(contentHtml);
+      } else {
+        this.body.innerHTML = contentHtml || "";
+      }
+    }
 
     this.modal.classList.add("active");
 
-    if(ttl) {
+    if (ttl) {
       setTimeout(this.closeModal, ttl * 1000);
     }
   };
