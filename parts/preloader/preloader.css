@@ -1,9 +1,9 @@
-@scope (#app-loader) {
-  .container-preloader {
+  .preloader-container {
     width: 100%;
     height: 100%;
   }
 
+@scope (.preloader-scope) {
   .loader-overlay {
     position: absolute;
     inset: 0;

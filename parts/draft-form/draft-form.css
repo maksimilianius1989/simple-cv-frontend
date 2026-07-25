@@ -1,11 +1,11 @@
-@scope (.draft-form) {
-  .modal-form {
+@scope (.draft-form-scope) {
+  .draft-form {
     display: flex;
     flex-direction: column;
     gap: 20px;
   }
 
-  .bio-form-group {
+  .prompt-form-group {
     display: flex;
     flex-direction: column;
     gap: 8px;
@@ -148,12 +148,12 @@
     animation: fadeIn 0.2s ease-in-out;
   }
 
-  .bio-form-group.has-error .form-textarea {
+  .prompt-form-group.has-error .form-textarea {
     border-color: #ff5252;
     box-shadow: 0 0 0 3px rgba(255, 82, 82, 0.2);
   }
 
-  .bio-form-group.has-error .error-message {
+  .prompt-form-group.has-error .error-message {
     display: flex;
   }
 

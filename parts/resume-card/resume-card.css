@@ -1,4 +1,4 @@
-@scope (.resume-card) {
+@scope (.resume-card-scope) {
   .card-top-badges {
     display: flex;
     gap: 8px;

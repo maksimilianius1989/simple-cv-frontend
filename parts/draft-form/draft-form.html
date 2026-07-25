@@ -1,33 +1,33 @@
-<link rel="stylesheet" href="draft-form.css" />
+<link rel="stylesheet" href="/parts/draft-form/draft-form.css" />
 
-<template id="draft-form-template" display="none">
-  <div>
-    <form action="" class="draft-form">
-      <div class="bio-form-group" id="bioGroup">
-        <label class="form-label" for="bioTextarea">
+<template id="draft-form-template">
+  <section class="draft-form-scope">
+    <form action="/cvs/ai-drafts" class="draft-form">
+      <div class="prompt-form-group" id="promptGroup">
+        <label class="form-label" for="promptTextarea">
           <i class="fa-solid fa-wand-magic-sparkles"></i>
           Опис або ключові навички
         </label>
 
         <textarea
-          id="bioTextarea"
+          id="promptTextarea"
+          name="prompt"
           class="form-textarea"
           placeholder="Введіть короткий опис про себе, досвід роботі або стек технологій..."
         ></textarea>
 
         <div class="error-message">
           <i class="fa-solid fa-circle-exclamation"></i>
-          <span>Будь ласка, введіть опис або завантажте файл</span>
+          <span>Будь ласка, введіть опис</span>
         </div>
       </div>
 
-      <!-- Drag and Drop Завантаження файлу -->
       <div class="file-upload-wrapper" id="dropZone">
         <input
           type="file"
           id="fileInput"
           class="file-input"
-          accept=".pdf,.doc,.docx,.txt"
+          accept=".jpeg,.jpg,.pdf,"
         />
 
         <div class="upload-icon-box">
@@ -36,19 +36,18 @@
 
         <div class="upload-text">
           <span class="upload-primary-text"
-            >Натисніть або перетягніть файл сюди</span
+            >Натисніть або перетягніть фото сюди</span
           >
           <span class="upload-secondary-text"
-            >Підтримуються PDF, DOCX, TXT (макс. 10MB)</span
+            >Підтримуються JPEG, JPG, PNG (макс. 5MB)</span
           >
         </div>
       </div>
 
-      <!-- Прев'ю вибраного файлу -->
       <div class="file-preview-info hidden" id="filePreview">
         <div style="display: flex; align-items: center; gap: 8px">
           <i class="fa-solid fa-file-lines" style="color: var(--pink)"></i>
-          <span id="fileName">resume.pdf</span>
+          <span id="fileName">avatar.png</span>
         </div>
 
         <button
@@ -68,12 +67,12 @@
       </div>
 
       <!-- Кнопка генерації -->
-      <button type="button" id="btnGenerate" class="btn-generate">
+      <button type="submit" id="btnGenerate" class="btn-generate">
         <i class="fa-solid fa-bolt"></i>
         <span>Згенерувати</span>
       </button>
     </form>
-  </div>
+  </section>
 </template>
 
-<script src="draft-form.js"></script>
+<script src="/parts/draft-form/draft-form.js"></script>

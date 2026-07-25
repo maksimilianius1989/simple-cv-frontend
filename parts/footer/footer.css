@@ -1,12 +1,12 @@
-@scope (.footer) {
-  .footer {
-    background: #000000;
-    width: 100%;
-    min-height: 50px;
-    display: flex;
-    align-items: center;
-  }
+.footer {
+  background: #000000;
+  width: 100%;
+  min-height: 50px;
+  display: flex;
+  align-items: center;
+}
 
+@scope (.footer-scope) {
   .footer-inner {
     display: flex;
     justify-content: center;

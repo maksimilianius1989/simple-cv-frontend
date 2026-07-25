@@ -1,4 +1,4 @@
-@scope (.draft) {
+@scope (.draft-card-scope) {
   .resume-card.draft {
     border-style: dashed;
     background: rgba(16, 25, 46, 0.4);

@@ -1,15 +1,15 @@
-@scope (.header) {
-  .header {
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    background: rgba(5, 8, 22, 0.8);
-    backdrop-filter: blur(20px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-    width: 100%;
-    display: block;
-  }
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(5, 8, 22, 0.8);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  width: 100%;
+  display: block;
+}
 
+@scope (.header-scope) {
   .header-wrapper {
     height: 50px;
     display: flex;

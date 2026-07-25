@@ -104,7 +104,7 @@ class Header {
       localStorage.setItem(ACCESS_TOKEN, data.accessToken);
       window.location.href = "/dashboard.html";
     } catch (error) {
-      console.log("Telegram Auth Error:", error);
+      console.error("Telegram Auth Error:", error);
 
       alert("Unable to log in via Telegram");
     }

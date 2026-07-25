@@ -68,10 +68,10 @@ class ResumeCard {
   }
 
   static async togglePublishResume(id, status) {
-    console.log(`Toggle status for ${id} to ${status}`);
+    console.info(`Toggle status for ${id} to ${status}`);
   }
 
   static async deleteResume(id) {
-    console.log(`Delete resume ${id}`);
+    console.info(`Delete resume ${id}`);
   }
 }

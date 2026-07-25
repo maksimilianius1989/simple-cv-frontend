@@ -4,6 +4,17 @@ class Dashboard {
   static init() {
     Dashboard.getCvs();
     Dashboard.openDraftWindowDialog();
+
+
+    setTimeout(() => {
+      window.dispatchEvent(new CustomEvent('modal::open', {detail: {
+        titleText: 'Draft CV',
+        subtitleText: 'Створення чернетки резюме за допомогою AI',
+        contentHtml: DraftForm.getDraftFormTemplate(),
+      }}));
+    }, 0);
+
+
   }
 
   static openDraftWindowDialog() {
