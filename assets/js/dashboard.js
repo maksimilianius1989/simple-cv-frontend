@@ -4,26 +4,16 @@ class Dashboard {
   static init() {
     Dashboard.getCvs();
     Dashboard.openDraftWindowDialog();
-
-
-    setTimeout(() => {
-      window.dispatchEvent(new CustomEvent('modal::open', {detail: {
-        titleText: 'Draft CV',
-        subtitleText: 'Створення чернетки резюме за допомогою AI',
-        contentHtml: DraftForm.getDraftFormTemplate(),
-      }}));
-    }, 0);
-
-
   }
 
   static openDraftWindowDialog() {
     const createDraftBtn = document.querySelector('.resume-create-card');
     createDraftBtn.addEventListener('click', (event) => {
+      const draftForm = new DraftForm();
       window.dispatchEvent(new CustomEvent('modal::open', {detail: {
         titleText: 'Draft CV',
         subtitleText: 'Створення чернетки резюме за допомогою AI',
-        contentHtml: DraftForm.getDraftFormTemplate(),
+        contentHtml: draftForm.getDraftFormTemplate(),
       }}));
     });
   }

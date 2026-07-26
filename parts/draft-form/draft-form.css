@@ -116,7 +116,7 @@
     color: var(--text);
   }
 
-  .file-preview-info.hidden {
+  .hidden {
     display: none;
   }
 

@@ -2,15 +2,14 @@
 
 <template id="draft-form-template">
   <section class="draft-form-scope">
-    <form action="/cvs/ai-drafts" class="draft-form">
-      <div class="prompt-form-group" id="promptGroup">
+    <form method="post" class="draft-form">
+      <div class="prompt-form-group">
         <label class="form-label" for="promptTextarea">
           <i class="fa-solid fa-wand-magic-sparkles"></i>
           Опис або ключові навички
         </label>
 
         <textarea
-          id="promptTextarea"
           name="prompt"
           class="form-textarea"
           placeholder="Введіть короткий опис про себе, досвід роботі або стек технологій..."
@@ -22,10 +21,9 @@
         </div>
       </div>
 
-      <div class="file-upload-wrapper" id="dropZone">
+      <div class="file-upload-wrapper">
         <input
           type="file"
-          id="fileInput"
           class="file-input"
           accept=".jpeg,.jpg,.pdf,"
         />
@@ -44,15 +42,14 @@
         </div>
       </div>
 
-      <div class="file-preview-info hidden" id="filePreview">
+      <div class="file-preview-info hidden">
         <div style="display: flex; align-items: center; gap: 8px">
           <i class="fa-solid fa-file-lines" style="color: var(--pink)"></i>
-          <span id="fileName">avatar.png</span>
+          <span>avatar.png</span>
         </div>
 
         <button
           type="button"
-          id="removeFileBtn"
           style="
             background: none;
             border: none;
@@ -66,8 +63,7 @@
         </button>
       </div>
 
-      <!-- Кнопка генерації -->
-      <button type="submit" id="btnGenerate" class="btn-generate">
+      <button type="submit" class="btn-generate">
         <i class="fa-solid fa-bolt"></i>
         <span>Згенерувати</span>
       </button>

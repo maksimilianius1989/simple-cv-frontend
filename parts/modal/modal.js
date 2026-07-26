@@ -16,6 +16,13 @@ class ModalManager {
     this.closeBtn = document.querySelector(".modal-close-btn");
   }
 
+  resetWindow() {
+    this.badge.innerHTML = "";
+    this.title.innerHTML = "";
+    this.subtitle.innerHTML = "";
+    this.body.innerHTML = "";
+  }
+
   addEventListeners() {
     window.addEventListener(ModalManager.EVENT_MODAL_OPEN, this.openModal);
     window.addEventListener(ModalManager.EVENT_MODAL_CLOSE, this.closeModal);
@@ -32,6 +39,8 @@ class ModalManager {
 
   openModal = (payload) => {
     if (!this.body) this.init();
+
+    this.resetWindow();
 
     const data =
       payload?.detail || (payload instanceof Event ? {} : payload) || {};
