@@ -32,7 +32,7 @@ class Dashboard {
     const drafts = await Main.authFetch(`${APP_CONFIG.API_URL}/cvs/ai-drafts`);
     const draftsJson = await drafts?.json();
 
-    const container = document.getElementById("draft-container");
+    const container = document.getElementById("drafts-list");
 
     DraftCard.renderDraftCards(container, draftsJson);
   }

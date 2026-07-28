@@ -14,6 +14,7 @@ class DraftCard {
             const clone = template.content.cloneNode(true);
             const cardElement = clone.querySelector(".resume-card");
             cardElement.dataset.id = draft.id;
+            const thumbnailId = draft.files?.find(file => file.category === 'PREVIEW_THUMBNAIL')?.id;
 
             const status = clone.querySelector(".draft-status");
             status.innerHTML = `<i class="fa-solid fa-pen-to-square"></i> ${draft.status}`;
@@ -23,6 +24,11 @@ class DraftCard {
 
             const description = clone.querySelector(".resume-card-description");
             description.textContent = draft.prompt;
+
+            if(thumbnailId) {
+                const avatar = clone.querySelector(".preview-thumbnail");
+                avatar.src = `${APP_CONFIG.API_URL}/cvs/storage/${thumbnailId}`;
+            }
             
             container.appendChild(clone);
         });

@@ -21,6 +21,54 @@
   gap: 24px;
 }
 
+.resume-grid.drafts-section-grid {
+  display: flex;
+  gap: 24px;
+  align-items: stretch;
+  overflow: hidden;
+}
+
+.drafts-section-grid .resume-create-card {
+  min-width: 280px;
+  width: 280px;
+  flex-shrink: 0;
+}
+
+.drafts-scroll-wrapper {
+  display: flex;
+  gap: 24px;
+  overflow-x: auto;
+  padding-bottom: 12px;
+  scroll-behavior: smooth;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+
+.drafts-scroll-wrapper .resume-card {
+  min-width: 320px;
+  width: 320px;
+  flex-shrink: 0;
+  scroll-snap-align: start;
+}
+
+/* Кастомізація полоси скролу для акуратного дизайну */
+.drafts-scroll-wrapper::-webkit-scrollbar {
+  height: 6px;
+}
+
+.drafts-scroll-wrapper::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+}
+
+.drafts-scroll-wrapper::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+}
+
+.drafts-scroll-wrapper::-webkit-scrollbar-thumb:hover {
+  background: var(--purple, #8f5cff);
+}
 /*
   resume-card start
 */
@@ -146,5 +194,21 @@
   }
   100% {
     opacity: 0.4;
+  }
+}
+
+@media (max-width: 1024px) {
+  .resume-grid.drafts-section-grid {
+     flex-direction: column;
+     overflow: visible;
+  }
+
+  .drafts-section-grid .resume-create-card {
+    width: 100%;
+    min-width: 100%;
+  }
+
+  .drafts-scroll-wrapper {
+    width: 100%;
   }
 }

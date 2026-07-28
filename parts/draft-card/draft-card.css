@@ -13,4 +13,8 @@
     gap: 6px;
     margin-bottom: 12px;
   }
+
+  .preview-thumbnail {
+    margin: 10px 0;
+  }
 }
