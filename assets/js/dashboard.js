@@ -37,7 +37,7 @@ class Dashboard {
           detail: {
             titleText: "Draft CV Info",
             subtitleText: `Інформація Draft Cv id: ${draftJson.id}`,
-            contentHtml: DraftCard.renderDraftModalInfo(draft),
+            contentHtml: DraftInfo.renderDraftModalInfo(draft),
           },
         }),
       );
