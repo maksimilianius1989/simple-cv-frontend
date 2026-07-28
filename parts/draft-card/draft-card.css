@@ -17,4 +17,11 @@
   .preview-thumbnail {
     margin: 10px 0;
   }
+
+  .resume-card-description {
+    display: -webkit-box;
+    -webkit-line-clamp: 3; /* Кількість рядків, після яких ставить трикрапку */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
 }

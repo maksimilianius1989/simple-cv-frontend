@@ -33,4 +33,8 @@ class DraftCard {
             container.appendChild(clone);
         });
     }
+
+    static renderDraftModalInfo(draft) {
+        return draft.id
+    }
 }
