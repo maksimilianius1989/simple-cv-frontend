@@ -1,6 +1,6 @@
 class Main {
   static async authFetch(url, options = {}) {
-    if(!Auth.checkAuth()) {
+    if (!Auth.checkAuth()) {
       Auth.refreshToken();
     }
 
@@ -110,5 +110,28 @@ class Auth {
       window.history.replaceState({}, document.title, window.location.pathname);
       window.location.href = "/dashboard.html";
     }
+  }
+}
+
+class Utils {
+  static dateFormatted(isoString) {
+    const date = new Date(isoString);
+
+    const formatter = new Intl.DateTimeFormat("uk-UA", {
+      timeZone: "Europe/Kyiv",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+      day: "2-digit",
+      month: "2-digit",
+      year: "2-digit",
+      hour12: false,
+    });
+
+    const parts = Object.fromEntries(
+      formatter.formatToParts(date).map((p) => [p.type, p.value]),
+    );
+
+    return `${parts.hour}:${parts.minute}:${parts.second} ${parts.day}.${parts.month}.${parts.year}`;
   }
 }

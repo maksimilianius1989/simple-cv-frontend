@@ -2,6 +2,7 @@ document.addEventListener("DOMContentLoaded", () => Dashboard.init());
 
 class Dashboard {
   static init() {
+    Dashboard.getDrafts();
     Dashboard.getCvs();
     Dashboard.openDraftWindowDialog();
   }
@@ -25,5 +26,14 @@ class Dashboard {
     const container = document.getElementById("published-container");
 
     ResumeCard.renderResumeCards(container, cvsAsJson);
+  }
+
+  static async getDrafts() {
+    const drafts = await Main.authFetch(`${APP_CONFIG.API_URL}/cvs/ai-drafts`);
+    const draftsJson = await drafts?.json();
+
+    const container = document.getElementById("draft-container");
+
+    DraftCard.renderDraftCards(container, draftsJson);
   }
 }
