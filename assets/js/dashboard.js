@@ -32,12 +32,14 @@ class Dashboard {
         const draftCardId = event.target.closest('.draft').dataset.id;
         const draft = await Main.authFetch(`${APP_CONFIG.API_URL}/cvs/ai-drafts/${draftCardId}`);
         const draftJson = await draft?.json();
+        const draftInfo = new DraftInfo(draftJson);
+        
         window.dispatchEvent(
         new CustomEvent("modal::open", {
           detail: {
-            titleText: "Draft CV Info",
-            subtitleText: `Інформація Draft Cv id: ${draftJson.id}`,
-            contentHtml: DraftInfo.renderDraftModalInfo(draft),
+            titleText:draftJson?.content?.position || draftJson?.content?.name || "Draft CV Info",
+            subtitleText: `Статус резюме ${draftJson.status}`,
+            contentHtml: draftInfo.getDraftInfoTemplate(),
           },
         }),
       );

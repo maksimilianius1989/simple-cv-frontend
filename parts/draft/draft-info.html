@@ -1,9 +1,52 @@
-<link rel="stylesheet" href="/parts/draft/draft-info.css">
+<link rel="stylesheet" href="/parts/draft/draft-info.css" />
 
-<template>
-    <section class="draft-info-scope">
+<template id="draft-info-template">
+  <section class="draft-info-scope">
+    <div class="draft-info-container">
 
-    </section>
+      <div class="draft-info-actions">
+        <a
+          href="#"
+          target="_blank"
+          class="action-icon action-view"
+          title="Створити CV"
+        >
+          <i class="fa-solid fa-file-circle-plus"></i> Створити CV
+        </a>
+        <a
+          href="#"
+          target="_blank"
+          class="action-icon action-pdf"
+          title="Завантажити PDF"
+        >
+          <i class="fa-solid fa-file-pdf"></i> Завантажити PDF
+        </a>
+        <button class="action-icon action-delete" title="Видалити">
+          <i class="fa-solid fa-trash-can"></i> Видалити
+        </button>
+      </div>
+
+      <div class="draft-info-content">
+        <p>Імя: <span class="content-name"></span></p>
+        <p>Позиція: <span class="content-position"></span></p>
+        <p>Опис: <span class="content-summary"></span></p>
+        <p>Супровідний лист: <span class="content-cover-letter"></span></p>
+      </div>
+
+      <div class="draft-info-details">
+        <p>Prompt: <span class="draft-prompt"></span></p>
+        <p>ШІ: <span class="draft-ai-provider"></span></p>
+      </div>
+
+      <a href="" class="draft-preview-link" target="_blank">
+        <img
+          src="/assets/img/cv-skeleton.png"
+          class="draft-preview"
+          alt="Preview"
+        />
+      </a>
+    </div>
+  </section>
 </template>
 
 <script src="/parts/draft/draft-info.js"></script>

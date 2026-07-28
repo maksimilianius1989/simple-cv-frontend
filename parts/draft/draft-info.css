@@ -1,3 +1,21 @@
 @scope (.draft-info-scope) {
+  .draft-info-container,
+  .draft-info-content,
+  .draft-info-details {
+    display: flex;
+    gap: 20px;
+    flex-direction: column;
+  }
 
+  .draft-info-container {
+    margin: 10px;
+  }
+
+  .draft-preview {
+    max-width: 100%;
+  }
+
+  .draft-avatar {
+    max-width: 200px;
+  }
 }
