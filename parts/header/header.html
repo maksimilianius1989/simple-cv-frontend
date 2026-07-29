@@ -5,6 +5,16 @@
     <a href="/" class="logo">Simple CV Life</a>
 
     <div class="header-actions">
+      <button
+        type="button"
+        class="coffee-donate-btn btn-secondary"
+        id="buy-coffee-btn"
+        data-amount="100"
+      >
+        <i class="fa-solid fa-mug-hot"></i>
+        <span>Купити каву (подякувати)</span>
+      </button>
+
       <div id="auth-guest" class="auth-group">
         <a href="#" class="btn-primary" id="login-trigger">Увійти</a>
 
@@ -27,7 +37,6 @@
 
       <div id="auth-user" class="auth-group is-hidden">
         <a class="btn-secondary" href="/dashboard.html">Кабінет</a>
-        <button class="btn-secondary">Налаштування</button>
         <button id="logout-btn" class="btn-danger">
           <i class="fa-solid fa-right-from-bracket"></i>
           Вийти
@@ -37,4 +46,8 @@
   </div>
 </header>
 
+<script
+  id="widget-wfp-script"
+  src="https://secure.wayforpay.com/server/pay-widget.js"
+></script>
 <script src="/parts/header/header.js"></script>

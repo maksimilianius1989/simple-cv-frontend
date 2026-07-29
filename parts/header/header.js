@@ -8,6 +8,7 @@ class Header {
     Header.logoutClick();
     Header.googleAuthRedirect();
     Header.updateHeaderUI();
+    Header.donate();
 
     window.addEventListener("auth::logout", () => {
       Header.updateHeaderUI();
@@ -108,5 +109,61 @@ class Header {
 
       alert("Unable to log in via Telegram");
     }
+  }
+
+  static async donate() {
+    document
+      .getElementById("buy-coffee-btn")
+      ?.addEventListener("click", async (event) => {
+        const btn = event.currentTarget;
+        const amount = Number(btn.dataset.amount) || 100;
+
+        try {
+          btn.disabled = true;
+
+          if (typeof window.Wayforpay === "undefined") {
+            throw new Error(
+              "Скрипт Wayforpay ще не завантажився або заблокований блокувальником реклами (AdBlock).",
+            );
+          }
+
+          const response = await fetch(`${APP_CONFIG.API_URL}/payments/init`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              amount: amount,
+            }),
+          });
+
+          if (!response.ok) {
+            throw new Error("Order initialization failed");
+          }
+
+          const paymentData = await response.json();
+          const wayforpay = new window.Wayforpay();
+
+          wayforpay.run(
+            paymentData,
+            function (response) {
+              console.log("Payment success:", response);
+              alert("Дякую за каву! ☕ Ваша підтримка неоціненна.");
+            },
+            function (response) {
+              console.warn("Payment declined:", response);
+              alert("Оплату скасовано або виникла помилка.");
+            },
+            function (response) {
+              console.log("Widget closed:", response);
+            },
+          );
+        } catch (error) {
+          console.error(`Payment error:`, error);
+          alert(error.message || "Щось пішло не так при створенні платежу.");
+        } finally {
+          btn.disabled = false;
+        }
+      });
   }
 }
