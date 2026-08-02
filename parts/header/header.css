@@ -12,6 +12,7 @@
 @scope (.header-scope) {
   .header-wrapper {
     height: 50px;
+    margin: 10px;
     display: flex;
     justify-content: space-between;
     align-items: center;
