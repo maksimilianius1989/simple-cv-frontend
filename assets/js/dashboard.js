@@ -1,10 +1,15 @@
 document.addEventListener("DOMContentLoaded", () => Dashboard.init());
 
 class Dashboard {
+  static EVENT_DRAFT_GET_ALL = 'draft::getAll';
+
   static init() {
     Dashboard.getDrafts();
     Dashboard.getCvs();
     Dashboard.openCreateDraftFormDialog();
+
+    window.addEventListener(Dashboard.EVENT_DRAFT_GET_ALL, (e) => {console.log('EVENT_DRAFT_GET_ALL');
+     Dashboard.getDrafts()});
   }
 
   static openCreateDraftFormDialog() {

@@ -107,3 +107,21 @@ main {
   box-shadow: 0 4px 15px rgba(255, 75, 75, 0.2);
   transform: translateX(-1px);
 }
+
+a {
+  text-decoration: none;
+  outline: none;
+}
+
+.resume-actions a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  background: #101f45;
+  color: #ffffff;
+  cursor: pointer;
+  transition: 0.2s;
+  border-radius: 10px;
+}

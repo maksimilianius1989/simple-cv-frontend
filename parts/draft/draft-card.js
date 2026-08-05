@@ -31,7 +31,31 @@ class DraftCard {
       const description = clone.querySelector(".resume-card-description");
       description.textContent = draft.prompt;
 
+      const deleteBtn = clone.querySelector(".btn-delete");
+      deleteBtn.addEventListener('click', (e) => DraftCard.deleteDraft(e));
+
       container.appendChild(clone);
     });
+  }
+
+  static async deleteDraft(event) {
+    event.preventDefault();
+    event.stopPropagation();
+
+    if(!confirm('Ви дійсно хочете видалити драфт?')) return;
+    
+    const draftId = event.target.closest('.draft').dataset.id;
+
+    const response = await Main.authFetch(`${APP_CONFIG.API_URL}/cvs/ai-drafts/${draftId}`, {
+      method: 'DELETE',
+    });
+
+    if(response.ok) {
+      window.dispatchEvent(new CustomEvent('draft::getAll', { detail: {} }));
+      return;
+    }
+
+    console.error(response);
+    alert('Не вдалось видалити драфт');
   }
 }
