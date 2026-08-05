@@ -33,6 +33,14 @@ class DraftCard {
 
       const deleteBtn = clone.querySelector(".btn-delete");
       deleteBtn.addEventListener('click', (e) => DraftCard.deleteDraft(e));
+      
+      const pdfFile = draft.files.find((file) => file.category === 'PDF');
+      if (pdfFile) {
+        const pdfBtn = clone.querySelector(".btn-pdf");
+        pdfBtn.style.display = 'flex';
+        pdfBtn.href = `${APP_CONFIG.API_URL}/cvs/storage/${pdfFile.id}`;
+        pdfBtn.addEventListener('click', (e) => e.stopPropagation());
+      }
 
       container.appendChild(clone);
     });

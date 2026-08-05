@@ -113,6 +113,12 @@ a {
   outline: none;
 }
 
+.resume-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 18px;
+}
+
 .resume-actions a {
   display: flex;
   align-items: center;

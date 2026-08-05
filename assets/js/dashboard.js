@@ -1,15 +1,17 @@
 document.addEventListener("DOMContentLoaded", () => Dashboard.init());
 
 class Dashboard {
-  static EVENT_DRAFT_GET_ALL = 'draft::getAll';
+  static EVENT_DRAFT_GET_ALL = "draft::getAll";
 
   static init() {
     Dashboard.getDrafts();
     Dashboard.getCvs();
     Dashboard.openCreateDraftFormDialog();
 
-    window.addEventListener(Dashboard.EVENT_DRAFT_GET_ALL, (e) => {console.log('EVENT_DRAFT_GET_ALL');
-     Dashboard.getDrafts()});
+    window.addEventListener(Dashboard.EVENT_DRAFT_GET_ALL, (e) => {
+      console.log("EVENT_DRAFT_GET_ALL");
+      Dashboard.getDrafts();
+    });
   }
 
   static openCreateDraftFormDialog() {
@@ -29,26 +31,34 @@ class Dashboard {
   }
 
   static async setDraftInfoDialogHandle() {
-    const draftCards = document.querySelectorAll(".draft");
-    draftCards.forEach((draft) => {
-      draft.addEventListener("click", async (event) => {
-        event.preventDefault();
+    const container = document.getElementById("drafts-list");
+    if (!container || container.dataset.hasListener) return;
 
-        const draftCardId = event.target.closest('.draft').dataset.id;
-        const draft = await Main.authFetch(`${APP_CONFIG.API_URL}/cvs/ai-drafts/${draftCardId}`);
-        const draftJson = await draft?.json();
-        const draftInfo = new DraftInfo(draftJson);
-        
-        window.dispatchEvent(
+    container.addEventListener("click", async (event) => {
+      const draftCard = event.target.closest(".draft");
+      if (!draftCard) return;
+
+      event.preventDefault();
+
+      const draftCardId = event.target.closest(".draft").dataset.id;
+      const draft = await Main.authFetch(
+        `${APP_CONFIG.API_URL}/cvs/ai-drafts/${draftCardId}`,
+      );
+      const draftJson = await draft?.json();
+      const draftInfo = new DraftInfo(draftJson);
+
+      window.dispatchEvent(
         new CustomEvent("modal::open", {
           detail: {
-            titleText:draftJson?.content?.position || draftJson?.content?.name || "Draft CV Info",
+            titleText:
+              draftJson?.content?.position ||
+              draftJson?.content?.name ||
+              "Draft CV Info",
             subtitleText: `Статус резюме ${draftJson.status}`,
             contentHtml: draftInfo.getDraftInfoTemplate(),
           },
         }),
       );
-      });
     });
   }
 
