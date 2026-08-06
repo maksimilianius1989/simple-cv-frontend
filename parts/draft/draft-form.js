@@ -56,7 +56,6 @@ class DraftForm {
         });
 
         if(response.ok) {
-          alert('Draft created successfully!');
           window.dispatchEvent(new CustomEvent('modal::close'));
         } else {
           console.warn('Draft created server error!');

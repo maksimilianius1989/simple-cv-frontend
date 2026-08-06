@@ -1,8 +1,8 @@
 document.addEventListener("DOMContentLoaded", () => Dashboard.init());
 
 class Dashboard {
-  static SOCKET_EVENT_DRAFTS_SYNC = 'DRAFTS:SYNC';
-  static SOCKET_EVENT_DRAFT_UPDATED = 'DRAFT:UPDATED';
+  static SOCKET_EVENT_DRAFTS_SYNC = "DRAFTS:SYNC";
+  static SOCKET_EVENT_DRAFT_UPDATED = "DRAFT:UPDATED";
 
   static init() {
     Dashboard.getDrafts();
@@ -38,11 +38,8 @@ class Dashboard {
       event.preventDefault();
 
       const draftCardId = event.target.closest(".draft").dataset.id;
-      const draft = await Main.authFetch(
-        `${APP_CONFIG.API_URL}/cvs/ai-drafts/${draftCardId}`,
-      );
-      const draftJson = await draft?.json();
-      const draftInfo = new DraftInfo(draftJson);
+      const draft = await Dashboard.getDraft(draftCardId);
+      const draftInfo = new DraftInfo(draft);
 
       window.dispatchEvent(
         new CustomEvent("modal::open", {
@@ -80,13 +77,27 @@ class Dashboard {
     Dashboard.setDraftInfoDialogHandle();
   }
 
+  static async getDraft(draftId) {
+    const draft = await Main.authFetch(
+      `${APP_CONFIG.API_URL}/cvs/ai-drafts/${draftId}`,
+    );
+    return await draft?.json();
+  }
+
   static onWsEventHandles() {
     WS.socket.on(Dashboard.SOCKET_EVENT_DRAFTS_SYNC, async (data) => {
       Dashboard.getDrafts();
     });
 
     WS.socket.on(Dashboard.SOCKET_EVENT_DRAFT_UPDATED, async (data) => {
-      console.log(Dashboard.SOCKET_EVENT_DRAFT_UPDATED, "Event recieved: ", data);
+      console.log(
+        Dashboard.SOCKET_EVENT_DRAFT_UPDATED,
+        "Event recieved: ",
+        data,
+      );
+
+      const draft = await Dashboard.getDraft(data.draftId);
+      document.dispatchEvent(new CustomEvent("draft-card:update", {detail: {draft: draft}}));
     });
   }
 }
