@@ -1,3 +1,7 @@
+document.addEventListener("DOMContentLoaded", () => {
+  WS.init();
+});
+
 class Main {
   static async authFetch(url, options = {}) {
     if (!Auth.checkAuth()) {
@@ -50,6 +54,7 @@ class Main {
 }
 
 class Auth {
+  static EVENT_USER_REFRESH = "auth::refresh";
   static EVENT_USER_LOGOUT = "auth::logout";
   static refreshPromise = null;
 
@@ -69,6 +74,12 @@ class Auth {
 
         const data = await res.json();
         localStorage.setItem(ACCESS_TOKEN, data.accessToken);
+
+        window.dispatchEvent(
+          new CustomEvent(Auth.EVENT_USER_REFRESH, {
+            detail: { userId: Auth.getUserId() },
+          }),
+        );
 
         return true;
       } catch (err) {
@@ -93,7 +104,9 @@ class Auth {
     } finally {
       localStorage.removeItem(ACCESS_TOKEN);
       window.location.href = "/";
-      window.dispatchEvent(new CustomEvent(Auth.EVENT_USER_LOGOUT));
+      window.dispatchEvent(
+        new CustomEvent(Auth.EVENT_USER_LOGOUT, { detail: {} }),
+      );
     }
   }
 
@@ -110,6 +123,14 @@ class Auth {
       window.history.replaceState({}, document.title, window.location.pathname);
       window.location.href = "/dashboard.html";
     }
+  }
+
+  static getUserId() {
+    const token = localStorage.getItem("access_token");
+    if (!token) return;
+
+    const payload = JSON.parse(atob(token.split(".")[1]));
+    return payload.id;
   }
 }
 
@@ -133,5 +154,29 @@ class Utils {
     );
 
     return `${parts.hour}:${parts.minute}:${parts.second} ${parts.day}.${parts.month}.${parts.year}`;
+  }
+}
+
+class WS {
+  static socket;
+
+  static init() {
+    window.addEventListener(Auth.EVENT_USER_REFRESH, () => WS.init());
+    window.addEventListener(Auth.EVENT_USER_LOGOUT, () => WS.disconect());
+
+    const userId = Auth.getUserId();
+    if (!userId) {
+      return;
+    }
+
+    WS.socket = io(`${APP_CONFIG.API_URL}/ws`, {
+      path: "/ws",
+      query: { userId },
+      transports: ["websocket", "polling"],
+    });
+  }
+
+  static disconect() {
+    this.socket.disconect();
   }
 }

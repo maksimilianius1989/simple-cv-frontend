@@ -58,12 +58,9 @@ class DraftCard {
       method: 'DELETE',
     });
 
-    if(response.ok) {
-      window.dispatchEvent(new CustomEvent('draft::getAll', { detail: {} }));
-      return;
+    if(!response.ok) {
+      console.error(response);
+      alert('Не вдалось видалити драфт');
     }
-
-    console.error(response);
-    alert('Не вдалось видалити драфт');
   }
 }

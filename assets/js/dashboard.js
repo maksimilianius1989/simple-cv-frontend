@@ -1,17 +1,14 @@
 document.addEventListener("DOMContentLoaded", () => Dashboard.init());
 
 class Dashboard {
-  static EVENT_DRAFT_GET_ALL = "draft::getAll";
+  static SOCKET_EVENT_DRAFTS_SYNC = 'DRAFTS:SYNC';
+  static SOCKET_EVENT_DRAFT_UPDATED = 'DRAFT:UPDATED';
 
   static init() {
     Dashboard.getDrafts();
     Dashboard.getCvs();
     Dashboard.openCreateDraftFormDialog();
-
-    window.addEventListener(Dashboard.EVENT_DRAFT_GET_ALL, (e) => {
-      console.log("EVENT_DRAFT_GET_ALL");
-      Dashboard.getDrafts();
-    });
+    Dashboard.onWsEventHandles();
   }
 
   static openCreateDraftFormDialog() {
@@ -81,5 +78,15 @@ class Dashboard {
 
     DraftCard.renderDraftCards(container, draftsJson);
     Dashboard.setDraftInfoDialogHandle();
+  }
+
+  static onWsEventHandles() {
+    WS.socket.on(Dashboard.SOCKET_EVENT_DRAFTS_SYNC, async (data) => {
+      Dashboard.getDrafts();
+    });
+
+    WS.socket.on(Dashboard.SOCKET_EVENT_DRAFT_UPDATED, async (data) => {
+      console.log(Dashboard.SOCKET_EVENT_DRAFT_UPDATED, "Event recieved: ", data);
+    });
   }
 }
