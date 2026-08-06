@@ -5,6 +5,17 @@ document.addEventListener("DOMContentLoaded", () => {
 class DraftCard {
   static EVENT_DRAFT_CARD_UPDATE = "draft-card:update";
 
+  static draftStatuses = {
+    DRAFT: "Збережено підказку",
+    AVATAR_UPLOADED: "Завантажено аватар",
+    GENERATING_CONTENT: "Початок генерації резюме ШІ",
+    CONTENT_GENERATED: "Резюме зненеровано ШІ",
+    PDF_GENERATED: "PDF згенеровано",
+    PREVIEW_GENERATED: "Превю згенеровано",
+    COMPLETED: "Драфт створено",
+    FAILED: "Помилка",
+  };
+
   static draftCardUpdateEvent() {
     window.addEventListener(DraftCard.EVENT_DRAFT_CARD_UPDATE, (event) => {
       const draft = event.detail.draft;
@@ -45,20 +56,38 @@ class DraftCard {
   }
 
   static setDraftCard(target, draft) {
+    const draftCardContainer = target.querySelector('.draft');
+
     const thumbnailId = draft.files?.find(
       (file) => file.category === "PREVIEW_THUMBNAIL",
     )?.id;
-    
+
     if (thumbnailId) {
       const thumbnailTemplate = target.querySelector(".preview-thumbnail");
       thumbnailTemplate.src = `${APP_CONFIG.API_URL}/cvs/storage/${thumbnailId}`;
     }
 
     const status = target.querySelector(".draft-status");
-    status.innerHTML = `<i class="fa-solid fa-pen-to-square"></i> ${draft.status}`;
+    status.innerHTML = `<i class="fa-solid fa-pen-to-square"></i> ${DraftCard.mappingStatus(draft.status)}`;
+
+    switch (draft.status) {
+      case "COMPLETED":
+        status.style.color = "green";
+        if (draftCardContainer.classList.contains("is-generationg")) {
+          draftCardContainer.classList.remove("is-generationg");
+        }
+        break;
+
+      case "FAILED":
+        status.style.color = "red";
+        if (draftCardContainer.classList.contains("is-generationg")) {
+          draftCardContainer.classList.remove("is-generationg");
+        }
+        break;
+    }
 
     const draftDate = target.querySelector(".resume-card-date");
-    draftDate.textContent = Utils.dateFormatted(draft.updatedAt);
+    draftDate.textContent = Utils.dateFormatted(draft.createdAt);
 
     const description = target.querySelector(".resume-card-description");
     description.textContent = draft.prompt;
@@ -94,5 +123,9 @@ class DraftCard {
       console.error(response);
       alert("Не вдалось видалити драфт");
     }
+  }
+
+  static mappingStatus(status) {
+    return DraftCard.draftStatuses[status] || status;
   }
 }

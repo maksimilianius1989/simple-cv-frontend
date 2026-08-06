@@ -48,7 +48,7 @@ class Dashboard {
               draft?.content?.position ||
               draft?.content?.name ||
               "Draft CV Info",
-            subtitleText: `Статус резюме ${draft.status}`,
+            subtitleText: `Створено: ${Utils.dateFormatted(draft.createdAt)}`,
             contentHtml: draftInfo.getDraftInfoTemplate(),
           },
         }),

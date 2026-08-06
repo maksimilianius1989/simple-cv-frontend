@@ -37,14 +37,17 @@ class DraftForm {
     this.form.addEventListener("submit", async (event) => {
       event.preventDefault();
 
-      const textarea = this.form.querySelector('textarea[name="prompt"]');
-      const errorMessage = this.form.querySelector('.error-message');
+      const submitBtn = event.target.querySelector('button[type="submit"]');
+      submitBtn.disabled = true;
 
-      if(!textarea.value.trim()) {
-        errorMessage.style.display = 'flex';
-        return;
-      }
-      errorMessage.style.display = 'none';
+      const textarea = this.form.querySelector('textarea[name="prompt"]');
+      const errorMessage = this.form.querySelector(".error-message");
+
+      // if(!textarea.value.trim()) {
+      //   errorMessage.style.display = 'flex';
+      //   return;
+      // }
+      // errorMessage.style.display = 'none';
 
       const formData = new FormData(this.form);
       this.form.action = `${APP_CONFIG.API_URL}/cvs/ai-drafts`;
@@ -55,13 +58,15 @@ class DraftForm {
           body: new FormData(this.form),
         });
 
-        if(response.ok) {
-          window.dispatchEvent(new CustomEvent('modal::close'));
+        if (response.ok) {
+          window.dispatchEvent(new CustomEvent("modal::close"));
         } else {
-          console.warn('Draft created server error!');
+          console.warn("Draft created server error!");
         }
-      } catch(e) {
-        console.error('Network error', e);
+      } catch (e) {
+        console.error("Network error", e);
+      } finally {
+        submitBtn.disabled = false;
       }
     });
   }
