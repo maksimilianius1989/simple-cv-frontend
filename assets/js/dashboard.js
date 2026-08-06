@@ -45,10 +45,10 @@ class Dashboard {
         new CustomEvent("modal::open", {
           detail: {
             titleText:
-              draftJson?.content?.position ||
-              draftJson?.content?.name ||
+              draft?.content?.position ||
+              draft?.content?.name ||
               "Draft CV Info",
-            subtitleText: `Статус резюме ${draftJson.status}`,
+            subtitleText: `Статус резюме ${draft.status}`,
             contentHtml: draftInfo.getDraftInfoTemplate(),
           },
         }),
@@ -90,14 +90,8 @@ class Dashboard {
     });
 
     WS.socket.on(Dashboard.SOCKET_EVENT_DRAFT_UPDATED, async (data) => {
-      console.log(
-        Dashboard.SOCKET_EVENT_DRAFT_UPDATED,
-        "Event recieved: ",
-        data,
-      );
-
       const draft = await Dashboard.getDraft(data.draftId);
-      document.dispatchEvent(new CustomEvent("draft-card:update", {detail: {draft: draft}}));
+      window.dispatchEvent(new CustomEvent("draft-card:update", {detail: {draft: draft}}));
     });
   }
 }

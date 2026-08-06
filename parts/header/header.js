@@ -147,7 +147,6 @@ class Header {
           wayforpay.run(
             paymentData,
             function (response) {
-              console.log("Payment success:", response);
               alert("Дякую за каву! ☕ Ваша підтримка неоціненна.");
             },
             function (response) {
@@ -155,7 +154,6 @@ class Header {
               alert("Оплату скасовано або виникла помилка.");
             },
             function (response) {
-              console.log("Widget closed:", response);
             },
           );
         } catch (error) {

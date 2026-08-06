@@ -10,7 +10,7 @@ class DraftCard {
       const draft = event.detail.draft;
       if (!draft) return;
 
-      const container = DraftCard.getDraftContainer(draft.draftId);
+      const container = DraftCard.getDraftContainer(draft.id);
       if (!container) return;
 
       DraftCard.setDraftCard(container, draft);
@@ -41,13 +41,14 @@ class DraftCard {
 
   static getDraftContainer(draftId) {
     const draftContainer = document.getElementById("drafts-list");
-    return draftContainer.querySelector(`[data-id=${draftId}]`);
+    return draftContainer.querySelector(`[data-id="${draftId}"]`);
   }
 
   static setDraftCard(target, draft) {
     const thumbnailId = draft.files?.find(
       (file) => file.category === "PREVIEW_THUMBNAIL",
     )?.id;
+    
     if (thumbnailId) {
       const thumbnailTemplate = target.querySelector(".preview-thumbnail");
       thumbnailTemplate.src = `${APP_CONFIG.API_URL}/cvs/storage/${thumbnailId}`;

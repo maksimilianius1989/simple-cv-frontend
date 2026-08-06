@@ -24,9 +24,6 @@ class DraftInfo {
       this.preview.src = `${APP_CONFIG.API_URL}/cvs/storage/${previewId}`;
     }
 
-    console.log(this.draft);
-    
-
     this.name.textContent = this.draft?.content?.name;
     this.position.textContent = this.draft?.content?.position;
     this.summary.textContent = this.draft?.content?.summary;
