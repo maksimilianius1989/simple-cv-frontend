@@ -65,10 +65,6 @@
         background: transparent;
     }
 
-    .template-card-footer {
-        margin-top: auto;
-    }
-
     .btn-use-template {
         display: inline-flex;
         align-items: center;
@@ -77,11 +73,6 @@
         font-weight: 600;
         color: var(--purple, #8f5cff);
         transition: transform 0.2s ease, color 0.2 ease;
-    }
-
-    .template-card:hover .btn-use-template {
-        color: #ffffff;
-        transform: translateX(4px);
     }
 
     .template-card:hover .template-iframe-wrapper {
