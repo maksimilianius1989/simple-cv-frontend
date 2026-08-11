@@ -32,15 +32,15 @@ class DraftCard {
   static renderDraftCards(container, drafts) {
     const template = document.getElementById("draft-card-template");
 
-    if (!container || !template || !drafts.length) return;
+    if (!container || !template) return;
+    container.innerHTML = "";
 
     const crateCardBtn = container.querySelector(".resume-create-card");
-    container.innerHTML = "";
     if (crateCardBtn) {
       container.appendChild(crateCardBtn);
     }
 
-    drafts.forEach((draft) => {
+    drafts?.forEach((draft) => {
       const clone = template.content.cloneNode(true);
       const cardElement = clone.querySelector(".resume-card");
       cardElement.dataset.id = draft.id;
@@ -57,7 +57,9 @@ class DraftCard {
   }
 
   static setDraftCard(target, draft) {
-    const draftCardContainer = target.querySelector('.draft');
+    const draftCardContainer = target.classList?.contains("draft")
+      ? target
+      : target.querySelector(".draft");
 
     const thumbnailId = draft.files?.find(
       (file) => file.category === "PREVIEW_THUMBNAIL",
@@ -74,6 +76,7 @@ class DraftCard {
     switch (draft.status) {
       case "COMPLETED":
         status.style.color = "green";
+
         if (draftCardContainer.classList.contains("is-generationg")) {
           draftCardContainer.classList.remove("is-generationg");
         }
