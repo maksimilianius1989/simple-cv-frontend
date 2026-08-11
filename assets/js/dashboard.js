@@ -3,6 +3,8 @@ document.addEventListener("DOMContentLoaded", () => Dashboard.init());
 class Dashboard {
   static SOCKET_EVENT_DRAFTS_SYNC = "DRAFTS:SYNC";
   static SOCKET_EVENT_DRAFT_UPDATED = "DRAFT:UPDATED";
+  static SOCKET_EVENT_CVS_SYNC = "CVS:SYNC";
+  static SOCKET_EVENT_CV_UPDATED = "CV:UPDATED";
 
   static init() {
     Dashboard.getDrafts();
@@ -85,13 +87,21 @@ class Dashboard {
   }
 
   static onWsEventHandles() {
-    WS.socket.on(Dashboard.SOCKET_EVENT_DRAFTS_SYNC, async (data) => {
+    WS.socket.on(Dashboard.SOCKET_EVENT_DRAFTS_SYNC, async (payload) => {
       Dashboard.getDrafts();
     });
 
-    WS.socket.on(Dashboard.SOCKET_EVENT_DRAFT_UPDATED, async (data) => {
-      const draft = await Dashboard.getDraft(data.draftId);
+    WS.socket.on(Dashboard.SOCKET_EVENT_DRAFT_UPDATED, async (payload) => {
+      const draft = await Dashboard.getDraft(payload.draftId);
       window.dispatchEvent(new CustomEvent("draft-card:update", {detail: {draft: draft}}));
+    });
+
+    WS.socket.on(Dashboard.SOCKET_EVENT_CVS_SYNC, async (payload) => {
+      console.log('SOCKET_EVENT_CVS_SYNC', payload);
+    });
+
+    WS.socket.on(Dashboard.SOCKET_EVENT_CV_UPDATED, async (payload) => {
+      console.log('SOCKET_EVENT_CV_UPDATED', payload);
     });
   }
 }
