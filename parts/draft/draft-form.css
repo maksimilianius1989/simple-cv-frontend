@@ -116,10 +116,6 @@
     color: var(--text);
   }
 
-  .hidden {
-    display: none;
-  }
-
   .btn-generate {
     width: 100%;
     padding: 16px;

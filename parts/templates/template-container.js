@@ -34,7 +34,6 @@ class TemplateContainer {
 
       if (category && template.category) {
         category.textContent = template.category;
-        console.log(template.category);
       }
 
       if (iframe) {
@@ -62,5 +61,7 @@ class TemplateContainer {
 
       container.appendChild(clone);
     });
+
+    document.querySelector('.template-section').classList.remove('hidden');
   }
 }

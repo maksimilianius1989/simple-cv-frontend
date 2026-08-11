@@ -6,13 +6,14 @@ class DraftCard {
   static EVENT_DRAFT_CARD_UPDATE = "draft-card:update";
 
   static draftStatuses = {
-    DRAFT: "Збережено підказку",
+    CREATED: "Створено",
     AVATAR_UPLOADED: "Завантажено аватар",
     GENERATING_CONTENT: "Початок генерації резюме ШІ",
     CONTENT_GENERATED: "Резюме зненеровано ШІ",
     PDF_GENERATED: "PDF згенеровано",
     PREVIEW_GENERATED: "Превю згенеровано",
-    COMPLETED: "Драфт створено",
+    PREVIEW_THUMBNAIL_GENERATED: "Превю мініатюра згенерована",
+    COMPLETED: "Згенеровано",
     FAILED: "Помилка",
   };
 

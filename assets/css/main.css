@@ -42,6 +42,10 @@ main {
   flex: 1;
 }
 
+.hidden {
+  display: none;
+}
+
 .container {
   max-width: 1200px;
   margin: 0 auto;
@@ -73,7 +77,7 @@ main {
   cursor: pointer;
 }
 
-.btn-primary{
+.btn-primary {
   background: var(--gradient);
   color: #ffffff;
   border: none;
@@ -90,14 +94,14 @@ main {
   border: 1px solid rgba(255, 255, 255, 0.15);
 }
 
-.btn-secondary:hover{
+.btn-secondary:hover {
   background: rgba(255, 255, 255, 0.05);
 }
 
 .btn-danger {
   background: rgba(255, 75, 75, 0.15);
   color: #ff6b6b;
-  border: 1px solid rgba(255, 75, 75,0.3);
+  border: 1px solid rgba(255, 75, 75, 0.3);
 }
 
 .btn-danger:hover {
