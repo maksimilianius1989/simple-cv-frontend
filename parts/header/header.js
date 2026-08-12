@@ -89,6 +89,7 @@ class Header {
           headers: {
             "Content-Type": "application/json",
           },
+          credentials: "include",
           body: JSON.stringify({
             providerId: String(user.id),
             name: fullName || user.username,
