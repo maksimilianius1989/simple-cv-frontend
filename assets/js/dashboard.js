@@ -97,7 +97,7 @@ class Dashboard {
     });
 
     WS.socket.on(Dashboard.SOCKET_EVENT_CVS_SYNC, async (payload) => {
-      console.log('SOCKET_EVENT_CVS_SYNC', payload);
+      Dashboard.getCvs();
     });
 
     WS.socket.on(Dashboard.SOCKET_EVENT_CV_UPDATED, async (payload) => {
