@@ -101,8 +101,17 @@ class ResumeCard {
     const viewBtn = target.querySelector(".action-view");
     viewBtn.href = `/cv.html?id=${cv.id}`;
 
-    const pdfBtn = target.querySelector(".action-pdf");
-    pdfBtn.href = `/api/v1/resumes/${cv.id}/pdf`;
+    const pdfFile = cv.files.find((file) => file.category === "PDF");
+    if (pdfFile) {
+      const pdfBtn = target.querySelector(".action-pdf");
+      
+      if(pdfBtn.classList.contains("hidden")) {
+        pdfBtn.classList.remove("hidden");
+      }
+
+      pdfBtn.href = `${APP_CONFIG.API_URL}/cvs/storage/${pdfFile.id}`;
+      pdfBtn.addEventListener("click", (e) => e.stopPropagation());
+    }
 
     const copyBtn = target.querySelector(".action-copy");
     copyBtn.addEventListener("click", () => {
@@ -139,11 +148,10 @@ class ResumeCard {
     if (!confirm("Ви дійсно хочете видалити це резюме?")) return;
 
     const cvId = event.target.closest(".resume").dataset.id;
-    
-    const response = await Main.authFetch(
-      `${APP_CONFIG.API_URL}/cvs/${cvId}`,
-      { method: "DELETE" },
-    );
+
+    const response = await Main.authFetch(`${APP_CONFIG.API_URL}/cvs/${cvId}`, {
+      method: "DELETE",
+    });
     if (response.ok) return;
 
     console.error(response);
