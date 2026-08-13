@@ -117,21 +117,35 @@ a {
   outline: none;
 }
 
-.resume-actions {
-  display: flex;
-  gap: 10px;
-  margin-top: 18px;
-}
+  .resume-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 20px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+  }
 
-.resume-actions a {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 42px;
-  height: 42px;
-  background: #101f45;
-  color: #ffffff;
-  cursor: pointer;
-  transition: 0.2s;
-  border-radius: 10px;
-}
+  .action-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.05);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text);
+    text-decoration: none;
+    transition: all 0.2s ease;
+  }
+
+  .action-icon:hover {
+    background: rgba(255, 255, 255, 0.15);
+    color: #ffffff;
+    transform: scale(1.05);
+  }
+
+  .resume-actions .action-delete:hover {
+    background: rgba(255, 75, 75, 0.2);
+    color: #ff6b6b;
+  }

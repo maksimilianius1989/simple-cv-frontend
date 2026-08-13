@@ -96,7 +96,7 @@ class DraftCard {
     const description = target.querySelector(".resume-card-description");
     description.textContent = draft.prompt;
 
-    const deleteBtn = target.querySelector(".btn-delete");
+    const deleteBtn = target.querySelector(".action-delete");
     deleteBtn.addEventListener("click", (e) => DraftCard.deleteDraft(e));
 
     const pdfFile = draft.files.find((file) => file.category === "PDF");
@@ -123,10 +123,10 @@ class DraftCard {
       },
     );
 
-    if (!response.ok) {
-      console.error(response);
-      alert("Не вдалось видалити драфт");
-    }
+    if (response.ok) return;
+
+    console.error(response);
+    alert("Не вдалось видалити драфт");
   }
 
   static mappingStatus(status) {

@@ -1,0 +1,30 @@
+@scope (.resume-card-scope) {
+  .card-top-badges {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+
+  .resume-card-date {
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 12px;
+  }
+
+  .resume-card-description {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.5;
+    margin: 12px 0 16px;
+  }
+
+  .cv-status {
+    color: #ffb800;
+    font-size: 13px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 12px;
+  }
+}

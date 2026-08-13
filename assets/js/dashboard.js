@@ -69,6 +69,11 @@ class Dashboard {
     ResumeCard.renderResumeCards(container, cvsAsJson);
   }
 
+  static async getCv(cvId) {
+    const cv = await Main.authFetch(`${APP_CONFIG.API_URL}/cvs/${cvId}`);
+    return await cv?.json();
+  }
+
   static async getDrafts() {
     const drafts = await Main.authFetch(`${APP_CONFIG.API_URL}/cvs/ai-drafts`);
     const draftsJson = await drafts?.json();
@@ -93,7 +98,9 @@ class Dashboard {
 
     WS.socket.on(Dashboard.SOCKET_EVENT_DRAFT_UPDATED, async (payload) => {
       const draft = await Dashboard.getDraft(payload.draftId);
-      window.dispatchEvent(new CustomEvent("draft-card:update", {detail: {draft: draft}}));
+      window.dispatchEvent(
+        new CustomEvent("draft-card:update", { detail: { draft } }),
+      );
     });
 
     WS.socket.on(Dashboard.SOCKET_EVENT_CVS_SYNC, async (payload) => {
@@ -101,7 +108,10 @@ class Dashboard {
     });
 
     WS.socket.on(Dashboard.SOCKET_EVENT_CV_UPDATED, async (payload) => {
-      console.log('SOCKET_EVENT_CV_UPDATED', payload);
+      const cv = await Dashboard.getCv(payload.cvId);
+      window.dispatchEvent(
+        new CustomEvent("cv-card:update", { detail: { cv } }),
+      );
     });
   }
 }

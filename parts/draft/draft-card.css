@@ -4,12 +4,6 @@
     background: rgba(16, 25, 46, 0.4);
   }
 
-  .resume-card.is-generationg {
-    position: relative;
-    border-color: #3b82f6;
-    animation: pulse-glow 1.8s infinite ease-in-out;
-  }
-
   .draft-status {
     color: #ffb800;
     font-size: 13px;

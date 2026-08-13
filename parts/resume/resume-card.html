@@ -1,15 +1,24 @@
-<link rel="stylesheet" href="/parts/resume-card/resume-card.css" />
+<link rel="stylesheet" href="/parts/resume/resume-card.css" />
 
 <template id="resume-card-template">
-  <div class="resume-card resume-card-scope">
+  <div class="resume-card resume-card-scope resume is-generationg">
     <div class="resume-card-header">
       <div class="card-top-badges">
         <span class="hero-badge badge-status"></span>
-        <span class="hero-badge badge-views"></span>
+        <span class="hero-badge cv-status"
+          ><i class="fa-solid fa-pen-to-square"></i
+        ></span>
       </div>
       <h3 class="card-title"></h3>
       <p class="resume-card-date card-position"></p>
+      <span class="hero-badge badge-views"></span>
     </div>
+
+    <img
+      class="preview-thumbnail"
+      src="/assets/img/cv-skeleton.png"
+      alt="Preview thumbnail"
+    />
 
     <div class="resume-actions">
       <a
@@ -28,22 +37,23 @@
       >
         <i class="fa-solid fa-file-pdf"></i>
       </a>
-      <button class="action-icon action-copy" title="Скопіювати посилання">
+      <a href="#" class="action-icon action-copy" title="Скопіювати посилання">
         <i class="fa-solid fa-link"></i>
-      </button>
+      </a>
 
-      <button
+      <a
+        href="#"
         class="action-icon action-toggle-publish"
         title="Зняти з публікації"
       >
         <i class="fa-solid fa-toggle-on"></i>
-      </button>
+      </a>
 
-      <button class="action-icon action-delete" title="Видалити">
+      <a href="#" class="action-icon action-delete" title="Видалити">
         <i class="fa-solid fa-trash-can"></i>
-      </button>
+      </a>
     </div>
   </div>
 </template>
 
-<script src="/parts/resume-card/resume-card.js"></script>
+<script src="/parts/resume/resume-card.js"></script>
