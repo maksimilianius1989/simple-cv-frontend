@@ -55,8 +55,10 @@ class ResumeCard {
     )?.id;
 
     if (thumbnailId) {
-      const thumbnailTemplate = target.querySelector(".preview-thumbnail");
-      thumbnailTemplate.src = `${APP_CONFIG.API_URL}/cvs/storage/${thumbnailId}`;
+      Main.uploadAuthImg(
+        `${APP_CONFIG.API_URL}/cvs/storage/${thumbnailId}`,
+        target.querySelector(".preview-thumbnail"),
+      );
     }
 
     const statusBadge = target.querySelector(".badge-status");
@@ -104,12 +106,12 @@ class ResumeCard {
     const pdfFile = cv.files.find((file) => file.category === "PDF");
     if (pdfFile) {
       const pdfBtn = target.querySelector(".action-pdf");
-      
-      if(pdfBtn.classList.contains("hidden")) {
+
+      if (pdfBtn.classList.contains("hidden")) {
         pdfBtn.classList.remove("hidden");
       }
 
-      pdfBtn.href = `${APP_CONFIG.API_URL}/cvs/storage/${pdfFile.id}`;
+      pdfBtn.href = `${APP_CONFIG.API_URL}/cvs/storage/published/${pdfFile.id}`;
       pdfBtn.addEventListener("click", (e) => e.stopPropagation());
     }
 

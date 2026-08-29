@@ -3,6 +3,21 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 class Main {
+  static async uploadAuthImg(url, container) {
+          try {
+        const response = await Main.authFetch(url);
+        if (!response) throw new Error('Fail to upload auth IMG');
+
+        const blob = await response.blob();
+        const objectUrl = URL.createObjectURL(blob);
+
+        container.src = objectUrl;
+        container.onload = () => URL.revokeObjectURL(objectUrl);
+      } catch(error) {
+        console.error('Faile to upload auth IMG: ', error);
+      }
+  }
+
   static async authFetch(url, options = {}) {
     if (!Auth.checkAuth()) {
       Auth.refreshToken();
