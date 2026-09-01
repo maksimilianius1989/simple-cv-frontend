@@ -8,7 +8,7 @@ async function loadCV() {
     return;
   }
 
-  const res = await fetch(`${APP_CONFIG.API_URL}/cv/published/${slug}`).catch(
+  const res = await fetch(`${APP_CONFIG.API_URL}/cvs/public/${slug}`).catch(
     () => (window.location.href = "/"),
   );
 

@@ -101,7 +101,10 @@ class ResumeCard {
       : "";
 
     const viewBtn = target.querySelector(".action-view");
-    viewBtn.href = `/cv.html?id=${cv.id}`;
+    viewBtn.href = `/cv.html?slug=${cv.publicSlug}`;
+    if (cv.isPublished && viewBtn.classList.contains("hidden")) {
+      viewBtn.classList.remove("hidden");
+    }
 
     const pdfFile = cv.files.find((file) => file.category === "PDF");
     if (pdfFile) {
@@ -117,10 +120,14 @@ class ResumeCard {
 
     const copyBtn = target.querySelector(".action-copy");
     copyBtn.addEventListener("click", () => {
-      const shareUrl = `${window.location.origin}/cv.html?id=${cv.id}`;
+      const shareUrl = `${window.location.origin}/cv.html?slug=${cv.publicSlug}`;
       navigator.clipboard.writeText(shareUrl);
       alert("Посилання скопійовано!");
     });
+
+    if (cv.isPublished && copyBtn.classList.contains("hidden")) {
+      copyBtn.classList.remove("hidden");
+    }
 
     const toggleBtn = target.querySelector(".action-toggle-publish");
     const toggleIcon = toggleBtn.querySelector("i");
