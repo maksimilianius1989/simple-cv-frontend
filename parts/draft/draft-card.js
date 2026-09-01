@@ -66,8 +66,10 @@ class DraftCard {
     )?.id;
 
     if (thumbnailId) {
-      const thumbnailTemplate = target.querySelector(".preview-thumbnail");
-      thumbnailTemplate.src = `${APP_CONFIG.API_URL}/cvs/storage/${thumbnailId}`;
+      Main.uploadAuthImg(
+        `${APP_CONFIG.API_URL}/cvs/storage/${thumbnailId}`,
+        target.querySelector(".preview-thumbnail"),
+      );
     }
 
     const status = target.querySelector(".draft-status");
@@ -103,7 +105,7 @@ class DraftCard {
     if (pdfFile) {
       const pdfBtn = target.querySelector(".btn-pdf");
       pdfBtn.style.display = "flex";
-      pdfBtn.href = `${APP_CONFIG.API_URL}/cvs/storage/${pdfFile.id}`;
+      pdfBtn.href = `${APP_CONFIG.API_URL}/cvs/storage/published/${pdfFile.id}`;
       pdfBtn.addEventListener("click", (e) => e.stopPropagation());
     }
   }

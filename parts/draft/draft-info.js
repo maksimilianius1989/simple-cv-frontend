@@ -20,8 +20,8 @@ class DraftInfo {
       (file) => file.category === "PREVIEW",
     )?.id;
     if (previewId) {
-      this.previewLink.href = `${APP_CONFIG.API_URL}/cvs/storage/${previewId}`;
-      this.preview.src = `${APP_CONFIG.API_URL}/cvs/storage/${previewId}`;
+      this.previewLink.href = `${APP_CONFIG.API_URL}/cvs/storage/published/${previewId}`;
+      Main.uploadAuthImg(`${APP_CONFIG.API_URL}/cvs/storage/${previewId}`, this.preview);
     }
 
     this.name.textContent = this.draft?.content?.name;
