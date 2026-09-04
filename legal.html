@@ -3,163 +3,472 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Legal | Simple CV Life</title>
 
-    <link rel="stylesheet" href="/assets/css/main.css" />
+    <title>Юридична інформація | Simple CV Life</title>
+
     <link
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
       rel="stylesheet"
     />
+    <link rel="stylesheet" href="/assets/css/main.css" />
+    <link rel="stylesheet" href="/assets/css/legal.css" />
 
-    <style>
-      /* ===== LEGAL PAGE WRAPPER ===== */
-      .legal-wrapper {
-        max-width: 900px;
-        margin: 60px auto;
-        padding: 0 24px;
-      }
-
-      .legal-title {
-        font-size: 36px;
-        margin-bottom: 10px;
-      }
-
-      .legal-subtitle {
-        color: var(--muted);
-        margin-bottom: 30px;
-        font-size: 16px;
-      }
-
-      /* ===== HEADER (USING GLOBAL STYLE) ===== */
-      .legal-header {
-        position: sticky;
-        top: 0;
-        z-index: 10;
-
-        background: rgba(5, 8, 22, 0.8);
-        backdrop-filter: blur(20px);
-        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-      }
-
-      .legal-header-inner {
-        max-width: 1280px;
-        margin: auto;
-        padding: 0 24px;
-        height: 88px;
-
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-      }
-
-      .legal-logo {
-        font-weight: 700;
-        font-size: 22px;
-      }
-
-      /* ===== BACK BUTTON (MATCH YOUR UI) ===== */
-      .back-link {
-        display: inline-flex;
-        align-items: center;
-        gap: 10px;
-
-        padding: 12px 18px;
-        border-radius: 14px;
-
-        border: 1px solid rgba(255, 255, 255, 0.15);
-        color: var(--text);
-
-        text-decoration: none;
-
-        transition: 0.2s;
-      }
-
-      .back-link:hover {
-        background: rgba(255, 255, 255, 0.08);
-        transform: translateY(-2px);
-      }
-
-      /* ===== CARDS ===== */
-      .legal-grid {
-        display: grid;
-        gap: 16px;
-      }
-
-      .legal-card {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-
-        padding: 18px 20px;
-
-        background: rgba(255, 255, 255, 0.04);
-        border: 1px solid rgba(255, 255, 255, 0.08);
-        border-radius: 20px;
-
-        transition: 0.2s;
-      }
-
-      .legal-card:hover {
-        transform: translateY(-4px);
-        border-color: rgba(255, 255, 255, 0.2);
-      }
-
-      .legal-card i {
-        color: var(--muted);
-      }
-    </style>
+    <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+    <script src="/assets/js/config.js"></script>
+    <script src="/assets/js/main.js"></script>
   </head>
 
   <body>
-    <!-- ===== HEADER ===== -->
-    <header class="legal-header">
-      <div class="legal-header-inner">
-        <div class="legal-logo">Simple CV Life</div>
+    <!--# include virtual="/parts/header/header.html"-->
 
-        <a href="/" class="back-link">
-          <i class="fa-solid fa-arrow-left"></i>
-          Назад на сайт
-        </a>
-      </div>
-    </header>
+    <main>
+      <section class="legal-hero">
+        <div class="container">
+          <div class="hero-badge">
+            <i class="fa-solid fa-shield-halved"></i>
+            Юридична інформація
+          </div>
 
-    <!-- ===== CONTENT ===== -->
-    <div class="legal-wrapper">
-      <h1 class="legal-title">Юридична інформація</h1>
-      <p class="legal-subtitle">
-        Усі правила, політики та умови використання сервісу
-      </p>
+          <h1 class="legal-title">
+            Умови використання
+            <span>Simple CV Life</span>
+          </h1>
 
-      <div class="legal-grid">
-        <a
-          class="legal-card"
-          href="/storage/assets/legal/privacy-policy-v1.0.pdf"
-          target="_blank"
-        >
-          <span>🔐 Політика конфіденційності</span>
-          <i class="fa-solid fa-arrow-right"></i>
-        </a>
+          <p class="legal-description">
+            Інформація про послуги, умови оплати, повернення коштів та контактні
+            дані.
+          </p>
 
-        <a
-          class="legal-card"
-          href="/storage/assets/legal/user-agreement-v1.0.pdf"
-          target="_blank"
-        >
-          <span>📄 Користувацька угода</span>
-          <i class="fa-solid fa-arrow-right"></i>
-        </a>
+          <nav class="legal-navigation">
+            <a href="#services">Послуги</a>
+            <a href="#terms">Умови</a>
+            <a href="#payment">Оплата</a>
+            <a href="#refund">Повернення</a>
+            <a href="#contacts">Контакти</a>
+          </nav>
+        </div>
+      </section>
 
-        <a
-          class="legal-card"
-          href="/storage/assets/legal/terms-of-use-v1.0.pdf"
-          target="_blank"
-        >
-          <span>📘 Умови користування</span>
-          <i class="fa-solid fa-arrow-right"></i>
-        </a>
-      </div>
-    </div>
+      <section class="legal-section">
+        <div class="container legal-container">
+          <!-- SERVICES -->
+          <section id="services" class="legal-card">
+            <div class="legal-card-header">
+              <div class="legal-icon">
+                <i class="fa-solid fa-file-lines"></i>
+              </div>
 
-   <!--# include virtual="/parts/footer/"-->
+              <div>
+                <h2>Послуги та ціни</h2>
+
+                <p>
+                  Simple CV Life — онлайн-сервіс для створення та редагування
+                  професійних резюме.
+                </p>
+              </div>
+            </div>
+
+            <div class="pricing-grid">
+              <div class="pricing-card">
+                <div class="pricing-card-icon">
+                  <i class="fa-solid fa-file-pen"></i>
+                </div>
+
+                <h3>Створення резюме</h3>
+
+                <p>
+                  Створення та редагування резюме за допомогою сервісу Simple CV
+                  Life.
+                </p>
+
+                <div class="price">Безкоштовно</div>
+              </div>
+
+              <div class="pricing-card pricing-card-featured">
+                <div class="popular-badge">Популярне</div>
+
+                <div class="pricing-card-icon">
+                  <i class="fa-solid fa-mug-hot"></i>
+                </div>
+
+                <h3>Подякувати сервісу</h3>
+
+                <p>
+                  Добровільна підтримка розвитку та роботи сервісу Simple CV
+                  Life.
+                </p>
+
+                <div class="price">100 ₴</div>
+              </div>
+
+              <div class="pricing-card">
+                <div class="pricing-card-icon">
+                  <i class="fa-solid fa-wand-magic-sparkles"></i>
+                </div>
+
+                <h3>Додаткові послуги</h3>
+
+                <p>Додаткові цифрові функції та послуги, доступні в сервісі.</p>
+
+                <div class="price">Ціна вказується перед оплатою</div>
+              </div>
+            </div>
+
+            <div class="legal-note">
+              <i class="fa-solid fa-circle-info"></i>
+
+              <p>
+                Актуальна вартість платних послуг завжди відображається
+                користувачу перед здійсненням оплати.
+              </p>
+            </div>
+          </section>
+
+          <!-- TERMS -->
+          <section id="terms" class="legal-card">
+            <div class="legal-card-header">
+              <div class="legal-icon">
+                <i class="fa-solid fa-file-contract"></i>
+              </div>
+
+              <div>
+                <h2>Правила та умови використання</h2>
+
+                <p>Умови та порядок надання послуг сервісом.</p>
+              </div>
+            </div>
+
+            <div class="legal-content">
+              <article>
+                <span class="article-number">01</span>
+
+                <div>
+                  <h3>Загальні положення</h3>
+
+                  <p>
+                    Simple CV Life є онлайн-сервісом, який дозволяє користувачам
+                    створювати, редагувати та зберігати резюме в електронному
+                    вигляді.
+                  </p>
+
+                  <p>
+                    Використовуючи сервіс, користувач підтверджує, що
+                    ознайомився та погоджується з умовами використання сервісу.
+                  </p>
+                </div>
+              </article>
+
+              <article>
+                <span class="article-number">02</span>
+
+                <div>
+                  <h3>Порядок надання послуг</h3>
+
+                  <p>
+                    Послуги надаються користувачу в електронному вигляді через
+                    веб-сайт та інші цифрові канали сервісу Simple CV Life.
+                  </p>
+
+                  <p>
+                    Доступ до оплачуваної послуги надається після успішного
+                    підтвердження оплати платіжною системою.
+                  </p>
+                </div>
+              </article>
+
+              <article>
+                <span class="article-number">03</span>
+
+                <div>
+                  <h3>Терміни надання послуг</h3>
+
+                  <p>
+                    Цифрові послуги надаються автоматично після виконання
+                    необхідних дій користувачем або підтвердження успішної
+                    оплати.
+                  </p>
+
+                  <p>
+                    У разі технічних робіт або тимчасової недоступності сервісу
+                    надання послуги може бути відкладено до відновлення його
+                    роботи.
+                  </p>
+                </div>
+              </article>
+
+              <article>
+                <span class="article-number">04</span>
+
+                <div>
+                  <h3>Доставка послуг</h3>
+
+                  <p>
+                    Simple CV Life надає виключно цифрові послуги. Фізична
+                    доставка товарів не здійснюється.
+                  </p>
+
+                  <p>
+                    Результат послуги або доступ до функціоналу надається
+                    користувачу в електронному вигляді через сайт або інші
+                    функції сервісу.
+                  </p>
+                </div>
+              </article>
+            </div>
+          </section>
+
+          <!-- PAYMENT -->
+          <section id="payment" class="legal-card">
+            <div class="legal-card-header">
+              <div class="legal-icon">
+                <i class="fa-solid fa-credit-card"></i>
+              </div>
+
+              <div>
+                <h2>Умови та способи оплати</h2>
+
+                <p>Інформація про порядок здійснення платежів.</p>
+              </div>
+            </div>
+
+            <div class="payment-info">
+              <div class="payment-method">
+                <i class="fa-solid fa-globe"></i>
+
+                <div>
+                  <h3>Онлайн-оплата</h3>
+
+                  <p>
+                    Оплата послуг здійснюється онлайн через платіжний сервіс
+                    WayForPay.
+                  </p>
+                </div>
+              </div>
+
+              <div class="payment-method">
+                <i class="fa-brands fa-cc-visa"></i>
+
+                <div>
+                  <h3>Банківські картки</h3>
+
+                  <p>
+                    Оплата може здійснюватися банківськими картками Visa та
+                    Mastercard.
+                  </p>
+                </div>
+              </div>
+
+              <div class="payment-method">
+                <i class="fa-solid fa-lock"></i>
+
+                <div>
+                  <h3>Безпечна оплата</h3>
+
+                  <p>
+                    Дані банківської картки обробляються безпосередньо платіжною
+                    системою.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- REFUND -->
+          <section id="refund" class="legal-card">
+            <div class="legal-card-header">
+              <div class="legal-icon legal-icon-pink">
+                <i class="fa-solid fa-money-bill-transfer"></i>
+              </div>
+
+              <div>
+                <h2>Політика повернення коштів</h2>
+
+                <p>Умови скасування транзакцій та повернення коштів.</p>
+              </div>
+            </div>
+
+            <div class="legal-content">
+              <article>
+                <span class="article-number">01</span>
+
+                <div>
+                  <h3>Скасування транзакції</h3>
+
+                  <p>
+                    Користувач може звернутися із запитом щодо скасування
+                    платежу до служби підтримки сервісу.
+                  </p>
+                </div>
+              </article>
+
+              <article>
+                <span class="article-number">02</span>
+
+                <div>
+                  <h3>Умови повернення коштів</h3>
+
+                  <p>
+                    Повернення коштів може бути здійснене у випадку технічної
+                    помилки, подвійного списання коштів або неможливості надати
+                    оплачувану послугу.
+                  </p>
+                </div>
+              </article>
+
+              <article>
+                <span class="article-number">03</span>
+
+                <div>
+                  <h3>Як подати запит</h3>
+
+                  <p>
+                    Для розгляду питання щодо повернення коштів необхідно
+                    звернутися до служби підтримки та вказати дату платежу, суму
+                    та дані, які дозволять ідентифікувати транзакцію.
+                  </p>
+                </div>
+              </article>
+
+              <article>
+                <span class="article-number">04</span>
+
+                <div>
+                  <h3>Термін розгляду</h3>
+
+                  <p>
+                    Запит на повернення коштів розглядається протягом 7 робочих
+                    днів з моменту отримання звернення.
+                  </p>
+                </div>
+              </article>
+
+              <article>
+                <span class="article-number">05</span>
+
+                <div>
+                  <h3>Порядок повернення</h3>
+
+                  <p>
+                    У разі прийняття рішення про повернення коштів вони
+                    повертаються на платіжний засіб, з якого була здійснена
+                    оплата, якщо інше не передбачено правилами платіжної системи
+                    або законодавством.
+                  </p>
+                </div>
+              </article>
+            </div>
+
+            <div class="refund-warning">
+              <i class="fa-solid fa-circle-exclamation"></i>
+
+              <div>
+                <strong>Важливо</strong>
+
+                <p>
+                  Simple CV Life надає цифрові послуги. У разі повного отримання
+                  та використання цифрової послуги можливість повернення коштів
+                  може бути обмежена відповідно до чинного законодавства.
+                </p>
+              </div>
+            </div>
+          </section>
+
+          <!-- CONTACTS -->
+          <section id="contacts" class="legal-card">
+            <div class="legal-card-header">
+              <div class="legal-icon">
+                <i class="fa-solid fa-address-card"></i>
+              </div>
+
+              <div>
+                <h2>Контактна інформація</h2>
+
+                <p>Інформація про продавця та контакти для зв'язку.</p>
+              </div>
+            </div>
+
+            <div class="contacts-grid">
+              <div class="contact-card">
+                <i class="fa-solid fa-user"></i>
+
+                <div>
+                  <span>Повне найменування</span>
+
+                  <strong> ФОП [ПІБ] </strong>
+                </div>
+              </div>
+
+              <div class="contact-card">
+                <i class="fa-solid fa-id-card"></i>
+
+                <div>
+                  <span>ІПН / РНОКПП</span>
+
+                  <strong> [XXXXXXXXXX] </strong>
+                </div>
+              </div>
+
+              <div class="contact-card">
+                <i class="fa-solid fa-building"></i>
+
+                <div>
+                  <span>Юридична адреса</span>
+
+                  <strong> [Повна юридична адреса] </strong>
+                </div>
+              </div>
+
+              <div class="contact-card">
+                <i class="fa-solid fa-location-dot"></i>
+
+                <div>
+                  <span>Фактична адреса</span>
+
+                  <strong> [Повна фактична адреса] </strong>
+                </div>
+              </div>
+
+              <a href="tel:+380XXXXXXXXX" class="contact-card">
+                <i class="fa-solid fa-phone"></i>
+
+                <div>
+                  <span>Телефон</span>
+
+                  <strong> +380 XX XXX XX XX </strong>
+                </div>
+              </a>
+
+              <a href="mailto:support@simple-cv.life" class="contact-card">
+                <i class="fa-solid fa-envelope"></i>
+
+                <div>
+                  <span>Email</span>
+
+                  <strong> support@simple-cv.life </strong>
+                </div>
+              </a>
+            </div>
+
+            <div class="support-block">
+              <div>
+                <h3>Потрібна допомога?</h3>
+
+                <p>
+                  Зверніться до нас, якщо у вас виникли питання щодо послуг або
+                  оплати.
+                </p>
+              </div>
+
+              <a href="mailto:support@simple-cv.life" class="btn-primary">
+                <i class="fa-solid fa-envelope"></i>
+                Написати нам
+              </a>
+            </div>
+          </section>
+        </div>
+      </section>
+    </main>
+
+    <!--# include virtual="/parts/footer/footer.html" -->
   </body>
 </html>
