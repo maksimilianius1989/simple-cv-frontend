@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
   ResumeCard.cvCardUpdateEvent();
+  ResumeCard.initContainerEvents();
 });
 
 class ResumeCard {
@@ -33,8 +34,52 @@ class ResumeCard {
     });
   }
 
+  static initContainerEvents() {
+    const container = document.getElementById("published-container");
+    if (!container) return;
+
+    container.addEventListener("click", async (e) => {
+      const card = e.target.closest(".resume-card");
+      if (!card) return;
+
+      const cvId = card.dataset.id;
+
+      const toggleBtn = e.target.closest(".action-toggle-publish");
+      if (toggleBtn) {
+        e.preventDefault();
+        e.stopPropagation();
+        const isPublished = toggleBtn.dataset.isPublished === "true";
+        await ResumeCard.togglePublishResume(cvId, isPublished);
+        return;
+      }
+
+      const copyBtn = e.target.closest(".action-copy");
+      if (copyBtn) {
+        e.preventDefault();
+        e.stopPropagation();
+        const slug = copyBtn.dataset.slug;
+        const shareUrl = `${window.location.origin}/cv.html?slug=${slug}`;
+        navigator.clipboard.writeText(shareUrl);
+        alert("Посилання скопійовано!");
+      }
+
+      const deleteBtn = e.target.closest(".action-delete");
+      if (deleteBtn) {
+        e.preventDefault();
+        e.stopPropagation();
+        await ResumeCard.deleteResume(e);
+        return;
+      }
+
+      const pdfBtn = e.target.closest(".action-pdf");
+      if (pdfBtn) {
+        e.stopPropagation();
+      }
+    });
+  }
+
   static cvCardUpdateEvent() {
-    window.addEventListener(ResumeCard.EVENT_CV_CARD_UPDATE, () => {
+    window.addEventListener(ResumeCard.EVENT_CV_CARD_UPDATE, (event) => {
       const cv = event.detail.cv;
       if (!cv) return;
 
@@ -65,10 +110,13 @@ class ResumeCard {
 
     if (cv.isPublished) {
       statusBadge.textContent = "🟢 Опубліковано";
+
     } else {
       statusBadge.textContent = "⚪ Не опубліковано";
       statusBadge.classList.add("disabled");
     }
+
+    cvCardContainer.classList.toggle("published", cv.isPublished);
 
     const cvStatusTemplate = target.querySelector(".cv-status");
     cvStatusTemplate.innerHTML = `<i class="fa-solid fa-pen-to-square"></i> ${ResumeCard.mappingStatus(cv.status)}`;
@@ -100,61 +148,51 @@ class ResumeCard {
       ? `Посада: ${cv.content.position}`
       : "";
 
+    const publicationInfo = target.querySelector(".publication-info");
+    if (publicationInfo) {
+      publicationInfo.classList.toggle("hidden", !cv.isPublished);
+      if (cv.isPublished) {
+        publicationInfo.textContent = `Дата публікації з ${Utils.dateFormatted(cv.publishedAt)} по ${Utils.dateFormatted(cv.publishedUntil)}`;
+      }
+    }
+
     const viewBtn = target.querySelector(".action-view");
-    viewBtn.href = `/cv.html?slug=${cv.publicSlug}`;
-    if (cv.isPublished && viewBtn.classList.contains("hidden")) {
-      viewBtn.classList.remove("hidden");
+    if (viewBtn) {
+      viewBtn.href = `/cv.html?slug=${cv.publicSlug}`;
+      viewBtn.classList.toggle("hidden", !cv.isPublished);
     }
 
     const pdfFile = cv.files.find((file) => file.category === "PDF");
     if (pdfFile) {
       const pdfBtn = target.querySelector(".action-pdf");
-
-      if (pdfBtn.classList.contains("hidden")) {
-        pdfBtn.classList.remove("hidden");
+      if (pdfBtn) {
+        pdfBtn.href = `${APP_CONFIG.API_URL}/cvs/storage/published/${pdfFile.id}`;
+        pdfBtn.classList.toggle("hidden", !cv.isPublished);
       }
-
-      pdfBtn.href = `${APP_CONFIG.API_URL}/cvs/storage/published/${pdfFile.id}`;
-      pdfBtn.addEventListener("click", (e) => e.stopPropagation());
     }
 
     const copyBtn = target.querySelector(".action-copy");
-    copyBtn.addEventListener("click", () => {
-      const shareUrl = `${window.location.origin}/cv.html?slug=${cv.publicSlug}`;
-      navigator.clipboard.writeText(shareUrl);
-      alert("Посилання скопійовано!");
-    });
-
-    if (cv.isPublished && copyBtn.classList.contains("hidden")) {
-      copyBtn.classList.remove("hidden");
+    if (copyBtn) {
+      copyBtn.dataset.slug = cv.publicSlug;
+      copyBtn.classList.toggle("hidden", !cv.isPublished);
     }
 
     const toggleBtn = target.querySelector(".action-toggle-publish");
-    const toggleIcon = toggleBtn.querySelector("i");
-
-    if (!cv.isPublished) {
-      toggleIcon.className = "fa-solid fa-toggle-off";
-      toggleBtn.title = "Опублікувати";
+    if (toggleBtn) {
+      toggleBtn.dataset.isPublished = cv.isPublished;
+      const toggleIcon = toggleBtn.querySelector("i");
+      toggleIcon.className = cv.isPublished ? "fa-solid fa-toggle-on" : "fa-solid fa-toggle-off";
+      toggleBtn.title = cv.isPublished ? "Зняти з публікації" : "Опублікувати";
     }
-
-    toggleBtn.addEventListener("click", async () => {
-      await ResumeCard.togglePublishResume(cv.id, !cv.isPublished);
-    });
-
-    const deleteBtn = target.querySelector(".action-delete");
-    deleteBtn.addEventListener("click", async (event) => {
-      await ResumeCard.deleteResume(event);
-    });
   }
 
   static async togglePublishResume(id, status) {
-    console.info(`Toggle status for ${id} to ${status}`);
+    status ? ResumeCard.unpublishResume(id) : ResumeCard.publishResume(id);
   }
 
   static async deleteResume(event) {
-    event.preventDefault();
-    event.stopPropagation();
     if (!confirm("Ви дійсно хочете видалити це резюме?")) return;
+
 
     const cvId = event.target.closest(".resume").dataset.id;
 
@@ -174,5 +212,17 @@ class ResumeCard {
   static getCvContainer(cvId) {
     const cvContainer = document.getElementById("published-container");
     return cvContainer.querySelector(`[data-id="${cvId}"]`);
+  }
+
+  static async publishResume(cvId) {
+    await Main.authFetch(`${APP_CONFIG.API_URL}/cvs/${cvId}/publish`, {
+      method: "POST",
+    });
+  }
+
+  static async unpublishResume(cvId) {
+    await Main.authFetch(`${APP_CONFIG.API_URL}/cvs/${cvId}/unpublish`, {
+      method: "POST",
+    });
   }
 }

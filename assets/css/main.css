@@ -117,35 +117,44 @@ a {
   outline: none;
 }
 
-  .resume-actions {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-top: 20px;
-    padding-top: 16px;
-    border-top: 1px solid rgba(255, 255, 255, 0.08);
-  }
+.resume-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
 
-  .action-icon {
-    width: 40px;
-    height: 40px;
-    border-radius: 10px;
-    background: rgba(255, 255, 255, 0.05);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--text);
-    text-decoration: none;
-    transition: all 0.2s ease;
-  }
+.action-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.05);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text);
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
 
-  .action-icon:hover {
-    background: rgba(255, 255, 255, 0.15);
-    color: #ffffff;
-    transform: scale(1.05);
-  }
+.action-icon:hover {
+  background: rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+  transform: scale(1.05);
+}
 
-  .resume-actions .action-delete:hover {
-    background: rgba(255, 75, 75, 0.2);
-    color: #ff6b6b;
-  }
+.resume-actions .action-delete:hover {
+  background: rgba(255, 75, 75, 0.2);
+  color: #ff6b6b;
+}
+
+.published {
+  border: 2px solid #3b82f6;
+  box-shadow:
+    0 0 5px rgba(59, 130, 246, 0.5),
+    0 0 15px rgba(59, 130, 246, 0.4),
+    0 0 30px rgba(59, 130, 246, 0.3);
+}
