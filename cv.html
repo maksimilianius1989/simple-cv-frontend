@@ -5,153 +5,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Перегляд резюме</title>
 
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="/assets/css/main.css" />
+    <link rel="stylesheet" href="/assets/css/cv.css" />
+
+    <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
     <script src="/assets/js/config.js"></script>
     <script src="/assets/js/main.js"></script>
     <script src="/assets/js/cv.js"></script>
 
-    <style>
-      .cv-page {
-        min-height: 100vh;
-        display: flex;
-        justify-content: center;
-        padding: 40px 20px;
-        background: #0b1020;
-        color: #fff;
-      }
-
-      .cv-container {
-        width: 100%;
-        max-width: 1200px;
-        display: grid;
-        grid-template-columns: 2fr 1fr;
-        gap: 30px;
-        align-items: start;
-      }
-
-      /* CENTER PREVIEW */
-      .cv-preview {
-        background: #111a33;
-        border-radius: 16px;
-        padding: 20px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      }
-
-      .cv-preview img {
-        width: 100%;
-        max-width: 1000px;
-        border-radius: 12px;
-        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
-      }
-
-      /* RIGHT PANEL */
-      .cv-sidebar {
-        background: #111a33;
-        border-radius: 16px;
-        padding: 20px;
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
-      }
-
-      .cv-sidebar h3 {
-        margin-bottom: 10px;
-      }
-
-      .cv-letter {
-        color: #cbd5e1;
-        line-height: 1.6;
-        white-space: pre-wrap;
-      }
-
-      .btn {
-        display: inline-block;
-        padding: 12px 16px;
-        border-radius: 10px;
-        text-align: center;
-        text-decoration: none;
-        font-weight: 600;
-      }
-
-      .btn-primary {
-        background: #3b82f6;
-        color: #fff;
-      }
-
-      .btn-secondary {
-        background: transparent;
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        color: #fff;
-      }
-
-      @media (max-width: 900px) {
-        .cv-container {
-          grid-template-columns: 1fr;
-        }
-      }
-
-      .feedback-section {
-        max-width: 600px;
-        margin: 40px auto;
-        padding: 20px;
-        background: #111a33;
-        border-radius: 16px;
-      }
-
-      .feedback-section input,
-      .feedback-section textarea {
-        width: 100%;
-        padding: 12px;
-        margin-bottom: 16px;
-        border-radius: 10px;
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        background: #0b1020;
-        color: #fff;
-        outline: none;
-        box-sizing: border-box;
-      }
-
-      .feedback-section input:focus,
-      .feedback-section textarea:focus {
-        border-color: #3b82f6;
-      }
-
-      .feedback-section textarea {
-        min-height: 120px;
-        resize: vertical;
-      }
-
-      #feedback-status {
-        color: chocolate;
-      }
-
-      #send-feedback:disabled {
-        opacity: 0.3;
-        cursor: not-allowed;
-      }
-    </style>
   </head>
 
   <body>
-    <header class="header">
-      <div class="container header-wrapper">
-        <a href="/" class="logo">Simple CV Life</a>
-        <a
-          class="btn-primary telegram-link"
-          id="main-btn"
-          href="https://t.me/SimpleCVLife_bot"
-          >Telegram Bot</a
-        >
-      </div>
-    </header>
+    <!--# include virtual="/parts/header/header.html"-->
 
     <div class="cv-page">
       <div class="cv-container">
         <!-- LEFT: PREVIEW -->
         <div class="cv-preview">
-          <img id="cv-image" src="" alt="CV preview" />
+          <iframe id="cv-iframe" frameborder="0" ></iframe>
         </div>
 
         <!-- RIGHT: LETTER + ACTIONS -->
@@ -184,27 +59,6 @@
       </div>
     </div>
 
-    <!--# include virtual="/parts/footer/"-->
-    
-    <script>
-      document.addEventListener("DOMContentLoaded", () => loadCV());
-
-      document.addEventListener("DOMContentLoaded", () => {
-        const telegramLinks = document.querySelectorAll(".telegram-link");
-        telegramLinks.forEach((link) => (link.href = APP_CONFIG.TELEGRAM_BOT));
-
-        const token = localStorage.getItem(ACCESS_TOKEN);
-        const mainBtn = document.getElementById("main-btn");
-
-        if (token && mainBtn) {
-          mainBtn.textContent = "Особистий кабінет";
-          mainBtn.href = "/dashboard";
-          mainBtn.classList.remove("telegram-link");
-          mainBtn.classList.add("btn-secondary");
-        }
-      });
-
-      document.getElementById('send-feedback').addEventListener('click', async (e) => sendFeedback(e));
-    </script>
+    <!--# include virtual="/parts/footer/footer.html" -->
   </body>
 </html>

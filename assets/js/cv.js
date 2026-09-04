@@ -1,3 +1,5 @@
+document.addEventListener("DOMContentLoaded", () => loadCV());
+
 window.CV = {};
 
 async function loadCV() {
@@ -23,14 +25,38 @@ async function loadCV() {
     return;
   }
 
-  document.getElementById("cv-image").src =
-    `${APP_CONFIG.API_URL}/files/${window.CV.files.PREVIEW}`;
-
   document.getElementById("cv-letter").textContent =
     window.CV.coverLetter || "Немає супровідного листа";
 
   document.getElementById("download-pdf").href =
-    `${APP_CONFIG.API_URL}/files/${window.CV.files.PDF}`;
+    `${APP_CONFIG.API_URL}/cvs/storage/published/${window.CV.files.find((file) => file.category === "PDF")?.id}`;
+
+  const iframe = document.getElementById("cv-iframe");
+  if (!iframe) return;
+
+  try {
+    const renderRes = await fetch(
+      `${APP_CONFIG.API_URL}/templates/${window.CV.templateId}/render`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          avatar: `${APP_CONFIG.API_URL}/cvs/storage/published/${window.CV.files.find((file) => file.category === "AVATAR")?.id}`,
+          content: window.CV.content
+        }),
+      },
+    );
+
+    if (!renderRes)
+      throw new Error(`Failed to upload template ${window.CV.templateId}`);
+
+    const htmlContent = await renderRes.text();
+    iframe.srcdoc = htmlContent;
+  } catch (e) {
+    console.error(e);
+  }
 }
 
 async function sendFeedback(event) {
@@ -76,7 +102,6 @@ async function sendFeedback(event) {
 
     emailEl.value = "";
     messageEl.value = "";
-
   } catch (e) {
     statusEl.textContent = "Помилка мережі";
     statusEl.style.color = "red";
