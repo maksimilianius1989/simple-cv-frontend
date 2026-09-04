@@ -6,7 +6,10 @@ async function loadCV() {
   const loadingContainer = document.querySelector(".cv-container-loading");
   const cvNotFoundContainer = document.querySelector(".cv-container-not-found");
   const cvContentContainer = document.querySelector(".cv-container-content");
-  const slug = new URLSearchParams(window.location.search).get("slug");
+
+  const paramSug = new URLSearchParams(window.location.search).get("slug");
+  const pathSlug = window.location.pathname.split("/").filter(Boolean).pop();
+  const slug = pathSlug || paramSug || null;
 
   loadingContainer.classList.add("hidden");
 

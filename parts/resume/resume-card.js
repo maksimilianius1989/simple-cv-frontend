@@ -58,7 +58,7 @@ class ResumeCard {
         e.preventDefault();
         e.stopPropagation();
         const slug = copyBtn.dataset.slug;
-        const shareUrl = `${window.location.origin}/cv.html?slug=${slug}`;
+        const shareUrl = `${window.location.origin}/cv/${slug}`;
         navigator.clipboard.writeText(shareUrl);
         alert("Посилання скопійовано!");
       }
@@ -158,7 +158,7 @@ class ResumeCard {
 
     const viewBtn = target.querySelector(".action-view");
     if (viewBtn) {
-      viewBtn.href = `/cv.html?slug=${cv.publicSlug}`;
+      viewBtn.href = `/cv/${cv.publicSlug}`;
       viewBtn.classList.toggle("hidden", !cv.isPublished);
     }
 
