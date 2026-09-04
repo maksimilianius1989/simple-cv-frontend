@@ -16,17 +16,24 @@
     <script src="/assets/js/config.js"></script>
     <script src="/assets/js/main.js"></script>
     <script src="/assets/js/cv.js"></script>
-
   </head>
 
   <body>
     <!--# include virtual="/parts/header/header.html"-->
 
     <div class="cv-page">
-      <div class="cv-container">
+      <div class="cv-container cv-container-loading">
+        <h2>Пошук резюме...</h2>
+      </div>
+
+      <div class="cv-container cv-container-not-found hidden">
+        <h2>Резюме не знайдено або знято з публікації</h2>
+      </div>
+
+      <div class="cv-container cv-container-content hidden">
         <!-- LEFT: PREVIEW -->
         <div class="cv-preview">
-          <iframe id="cv-iframe" frameborder="0" ></iframe>
+          <iframe id="cv-iframe" frameborder="0"></iframe>
         </div>
 
         <!-- RIGHT: LETTER + ACTIONS -->
@@ -43,18 +50,25 @@
           <div class="feedback-section">
             <h3>Зворотній зв’язок</h3>
 
-            <input id="feedback-email" type="email" name="email" placeholder="Ваш email" required></input>
+            <input
+              id="feedback-email"
+              type="email"
+              name="email"
+              placeholder="Ваш email"
+              required
+            />
             <textarea
               id="feedback-text"
               placeholder="Напишіть коментар або питання..."
               required
             ></textarea>
 
-            <button id="send-feedback" class="btn btn-primary">Надіслати</button>
+            <button id="send-feedback" class="btn btn-primary">
+              Надіслати
+            </button>
 
             <p id="feedback-status" class="feedback-status"></p>
           </div>
-
         </div>
       </div>
     </div>

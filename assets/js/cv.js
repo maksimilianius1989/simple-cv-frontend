@@ -3,27 +3,34 @@ document.addEventListener("DOMContentLoaded", () => loadCV());
 window.CV = {};
 
 async function loadCV() {
+  const loadingContainer = document.querySelector(".cv-container-loading");
+  const cvNotFoundContainer = document.querySelector(".cv-container-not-found");
+  const cvContentContainer = document.querySelector(".cv-container-content");
   const slug = new URLSearchParams(window.location.search).get("slug");
 
+  loadingContainer.classList.add("hidden");
+
   if (!slug) {
-    window.location.href = "/";
+    cvNotFoundContainer.classList.remove("hidden");
     return;
   }
 
   const res = await fetch(`${APP_CONFIG.API_URL}/cvs/public/${slug}`).catch(
-    () => (window.location.href = "/"),
+    () => cvNotFoundContainer.classList.remove("hidden"),
   );
 
   if (!res.ok) {
-    window.location.href = "/";
+    cvNotFoundContainer.classList.remove("hidden");
     return;
   }
   window.CV = await res.json();
 
   if (!window.CV) {
-    window.location.href = "/";
+    cvNotFoundContainer.classList.remove("hidden");
     return;
   }
+
+  cvContentContainer.classList.remove("hidden");
 
   document.getElementById("cv-letter").textContent =
     window.CV.coverLetter || "Немає супровідного листа";
@@ -44,7 +51,7 @@ async function loadCV() {
         },
         body: JSON.stringify({
           avatar: `${APP_CONFIG.API_URL}/cvs/storage/published/${window.CV.files.find((file) => file.category === "AVATAR")?.id}`,
-          content: window.CV.content
+          content: window.CV.content,
         }),
       },
     );
