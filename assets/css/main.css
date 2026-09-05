@@ -55,7 +55,7 @@ main {
 
 .logo {
   font-size: 24px;
-  font-width: 700;
+  font-weight: 700;
   color: var(--text);
   text-decoration: none;
 }
@@ -73,7 +73,7 @@ main {
   font-size: 14px;
   font-weight: 600;
   text-decoration: none;
-  transition: all 0.2 ease;
+  transition: all 0.2s ease;
   cursor: pointer;
 }
 
