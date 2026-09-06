@@ -163,4 +163,65 @@
       transform: translateY(0);
     }
   }
+
+  .btn-create-manually {
+  width: 100%;
+  margin-top: 14px;
+  padding: 14px 20px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+
+  border: 1px solid rgba(143, 92, 255, 0.45);
+  border-radius: 12px;
+
+  background: rgba(143, 92, 255, 0.08);
+  color: var(--text);
+
+  font-size: 15px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.btn-create-manually > i:first-child {
+  color: var(--purple);
+}
+
+.btn-create-manually .btn-arrow {
+  margin-left: auto;
+  color: var(--muted);
+
+  transition: transform 0.2s ease;
+}
+
+.btn-create-manually:hover {
+  background: rgba(143, 92, 255, 0.15);
+  border-color: var(--purple);
+
+  transform: translateY(-2px);
+
+  box-shadow: 0 8px 25px rgba(143, 92, 255, 0.15);
+}
+
+.btn-create-manually:hover .btn-arrow {
+  transform: translateX(4px);
+}
+
+.btn-create-manually:active {
+  transform: translateY(0);
+}
+
+.btn-create-manually:focus-visible {
+  outline: 2px solid var(--purple);
+  outline-offset: 3px;
+}
 }

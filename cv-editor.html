@@ -17,10 +17,321 @@
   </head>
   <body>
     <!--# include virtual="/parts/header/header.html"-->
-    <div class="container">
 
-        <h2>CV Editor</h2>
-    </div>
+    <main class="cv-builder">
+      <!-- ========================= BUILDER HEADER ========================== -->
+      <section class="builder-header">
+        <div class="builder-header-left">
+          <a href="/dashboard.html" class="back-button">
+            <i class="fa-solid fa-arrow-left"></i> <span>Мої резюме</span>
+          </a>
+          <div class="builder-title">
+            <div class="hero-badge">✨ Створення CV</div>
+            <h1>Створіть своє резюме</h1>
+            <p>Заповнюйте форму — резюме одразу оновлюється у preview.</p>
+          </div>
+        </div>
+        <div class="builder-header-actions">
+          <button type="button" class="btn-secondary" id="save-draft-button">
+            <i class="fa-regular fa-floppy-disk"></i> Зберегти
+          </button>
+          <button type="button" class="btn-primary" id="publish-cv-button">
+            <i class="fa-solid fa-paper-plane"></i> Опублікувати
+          </button>
+        </div>
+      </section>
+      <!-- ========================= BUILDER CONTENT ========================== -->
+      <div class="builder-layout">
+        <!-- ========================= LEFT: FORM ========================== -->
+        <aside class="builder-form-wrapper">
+          <form class="cv-form" id="cv-form">
+            
+
+            <!-- PERSONAL INFO -->
+            <section class="form-section">
+              <div class="form-section-header">
+                <div>
+                  <span class="form-section-number"> 01 </span>
+                  <h2>Основна інформація</h2>
+                  <p>Інформація про вас та вашу професію.</p>
+                </div>
+                <i class="fa-solid fa-user"></i>
+              </div>
+              <!-- AVATAR -->
+              <div class="avatar-upload">
+                <div class="avatar-preview">
+                  <img id="avatar-preview" src="" alt="Avatar preview" />
+                  <div class="avatar-placeholder">
+                    <i class="fa-solid fa-user"></i>
+                  </div>
+                </div>
+                <div class="avatar-upload-content">
+                  <label for="avatar-url" class="form-label"> Фото </label>
+                  <input
+                    id="avatar-url"
+                    name="avatar_url"
+                    type="url"
+                    class="form-input"
+                    placeholder="https://..."
+                  />
+                  <p class="form-help">Вставте URL вашого фото.</p>
+                </div>
+              </div>
+              <!-- NAME -->
+              <div class="form-group">
+                <label for="name" class="form-label"> Повне ім'я </label>
+                <input
+                  id="name"
+                  name="name"
+                  type="text"
+                  class="form-input"
+                  placeholder="Наприклад: Букач Максим Ігорович"
+                />
+              </div>
+              <!-- POSITION -->
+              <div class="form-group">
+                <label for="position" class="form-label"> Бажана посада </label>
+                <input
+                  id="position"
+                  name="position"
+                  type="text"
+                  class="form-input"
+                  placeholder="Backend Developer"
+                />
+              </div>
+              <!-- EMPLOYMENT -->
+              <div class="form-group">
+                <label for="employment-type" class="form-label">
+                  Тип зайнятості
+                </label>
+                <select
+                  id="employment-type"
+                  name="employmentType"
+                  class="form-input form-select"
+                >
+                  <option value="">Оберіть тип зайнятості</option>
+                  <option value="Віддалена робота">Віддалена робота</option>
+                  <option value="Офіс">Офіс</option>
+                  <option value="Гібрид">Гібрид</option>
+                  <option value="Фріланс">Фріланс</option>
+                </select>
+              </div>
+            </section>
+            <!-- CONTACTS -->
+            <section class="form-section">
+              <div class="form-section-header">
+                <div>
+                  <span class="form-section-number"> 02 </span>
+                  <h2>Контактна інформація</h2>
+                  <p>Як роботодавець може зв'язатися з вами.</p>
+                </div>
+                <i class="fa-solid fa-address-card"></i>
+              </div>
+              <div class="form-group">
+                <label for="email" class="form-label"> Email </label>
+                <input
+                  id="email"
+                  name="email"
+                  type="email"
+                  class="form-input"
+                  placeholder="example@gmail.com"
+                />
+              </div>
+              <div class="form-group">
+                <label for="phone" class="form-label"> Телефон </label>
+                <input
+                  id="phone"
+                  name="phone"
+                  type="tel"
+                  class="form-input"
+                  placeholder="+380..."
+                />
+              </div>
+              <div class="form-group">
+                <label for="location" class="form-label"> Місто </label>
+                <input
+                  id="location"
+                  name="location"
+                  type="text"
+                  class="form-input"
+                  placeholder="Київ"
+                />
+              </div>
+              <div class="form-group">
+                <label for="linkedin" class="form-label"> LinkedIn </label>
+                <input
+                  id="linkedin"
+                  name="linkedin"
+                  type="url"
+                  class="form-input"
+                  placeholder="https://linkedin.com/in/..."
+                />
+              </div>
+            </section>
+            <!-- SUMMARY -->
+            <section class="form-section">
+              <div class="form-section-header">
+                <div>
+                  <span class="form-section-number"> 03 </span>
+                  <h2>Про себе</h2>
+                  <p>Коротко розкажіть про свій досвід.</p>
+                </div>
+                <i class="fa-solid fa-file-lines"></i>
+              </div>
+              <div class="form-group">
+                <label for="summary" class="form-label">
+                  Professional Summary
+                </label>
+                <textarea
+                  id="summary"
+                  name="summary"
+                  class="form-input form-textarea"
+                  placeholder="Розкажіть про свій досвід..."
+                ></textarea>
+              </div>
+            </section>
+            <!-- EXPERIENCE -->
+            <section class="form-section">
+              <div class="form-section-header">
+                <div>
+                  <span class="form-section-number"> 04 </span>
+                  <h2>Досвід роботи</h2>
+                  <p>Додайте місця вашої роботи.</p>
+                </div>
+                <i class="fa-solid fa-briefcase"></i>
+              </div>
+              <div id="experience-list" class="dynamic-list">
+                <!-- Experience cards -->
+              </div>
+              <button
+                type="button"
+                class="add-item-button"
+                id="add-experience-button"
+              >
+                <i class="fa-solid fa-plus"></i> Додати досвід роботи
+              </button>
+            </section>
+            <!-- SKILLS -->
+            <section class="form-section">
+              <div class="form-section-header">
+                <div>
+                  <span class="form-section-number"> 05 </span>
+                  <h2>Навички</h2>
+                  <p>Ваші ключові технології та компетенції.</p>
+                </div>
+                <i class="fa-solid fa-code"></i>
+              </div>
+              <div class="skills-input-wrapper">
+                <input
+                  type="text"
+                  class="form-input"
+                  id="skill-input"
+                  placeholder="Наприклад: NestJS"
+                />
+                <button
+                  type="button"
+                  class="skill-add-button"
+                  id="add-skill-button"
+                >
+                  <i class="fa-solid fa-plus"></i>
+                </button>
+              </div>
+              <div class="skills-list" id="skills-list"><!-- Skills --></div>
+            </section>
+            <!-- PORTFOLIO -->
+            <section class="form-section">
+              <div class="form-section-header">
+                <div>
+                  <span class="form-section-number"> 06 </span>
+                  <h2>Портфоліо</h2>
+                  <p>Додайте посилання на ваші проєкти.</p>
+                </div>
+                <i class="fa-solid fa-link"></i>
+              </div>
+              <div id="portfolio-list" class="dynamic-list">
+                <!-- Portfolio items -->
+              </div>
+              <button
+                type="button"
+                class="add-item-button"
+                id="add-portfolio-button"
+              >
+                <i class="fa-solid fa-plus"></i> Додати посилання
+              </button>
+            </section>
+          </form>
+        </aside>
+        <!-- ========================= RIGHT: PREVIEW ========================== -->
+        <section class="builder-preview">
+          <div class="preview-toolbar">
+            <div class="preview-title">
+              <span class="preview-status">
+                <span class="preview-status-dot"></span> Live preview
+              </span>
+            </div>
+            <div class="preview-actions">
+              <button type="button" class="preview-action" id="zoom-out">
+                <i class="fa-solid fa-minus"></i>
+              </button>
+              <span class="zoom-value" id="zoom-value"> 100% </span>
+              <button type="button" class="preview-action" id="zoom-in">
+                <i class="fa-solid fa-plus"></i>
+              </button>
+            </div>
+          </div>
+          <!-- Preview background -->
+          <div class="preview-viewport">
+            <div class="preview-scale-wrapper">
+              <article class="cv-document" id="cv-preview">
+                <!-- CV HEADER -->
+                <header class="cv-document-header">
+                  <div class="cv-document-profile">
+                    <img
+                      id="preview-avatar-image"
+                      class="cv-document-avatar"
+                      src=""
+                      alt=""
+                    />
+                  </div>
+                  <div class="cv-document-title">
+                    <h1 id="preview-name">Ваше ім'я</h1>
+                    <h2 id="preview-position">Ваша посада</h2>
+                  </div>
+                </header>
+                <!-- CONTACTS -->
+                <div class="cv-document-contacts" id="preview-contacts">
+                  <!-- Contacts -->
+                </div>
+                <!-- SUMMARY -->
+                <section class="cv-document-section">
+                  <h3>Про мене</h3>
+                  <div id="preview-summary" class="cv-document-text">
+                    Інформація про ваш досвід з'явиться тут.
+                  </div>
+                </section>
+                <!-- EXPERIENCE -->
+                <section class="cv-document-section">
+                  <h3>Досвід роботи</h3>
+                  <div id="preview-experience"><!-- Experience --></div>
+                </section>
+                <!-- SKILLS -->
+                <section class="cv-document-section">
+                  <h3>Навички</h3>
+                  <div id="preview-skills" class="cv-document-skills">
+                    <!-- Skills -->
+                  </div>
+                </section>
+                <!-- PORTFOLIO -->
+                <section class="cv-document-section">
+                  <h3>Портфоліо</h3>
+                  <div id="preview-portfolios"><!-- Portfolio --></div>
+                </section>
+              </article>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
 
     <!--# include virtual="/parts/footer/footer.html" -->
     <!--# include virtual="/parts/modal/modal.html" -->
