@@ -12,6 +12,8 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
       rel="stylesheet"
     />
+
+    <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
     <script src="/assets/js/config.js"></script>
     <script src="/assets/js/main.js"></script>
   </head>
@@ -22,9 +24,6 @@
       <!-- ========================= BUILDER HEADER ========================== -->
       <section class="builder-header">
         <div class="builder-header-left">
-          <a href="/dashboard.html" class="back-button">
-            <i class="fa-solid fa-arrow-left"></i> <span>Мої резюме</span>
-          </a>
           <div class="builder-title">
             <div class="hero-badge">✨ Створення CV</div>
             <h1>Створіть своє резюме</h1>
@@ -269,19 +268,12 @@
                 <span class="preview-status-dot"></span> Live preview
               </span>
             </div>
-            <div class="preview-actions">
-              <button type="button" class="preview-action" id="zoom-out">
-                <i class="fa-solid fa-minus"></i>
-              </button>
-              <span class="zoom-value" id="zoom-value"> 100% </span>
-              <button type="button" class="preview-action" id="zoom-in">
-                <i class="fa-solid fa-plus"></i>
-              </button>
-            </div>
           </div>
           <!-- Preview background -->
           <div class="preview-viewport">
             <div class="preview-scale-wrapper">
+              <!--# include virtual="/parts/templates/template-container.html"-->
+
               <article class="cv-document" id="cv-preview">
                 <!-- CV HEADER -->
                 <header class="cv-document-header">

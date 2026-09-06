@@ -1,5 +1,9 @@
-document.addEventListener("DOMContentLoaded", () => Dashboard.init());
+document.addEventListener("DOMContentLoaded", async () => CvEditor.init());
 
 class CvEditor {
-  static init() {}
+  static async init() {
+    if (!Auth.checkAuth() && !(await Auth.refreshToken())) {
+      window.location.href = "/";
+    }
+  }
 }
