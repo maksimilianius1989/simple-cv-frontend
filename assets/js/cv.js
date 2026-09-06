@@ -23,10 +23,19 @@ async function loadCV() {
   );
 
   if (!res.ok) {
-    cvNotFoundContainer.classList.remove("hidden");
-    return;
+    const randomContent = LocalStorageCache.get(
+      `random-content-for-template_${slug}`,
+    );
+    if (!randomContent) {
+      cvNotFoundContainer.classList.remove("hidden");
+      return;
+    }
+
+    window.CV = JSON.parse(randomContent);
+    window.CV.templateId = slug;
+  } else {
+    window.CV = await res.json();
   }
-  window.CV = await res.json();
 
   if (!window.CV) {
     cvNotFoundContainer.classList.remove("hidden");
@@ -38,13 +47,24 @@ async function loadCV() {
   document.getElementById("cv-letter").textContent =
     window.CV.coverLetter || "Немає супровідного листа";
 
-  document.getElementById("download-pdf").href =
-    `${APP_CONFIG.API_URL}/cvs/storage/published/${window.CV.files.find((file) => file.category === "PDF")?.id}`;
+  const pdfFileId = window.CV.files?.find(
+    (file) => file.category === "PDF",
+  )?.id;
+  if (pdfFileId) {
+    document.getElementById("download-pdf").href =
+      `${APP_CONFIG.API_URL}/cvs/storage/published/${pdfFileId}`;
+  } else {
+    document.getElementById("download-pdf")?.classList.add("hidden");
+  }
 
   const iframe = document.getElementById("cv-iframe");
   if (!iframe) return;
 
   try {
+    const avatar = window.CV.files?.find((file) => file.category === "AVATAR")?.id
+      ? `${APP_CONFIG.API_URL}/cvs/storage/published/${window.CV.files?.find((file) => file.category === "AVATAR")?.id}`
+      : window.CV.avatar;
+
     const renderRes = await fetch(
       `${APP_CONFIG.API_URL}/templates/${window.CV.templateId}/render`,
       {
@@ -53,7 +73,7 @@ async function loadCV() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          avatar: `${APP_CONFIG.API_URL}/cvs/storage/published/${window.CV.files.find((file) => file.category === "AVATAR")?.id}`,
+          avatar: avatar,
           content: window.CV.content,
         }),
       },

@@ -1,11 +1,31 @@
 document.addEventListener("DOMContentLoaded", async (event) => {
   await TemplateContainer.init();
+  document;
 });
 
 class TemplateContainer {
+  static EVENT_TEMPLATE_SELECT = "template::select";
+
+  static CACHE_KAY_RANDOM_DATA_TEMPLATE = "random-content-for-template_";
+
   static async init() {
     const container = document.getElementById("templates-list");
     if (!container) return;
+
+    container.addEventListener("click", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      const card = e.target.closest(".template-card");
+      if (!card) return;
+
+      const templateId = card.dataset.templateId;
+
+      window.dispatchEvent(
+        new CustomEvent(TemplateContainer.EVENT_TEMPLATE_SELECT, {
+          detail: { templateId },
+        }),
+      );
+    });
 
     await TemplateContainer.render(container);
   }
@@ -24,9 +44,12 @@ class TemplateContainer {
     templates.forEach(async (template) => {
       const clone = htmlTemplate.content.cloneNode(true);
 
+      const card = clone.querySelector(".template-card");
       const title = clone.querySelector("h3");
       const category = clone.querySelector(".template-badge");
       const iframe = clone.querySelector("iframe");
+
+      card.dataset.templateId = template.id;
 
       if (title && template.name) {
         title.textContent = template.name;
@@ -38,30 +61,43 @@ class TemplateContainer {
 
       if (iframe) {
         try {
-          const cvContentResponse = await fetch(`${APP_CONFIG.API_URL}/templates/random-content`);
-          if (!cvContentResponse.ok) throw new Error(`Failed to uplaod content ${template.id}`);
-          const cvContent = await cvContentResponse.json();
+          let cvContentJson = LocalStorageCache.get(TemplateContainer.CACHE_KAY_RANDOM_DATA_TEMPLATE + template.id);
 
-          const templateResponse = await fetch(`${APP_CONFIG.API_URL}/templates/${template.id}/render`, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
+          if (!cvContentJson) {
+            const cvContentResponse = await fetch(
+              `${APP_CONFIG.API_URL}/templates/random-content`,
+            );
+            if (!cvContentResponse.ok)
+              throw new Error(`Failed to uplaod content ${template.id}`);
+            cvContentJson = await cvContentResponse.text();
+
+            LocalStorageCache.set(TemplateContainer.CACHE_KAY_RANDOM_DATA_TEMPLATE + template.id, cvContentJson);
+          }
+
+          const templateResponse = await fetch(
+            `${APP_CONFIG.API_URL}/templates/${template.id}/render`,
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: cvContentJson,
             },
-            body: JSON.stringify(cvContent),
-          });
+          );
 
-          if (!templateResponse.ok) throw new Error(`Failed to uplaod tempalte ${template.id}`);
+          if (!templateResponse.ok)
+            throw new Error(`Failed to uplaod tempalte ${template.id}`);
 
           const htmlContent = await templateResponse.text();
           iframe.srcdoc = htmlContent;
         } catch (e) {
-          console.error(e)
+          console.error(e);
         }
       }
 
       container.appendChild(clone);
     });
 
-    document.querySelector('.template-section').classList.remove('hidden');
+    document.querySelector(".template-section").classList.remove("hidden");
   }
 }

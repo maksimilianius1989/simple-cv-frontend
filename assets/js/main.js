@@ -4,18 +4,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
 class Main {
   static async uploadAuthImg(url, container) {
-          try {
-        const response = await Main.authFetch(url);
-        if (!response) throw new Error('Fail to upload auth IMG');
+    try {
+      const response = await Main.authFetch(url);
+      if (!response) throw new Error("Fail to upload auth IMG");
 
-        const blob = await response.blob();
-        const objectUrl = URL.createObjectURL(blob);
+      const blob = await response.blob();
+      const objectUrl = URL.createObjectURL(blob);
 
-        container.src = objectUrl;
-        container.onload = () => URL.revokeObjectURL(objectUrl);
-      } catch(error) {
-        console.error('Faile to upload auth IMG: ', error);
-      }
+      container.src = objectUrl;
+      container.onload = () => URL.revokeObjectURL(objectUrl);
+    } catch (error) {
+      console.error("Faile to upload auth IMG: ", error);
+    }
   }
 
   static async authFetch(url, options = {}) {
@@ -193,5 +193,45 @@ class WS {
 
   static disconect() {
     this.socket.disconect();
+  }
+}
+
+class LocalStorageCache {
+  static set(key, data, ttl = 30 * 60 * 1000) {
+    localStorage.setItem(
+      key,
+      JSON.stringify({
+        data,
+        expiresAt: Date.now() + ttl,
+      }),
+    );
+  }
+
+  static get(key) {
+    const value = localStorage.getItem(key);
+
+    if (!value) {
+      return null;
+    }
+
+    try {
+      const { data, expiresAt } = JSON.parse(value);
+
+      if (Date.now() >= expiresAt) {
+        localStorage.removeItem(key);
+
+        return null;
+      }
+
+      return data;
+    } catch {
+      localStorage.removeItem(key);
+
+      return null;
+    }
+  }
+
+  static remove(key) {
+    localStorage.removeItem(key);
   }
 }
