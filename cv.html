@@ -37,7 +37,7 @@
         </div>
 
         <!-- RIGHT: LETTER + ACTIONS -->
-        <div class="cv-sidebar">
+        <div class="cv-sidebar hidden">
           <a id="download-pdf" class="btn btn-primary" target="_blank">
             📄 Завантажити PDF
           </a>
@@ -47,32 +47,13 @@
             <p id="cv-letter" class="cv-letter"></p>
           </div>
 
-          <div class="feedback-section">
-            <h3>Зворотній зв’язок</h3>
-
-            <input
-              id="feedback-email"
-              type="email"
-              name="email"
-              placeholder="Ваш email"
-              required
-            />
-            <textarea
-              id="feedback-text"
-              placeholder="Напишіть коментар або питання..."
-              required
-            ></textarea>
-
-            <button id="send-feedback" class="btn btn-primary">
-              Надіслати
-            </button>
-
-            <p id="feedback-status" class="feedback-status"></p>
-          </div>
+          <!--# include virtual="/parts/feedback/feedback.html"-->
         </div>
       </div>
     </div>
 
     <!--# include virtual="/parts/footer/footer.html" -->
+    <!--# include virtual="/parts/modal/modal.html" -->
+    <!--# include virtual="/parts/error-handler/error-handler.html" -->
   </body>
 </html>

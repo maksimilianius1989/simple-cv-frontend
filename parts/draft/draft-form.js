@@ -36,18 +36,11 @@ class DraftForm {
 
     this.form.addEventListener("submit", async (event) => {
       event.preventDefault();
+      const errorHandler = new ErrorHandler(event.target);
+      errorHandler.reset();
 
       const submitBtn = event.target.querySelector('button[type="submit"]');
       submitBtn.disabled = true;
-
-      const textarea = this.form.querySelector('textarea[name="prompt"]');
-      const errorMessage = this.form.querySelector(".error-message");
-
-      // if(!textarea.value.trim()) {
-      //   errorMessage.style.display = 'flex';
-      //   return;
-      // }
-      // errorMessage.style.display = 'none';
 
       const formData = new FormData(this.form);
       this.form.action = `${APP_CONFIG.API_URL}/cvs/ai-drafts`;
@@ -55,15 +48,16 @@ class DraftForm {
       try {
         const response = await Main.authFetch(this.form.action, {
           method: this.form.method,
-          body: new FormData(this.form),
+          body: formData,
         });
 
         if (response.ok) {
           window.dispatchEvent(new CustomEvent("modal::close"));
         } else {
-          console.warn("Draft created server error!");
+          errorHandler.setErrorResponse(response);
         }
       } catch (e) {
+        errorHandler.setErrorResponse(e);
         console.error("Network error", e);
       } finally {
         submitBtn.disabled = false;

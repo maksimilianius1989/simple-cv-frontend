@@ -1,0 +1,39 @@
+.feedback-section {
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 20px;
+  background: #111a33;
+  border-radius: 16px;
+}
+
+.feedback-section input,
+.feedback-section textarea {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 16px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: #0b1020;
+  color: #fff;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.feedback-section input:focus,
+.feedback-section textarea:focus {
+  border-color: #3b82f6;
+}
+
+.feedback-section textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+.feedback-status {
+  color: chocolate;
+}
+
+.send-feedback:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}

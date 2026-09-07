@@ -33,13 +33,8 @@ class Main {
       },
     });
 
-    if (response.ok) {
-      return response;
-    }
-
     if (response.status !== 401) {
-      const errorText = await response.text();
-      throw new Error(`HTTP ${response.status}: ${errorText}`);
+      return response;
     }
 
     const refreshed = await Auth.refreshToken();
