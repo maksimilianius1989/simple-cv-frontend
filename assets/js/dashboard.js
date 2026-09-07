@@ -94,6 +94,16 @@ class Dashboard {
   static onWsEventHandles() {
     WS.socket.on(Dashboard.SOCKET_EVENT_DRAFTS_SYNC, async (payload) => {
       Dashboard.getDrafts();
+
+      if (payload.status === "DELETED") {
+        window.dispatchEvent(
+          new CustomEvent("alert::show", {
+            detail: {
+              message: `Драфт "${payload.title}" видалено`,
+            },
+          }),
+        );
+      }
     });
 
     WS.socket.on(Dashboard.SOCKET_EVENT_DRAFT_UPDATED, async (payload) => {
@@ -101,10 +111,30 @@ class Dashboard {
       window.dispatchEvent(
         new CustomEvent("draft-card:update", { detail: { draft } }),
       );
+
+      if (payload.status === "COMPLETED") {
+        window.dispatchEvent(
+          new CustomEvent("alert::show", {
+            detail: {
+              message: `Драфт "${payload.title}" створено`,
+            },
+          }),
+        );
+      }
     });
 
     WS.socket.on(Dashboard.SOCKET_EVENT_CVS_SYNC, async (payload) => {
       Dashboard.getCvs();
+
+      if (payload.status === "DELETED") {
+        window.dispatchEvent(
+          new CustomEvent("alert::show", {
+            detail: {
+              message: `Резюме "${payload.title}" видалено`,
+            },
+          }),
+        );
+      }
     });
 
     WS.socket.on(Dashboard.SOCKET_EVENT_CV_UPDATED, async (payload) => {
@@ -112,6 +142,36 @@ class Dashboard {
       window.dispatchEvent(
         new CustomEvent("cv-card:update", { detail: { cv } }),
       );
+
+      if (payload.status === "COMPLETED") {
+        window.dispatchEvent(
+          new CustomEvent("alert::show", {
+            detail: {
+              message: `Резюме "${payload.title}" створено`,
+            },
+          }),
+        );
+      }
+
+      if (payload.eventClass === "CvUnpublishEntityEvent") {
+        window.dispatchEvent(
+          new CustomEvent("alert::show", {
+            detail: {
+              message: `Резюме "${payload.title}" знято з публікації`,
+            },
+          }),
+        );
+      }
+
+      if (payload.eventClass === "CvPublishEntityEvent") {
+        window.dispatchEvent(
+          new CustomEvent("alert::show", {
+            detail: {
+              message: `Резюме "${payload.title}" опубліковано`,
+            },
+          }),
+        );
+      }
     });
   }
 }
