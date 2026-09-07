@@ -2,7 +2,7 @@ class ErrorHandler {
   #container = undefined;
   #errorMessage = undefined;
   #errorDetails = undefined;
-  #toast = new ValidationToast(document.querySelector("#validationToast"));
+  
 
   constructor(container) {
     this.#container = container;
@@ -27,7 +27,7 @@ class ErrorHandler {
 
   #render() {
     if (this.#errorMessage) {
-      this.#toast.show(this.#errorMessage.join(" "));
+      Toast.show("Помилка валізації", this.#errorMessage.join(" "));
     }
 
     if (this.#errorDetails) {
@@ -55,7 +55,9 @@ class ErrorHandler {
   }
 }
 
-class ValidationToast {
+class AlertToast {
+  static EVENT_SHOW = "alert::show";
+
   #element;
   #timeout;
 
@@ -63,27 +65,35 @@ class ValidationToast {
     this.#element = element;
 
     this.#element
-      .querySelector(".validation-toast__close")
+      .querySelector(".alert-toast__close")
       .addEventListener("click", () => this.hide());
+
+    window.addEventListener(AlertToast.EVENT_SHOW, (payload) => {
+      this.show(payload?.detail?.title, payload?.detail?.message);
+    });
   }
 
-  show(message = "Перевірте правильність заповнення полів") {
+  show(title = "Сповіщення", message = "Щось післо не так") {
     clearTimeout(this.#timeout);
 
-    const messageElement = this.#element.querySelector(
-      ".validation-toast__message",
+    const titleElement = this.#element.querySelector(
+      ".alert-toast__title",
     );
 
+    const messageElement = this.#element.querySelector(
+      ".alert-toast__message",
+    );
+
+    titleElement.textContent = title;
     messageElement.textContent = message;
 
-    // Перезапускаємо progress animation
-    const progress = this.#element.querySelector(".validation-toast__progress");
+    const progress = this.#element.querySelector(".alert-toast__progress");
 
     progress.style.animation = "none";
     progress.offsetHeight;
     progress.style.animation = "";
 
-    this.#element.classList.add("validation-toast--visible");
+    this.#element.classList.add("alert-toast--visible");
 
     this.#timeout = setTimeout(() => {
       this.hide();
@@ -93,6 +103,9 @@ class ValidationToast {
   hide() {
     clearTimeout(this.#timeout);
 
-    this.#element.classList.remove("validation-toast--visible");
+    this.#element.classList.remove("alert-toast--visible");
   }
 }
+
+window.Toast = new AlertToast(document.querySelector("#alertToast"));
+window.Toast2 = new AlertToast(document.querySelector("#alertToast"));

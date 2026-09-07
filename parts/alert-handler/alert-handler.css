@@ -46,10 +46,10 @@
   }
 }
 
-.validation-toast {
+.alert-toast {
   --toast-bg: #10192e;
-  --toast-border: rgba(255, 95, 191, 0.25);
-  --toast-accent: #ff5fbf;
+  --toast-border: rgba(255, 255, 255, 0.1);
+  --toast-accent: #6b7280;
   --toast-text: #ffffff;
   --toast-muted: #a8b3cf;
 
@@ -87,13 +87,13 @@
   overflow: hidden;
 }
 
-.validation-toast--visible {
+.alert-toast--visible {
   opacity: 1;
   visibility: visible;
   transform: translateY(0) scale(1);
 }
 
-.validation-toast__icon {
+.alert-toast__icon {
   flex: 0 0 38px;
 
   width: 38px;
@@ -111,26 +111,26 @@
   font-size: 18px;
 }
 
-.validation-toast__content {
+.alert-toast__content {
   flex: 1;
   min-width: 0;
 }
 
-.validation-toast__title {
+.alert-toast__title {
   margin-bottom: 3px;
 
   font-size: 14px;
   font-weight: 600;
 }
 
-.validation-toast__message {
+.alert-toast__message {
   color: var(--toast-muted);
 
   font-size: 13px;
   line-height: 1.4;
 }
 
-.validation-toast__close {
+.alert-toast__close {
   align-self: flex-start;
 
   display: flex;
@@ -155,12 +155,12 @@
     background 0.2s ease;
 }
 
-.validation-toast__close:hover {
+.alert-toast__close:hover {
   color: var(--toast-text);
   background: rgba(255, 255, 255, 0.06);
 }
 
-.validation-toast__progress {
+.alert-toast__progress {
   position: absolute;
   left: 0;
   bottom: 0;
@@ -173,11 +173,11 @@
   transform-origin: left;
 }
 
-.validation-toast--visible .validation-toast__progress {
-  animation: validation-toast-progress 5s linear forwards;
+.alert-toast--visible .alert-toast__progress {
+  animation: alert-toast-progress 5s linear forwards;
 }
 
-@keyframes validation-toast-progress {
+@keyframes alert-toast-progress {
   from {
     transform: scaleX(1);
   }
@@ -188,7 +188,7 @@
 }
 
 @media (max-width: 480px) {
-  .validation-toast {
+  .alert-toast {
     right: 12px;
     bottom: 12px;
     width: calc(100vw - 24px);
