@@ -8,6 +8,6 @@ class Index {
   }
 
   static openTemplateHandler = (event) => {
-    window.open(`cv/${event.detail.templateId}`, '_blank');
+    window.location.href = `cv/${event.detail.templateId}`;
   }
 }
