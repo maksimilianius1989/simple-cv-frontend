@@ -5,5 +5,31 @@ class CvEditor {
     if (!Auth.checkAuth() && !(await Auth.refreshToken())) {
       window.location.href = "/";
     }
+
+    window.addEventListener("template::select", (e) => {
+      CvEditor.renderPreview(e.detail.templateId);
+    });
+  }
+
+  static async renderPreview(templateId) {
+    const iframe = document.getElementById("cv-iframe");
+    if (!iframe) return;
+
+    const renderRes = await fetch(
+      `${APP_CONFIG.API_URL}/templates/${templateId}/render`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          avatar: undefined,
+          content: undefined,
+        }),
+      },
+    );
+
+    const htmlContent = await renderRes.text();
+    iframe.srcdoc = htmlContent;
   }
 }
