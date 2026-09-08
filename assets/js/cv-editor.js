@@ -90,6 +90,7 @@ class CvPayloadMapper {
     return {
       name: form.elements.name.value.trim(),
       position: form.elements.position.value.trim(),
+      avatarUrl: form.elements.avatarUrl.value.trim(),
     };
   }
 }
