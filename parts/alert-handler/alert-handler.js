@@ -108,4 +108,3 @@ class AlertToast {
 }
 
 window.Toast = new AlertToast(document.querySelector("#alertToast"));
-window.Toast2 = new AlertToast(document.querySelector("#alertToast"));
