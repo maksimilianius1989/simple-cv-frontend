@@ -1,6 +1,8 @@
 document.addEventListener("DOMContentLoaded", async () => CvEditor.init());
 
 class CvEditor {
+  static debounceTimerForm = undefined;
+
   static async init() {
     if (!Auth.checkAuth() && !(await Auth.refreshToken())) {
       window.location.href = "/";
@@ -19,18 +21,29 @@ class CvEditor {
       if (e.target.closest("#save-cv-button")) {
         e.preventDefault();
         e.stopPropagation();
-        const form = document.getElementById("cv-form");
-        CvEditor.createCv(form);
+        CvEditor.createCv();
       } else if (e.target.closest("#publish-cv-button")) {
         e.preventDefault();
         e.stopPropagation();
-        const form = document.getElementById("cv-form");
-        CvEditor.createAndPublishCv(form);
+        CvEditor.createAndPublishCv();
       }
+    });
+
+    const form = document.getElementById("cv-form");
+    form.addEventListener("input", (event) => {
+      const activeTemplate = document.querySelector(".template-selected");
+      if (!activeTemplate) return;
+
+      clearTimeout(CvEditor.debounceTimerForm);
+
+      CvEditor.debounceTimerForm = setTimeout(() => {
+        CvEditor.renderPreview(activeTemplate.dataset.templateId);
+      }, 1000);
     });
   }
 
-  static async createCv(form) {
+  static async createCv() {
+    const form = document.getElementById("cv-form");
     const payload = CvPayloadMapper.fromForm(form);
     const templateId =
       document.querySelector(".template-selected")?.dataset.templateId;
@@ -63,8 +76,16 @@ class CvEditor {
   }
 
   static async renderPreview(templateId) {
+    const form = document.getElementById("cv-form");
+    const content = CvPayloadMapper.fromForm(form);
+
     const iframe = document.getElementById("cv-iframe");
     if (!iframe) return;
+
+    const requestData = {
+      avatar: content.avatarUrl,
+      content,
+    };
 
     const renderRes = await fetch(
       `${APP_CONFIG.API_URL}/templates/${templateId}/render`,
@@ -73,10 +94,7 @@ class CvEditor {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          avatar: undefined,
-          content: undefined,
-        }),
+        body: JSON.stringify(requestData),
       },
     );
 
