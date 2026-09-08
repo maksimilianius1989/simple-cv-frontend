@@ -4,10 +4,10 @@ class Index {
   static init() {
     Auth.checkParamToken();
 
-    window.addEventListener("template::select", Index.openTemplateHandler);
+    window.addEventListener("template::selected", Index.openTemplateHandler);
   }
 
   static openTemplateHandler = (event) => {
-    window.location.href = `cv/${event.detail.templateId}`;
-  }
+    window.open(`cv/${event.detail.templateId}`, "_blank");
+  };
 }

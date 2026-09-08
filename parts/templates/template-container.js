@@ -5,6 +5,7 @@ document.addEventListener("DOMContentLoaded", async (event) => {
 
 class TemplateContainer {
   static EVENT_TEMPLATE_SELECT = "template::select";
+  static EVENT_TEMPLATE_SELECTED = "template::selected";
 
   static CACHE_KAY_RANDOM_DATA_TEMPLATE = "random-content-for-template_";
 
@@ -19,6 +20,7 @@ class TemplateContainer {
       if (!card) return;
 
       const templateId = card.dataset.templateId;
+      TemplateContainer.markAsSelected(container, templateId);
 
       window.dispatchEvent(
         new CustomEvent(TemplateContainer.EVENT_TEMPLATE_SELECT, {
@@ -34,14 +36,14 @@ class TemplateContainer {
     const allTempaltes = await fetch(`${APP_CONFIG.API_URL}/templates`);
 
     const templates = await allTempaltes.json();
-
     if (!templates) return;
 
     const htmlTemplate = document.getElementById("template-card-template");
     if (!htmlTemplate) return;
 
     container.innerHTML = "";
-    templates.forEach(async (template) => {
+    let activeTemplateId = "";
+    for (const [index, template] of templates.entries()) {
       const clone = htmlTemplate.content.cloneNode(true);
 
       const card = clone.querySelector(".template-card");
@@ -50,6 +52,10 @@ class TemplateContainer {
       const iframe = clone.querySelector("iframe");
 
       card.dataset.templateId = template.id;
+      if (index === 0) {
+        card.classList.add("template-selected");
+        activeTemplateId = template.id;
+      }
 
       if (title && template.name) {
         title.textContent = template.name;
@@ -61,7 +67,9 @@ class TemplateContainer {
 
       if (iframe) {
         try {
-          let cvContentJson = LocalStorageCache.get(TemplateContainer.CACHE_KAY_RANDOM_DATA_TEMPLATE + template.id);
+          let cvContentJson = LocalStorageCache.get(
+            TemplateContainer.CACHE_KAY_RANDOM_DATA_TEMPLATE + template.id,
+          );
 
           if (!cvContentJson) {
             const cvContentResponse = await fetch(
@@ -71,7 +79,10 @@ class TemplateContainer {
               throw new Error(`Failed to uplaod content ${template.id}`);
             cvContentJson = await cvContentResponse.text();
 
-            LocalStorageCache.set(TemplateContainer.CACHE_KAY_RANDOM_DATA_TEMPLATE + template.id, cvContentJson);
+            LocalStorageCache.set(
+              TemplateContainer.CACHE_KAY_RANDOM_DATA_TEMPLATE + template.id,
+              cvContentJson,
+            );
           }
 
           const templateResponse = await fetch(
@@ -96,8 +107,29 @@ class TemplateContainer {
       }
 
       container.appendChild(clone);
-    });
+    }
+
+    TemplateContainer.markAsSelected(container, activeTemplateId);
 
     document.querySelector(".template-section").classList.remove("hidden");
+  }
+
+  static markAsSelected(container, templateId) {
+    container.querySelectorAll(".template-card").forEach((element) => {
+      element.classList.remove("template-selected");
+    });
+
+    const activeTemplate = container.querySelector(
+      `.template-card[data-template-id="${templateId}"]`,
+    );
+    if (!activeTemplate) return;
+
+    activeTemplate?.classList.add("template-selected");
+
+    window.dispatchEvent(
+      new CustomEvent(TemplateContainer.EVENT_TEMPLATE_SELECTED, {
+        detail: { templateId },
+      }),
+    );
   }
 }

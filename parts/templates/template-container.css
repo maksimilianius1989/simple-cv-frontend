@@ -9,7 +9,7 @@
     -webkit-overflow-scrolling: touch;
   }
 
-  .resume-card.template-card {
+  .template-card {
     text-decoration: none;
     color: var(--text, #ffffff);
     cursor: pointer;
@@ -88,5 +88,44 @@
   .template-card:hover .template-iframe-wrapper {
     border-color: var(--purple, #8f5cff);
     box-shadow: 0 8px 20px rgba(143, 92, 255, 0.2);
+  }
+
+  .template-selected .template-iframe-wrapper {
+    border: 2px solid var(--purple, #8f5cff);
+    box-shadow:
+      0 0 0 3px rgba(143, 92, 255, 0.15),
+      0 8px 24px rgba(143, 92, 255, 0.35);
+
+    transform: translateY(-2px);
+    transition: all 0.2s ease;
+  }
+
+  .template-selected {
+    position: relative;
+  }
+
+  .template-selected::after {
+    content: "✓";
+
+    position: absolute;
+    top: 10px;
+    right: 10px;
+
+    width: 28px;
+    height: 28px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: var(--purple, #8f5cff);
+    color: #fff;
+
+    font-size: 16px;
+    font-weight: 700;
+
+    box-shadow: 0 4px 12px rgba(143, 92, 255, 0.4);
   }
 }

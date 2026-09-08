@@ -6,7 +6,12 @@ class CvEditor {
       window.location.href = "/";
     }
 
-    window.addEventListener("template::select", (e) => {
+    const activeTempalte = document.querySelector(".template-selected");
+    if (activeTempalte) {
+      CvEditor.renderPreview(activeTempalte.dataset.templateId);
+    }
+
+    window.addEventListener("template::selected", (e) => {
       CvEditor.renderPreview(e.detail.templateId);
     });
   }
