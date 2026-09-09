@@ -44,20 +44,21 @@ class CvEditor {
 
   static async createCv() {
     const form = document.getElementById("cv-form");
-    const payload = CvPayloadMapper.fromForm(form);
+    const formData = new FormData(form);
+
     const templateId =
       document.querySelector(".template-selected")?.dataset.templateId;
-    const requestData = { ...payload, templateId };
+    if (templateId) {
+      formData.append("templateId", templateId);
+    }
+
     const errorHandler = new ErrorHandler(document.getElementById("cv-form"));
     errorHandler.reset();
 
     try {
       const response = await Main.authFetch(`${APP_CONFIG.API_URL}/cvs`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(requestData),
+        body: formData,
       });
 
       if (!response.ok) {
@@ -77,7 +78,7 @@ class CvEditor {
 
   static async renderPreview(templateId) {
     const form = document.getElementById("cv-form");
-    const content = CvPayloadMapper.fromForm(form);
+    const content = {};
 
     const iframe = document.getElementById("cv-iframe");
     if (!iframe) return;
@@ -100,15 +101,5 @@ class CvEditor {
 
     const htmlContent = await renderRes.text();
     iframe.srcdoc = htmlContent;
-  }
-}
-
-class CvPayloadMapper {
-  static fromForm(form) {
-    return {
-      name: form.elements.name.value.trim(),
-      position: form.elements.position.value.trim(),
-      avatarUrl: form.elements.avatarUrl.value.trim(),
-    };
   }
 }

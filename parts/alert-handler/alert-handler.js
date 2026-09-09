@@ -2,7 +2,6 @@ class ErrorHandler {
   #container = undefined;
   #errorMessage = undefined;
   #errorDetails = undefined;
-  
 
   constructor(container) {
     this.#container = container;
@@ -32,16 +31,31 @@ class ErrorHandler {
 
     if (this.#errorDetails) {
       this.#errorDetails.forEach((detail) => {
-        const field = this.#container.querySelector(`[name="${detail.field}"]`);
-        if (detail.field && detail.message && field) {
-          field.classList.add("field-error");
-          field.insertAdjacentHTML(
-            "afterend",
-            `<p class="field-error-message">${detail.message}</p>`,
-          );
+        if (!detail.field || !detail.message) {
+          return;
         }
+
+        const fieldName = this.#getFieldName(detail.field);
+        const field = this.#container.querySelector(
+          `[name=${CSS.escape(fieldName)}]`,
+        );
+        if (!field) {
+          return;
+        }
+
+        field.classList.add("field-error");
+        field.insertAdjacentHTML(
+          "afterend",
+          `<p class="field-error-message">${detail.message}</p>`,
+        );
       });
     }
+  }
+
+  #getFieldName(field) {
+    return field.replace(/\[([^\]]+)\]/g, ".$1").includes(".")
+      ? field.replace(/^([^.[\]]+)\.([^.[\]]+)$/, "$1[$2]")
+      : field;
   }
 
   reset() {
@@ -76,13 +90,9 @@ class AlertToast {
   show(title = "Сповіщення", message = "Щось післо не так") {
     clearTimeout(this.#timeout);
 
-    const titleElement = this.#element.querySelector(
-      ".alert-toast__title",
-    );
+    const titleElement = this.#element.querySelector(".alert-toast__title");
 
-    const messageElement = this.#element.querySelector(
-      ".alert-toast__message",
-    );
+    const messageElement = this.#element.querySelector(".alert-toast__message");
 
     titleElement.textContent = title;
     messageElement.textContent = message;
