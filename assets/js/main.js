@@ -26,42 +26,53 @@ class Main {
     }
 
     let token = localStorage.getItem(ACCESS_TOKEN);
-    
-    let response = await fetch(url, {
-      ...options,
-      headers: {
-        ...(options.headers || {}),
-        Authorization: `Bearer ${token}`,
-      },
-    });
 
-    if (response.status !== 401) {
-      return response;
+    try {
+      let response = await fetch(url, {
+        ...options,
+        headers: {
+          ...(options.headers || {}),
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (response.status !== 401) {
+        return response;
+      }
+
+      const refreshed = await Auth.refreshToken();
+
+      if (!refreshed) {
+        await Auth.logout();
+        return null;
+      }
+
+      token = localStorage.getItem(ACCESS_TOKEN);
+
+      let res = await fetch(url, {
+        ...options,
+        headers: {
+          ...(options.headers || {}),
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!res.ok) {
+        const errorText = await res.text();
+        throw new Error(`Request failed: ${res.status} ${errorText}`);
+      }
+
+      return res;
+    } catch (e) {
+      window.dispatchEvent(new CustomEvent("alert::show", {
+        detail: {
+          title: 'Мережева помилка',
+          message: `Сервер не відповідає. Спробуйте пізніше`,
+        }
+      }));
+      
+      throw e;
     }
-
-    const refreshed = await Auth.refreshToken();
-
-    if (!refreshed) {
-      await Auth.logout();
-      return null;
-    }
-
-    token = localStorage.getItem(ACCESS_TOKEN);
-
-    let res = await fetch(url, {
-      ...options,
-      headers: {
-        ...(options.headers || {}),
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
-    if (!res.ok) {
-      const errorText = await res.text();
-      throw new Error(`Request failed: ${res.status} ${errorText}`);
-    }
-
-    return res;
   }
 }
 
