@@ -27,7 +27,39 @@ class CvEditor {
         e.stopPropagation();
         CvEditor.createAndPublishCv();
       }
+
+      if (e.target.closest("#add-experience-button")) {
+        e.preventDefault();
+        CvEditor.addExperienceItem();
+      } else if (e.target.closest("#add-skill-button")) {
+        e.preventDefault();
+        CvEditor.addSkillItem();
+      } else if (e.target.closest("#add-portfolio-button")) {
+        e.preventDefault();
+        CvEditor.addPortfolioItem();
+      }
+
+      if (e.target.closest(".remove-dynamic-item")) {
+        e.preventDefault();
+        const btn = e.target.closest(".remove-dynamic-item");
+        const item = btn.closest(".dynamic-item");
+        if (item) {
+          item.remove();
+          CvEditor.reindexDynamicLists();
+          CvEditor.onRenderPreview();
+        }
+      }
     });
+
+    const skillInput = document.getElementById("skill-input");
+    if (skillInput) {
+      skillInput.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") {
+          e.preventDefault();
+          CvEditor.addSkillItem();
+        }
+      });
+    }
 
     const form = document.getElementById("cv-form");
     form.addEventListener("input", () => CvEditor.onRenderPreview());
@@ -45,9 +77,119 @@ class CvEditor {
             avatarPreview.style.display = "block";
           };
           reader.readAsDataURL(file);
+        } else if (avatarPreview) {
+          avatarPreview.src = "";
+          avatarPreview.style.display = "none";
         }
       });
     }
+  }
+
+  static addExperienceItem(data = {}) {
+    const list = document.getElementById("experience-list");
+    if (!list) return;
+
+    const index = list.querySelectorAll(".dynamic-item").length;
+    const itemHtml = `
+      <div class="dynamic-item form-card" style="position: relative; margin-bottom: 16px; padding: 16px; border: 1px solid #e2e8f0; border-radius: 8px;">
+        <button type="button" class="remove-dynamic-item btn-icon" style="position: absolute; top: 12px; right: 12px; border: none; background: transparent; cursor: pointer; color: #ef4444;" title="Видалити">
+          <i class="fa-solid fa-trash"></i>
+        </button>
+        <div class="form-group">
+          <label class="form-label">Компанія</label>
+          <input type="text" name="experience[${index}][company]" class="form-input" value="${data.company || ""}" placeholder="Назва компанії" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Посада</label>
+          <input type="text" name="experience[${index}][position]" class="form-input" value="${data.position || ""}" placeholder="Software Engineer" />
+        </div>
+        <div class="form-row" style="display: flex; gap: 12px;">
+          <div class="form-group" style="flex: 1;">
+            <label class="form-label">Дата початку</label>
+            <input type="month" name="experience[${index}][startDate]" class="form-input" value="${data.startDate || ""}" />
+          </div>
+          <div class="form-group" style="flex: 1;">
+            <label class="form-label">Дата закінчення</label>
+            <input type="month" name="experience[${index}][endDate]" class="form-input" value="${data.endDate || ""}" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Опис обов'язків</label>
+          <textarea name="experience[${index}][description]" class="form-input form-textarea" placeholder="Опишіть ваші досягнення...">${data.description || ""}</textarea>
+        </div>
+      </div>
+    `;
+
+    list.insertAdjacentHTML("beforeend", itemHtml);
+    CvEditor.onRenderPreview();
+  }
+
+  static addSkillItem(value = "") {
+    const input = document.getElementById("skill-input");
+    const skillValue = value || input?.value?.trim();
+    if (!skillValue) return;
+
+    const list = document.getElementById("skills-list");
+    if (!list) return;
+
+    const index = list.querySelectorAll(".dynamic-item").length;
+    const itemHtml = `
+      <div class="dynamic-item skill-badge" style="display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; background: #64748b; border-radius: 16px; margin: 4px;">
+        <span>${skillValue}</span>
+        <input type="hidden" name="skills[${index}]" value="${skillValue}" />
+        <button type="button" class="remove-dynamic-item" style="border: none; background: transparent; cursor: pointer; color: #64748b; font-size: 12px;">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+    `;
+
+    list.insertAdjacentHTML("beforeend", itemHtml);
+    if (input && !value) input.value = "";
+    CvEditor.onRenderPreview();
+  }
+
+  static addPortfolioItem(data = {}) {
+    const list = document.getElementById("portfolio-list");
+    if (!list) return;
+
+    const index = list.querySelectorAll(".dynamic-item").length;
+    const itemHtml = `
+      <div class="dynamic-item form-card" style="position: relative; margin-bottom: 12px; padding: 12px; border: 1px solid #e2e8f0; border-radius: 8px;">
+        <button type="button" class="remove-dynamic-item btn-icon" style="position: absolute; top: 10px; right: 10px; border: none; background: transparent; cursor: pointer; color: #ef4444;" title="Видалити">
+          <i class="fa-solid fa-trash"></i>
+        </button>
+        <div class="form-group">
+          <label class="form-label">Назва проєкту / Ресурсу</label>
+          <input type="text" name="portfolios[${index}][name]" class="form-input" value="${data.name || ""}" placeholder="GitHub, Personal Site тощо" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">URL</label>
+          <input type="url" name="portfolios[${index}][url]" class="form-input" value="${data.url || ""}" placeholder="https://..." />
+        </div>
+      </div>
+    `;
+
+    list.insertAdjacentHTML("beforeend", itemHtml);
+    CvEditor.onRenderPreview();
+  }
+
+  static reindexDynamicLists() {
+    document.querySelectorAll("#experience-list .dynamic-item").forEach((item, idx) => {
+      item.querySelectorAll("input, textarea").forEach((field) => {
+        field.name = field.name.replace(/experience\[\d+\]/, `experience[${idx}]`);
+      });
+    });
+
+    document.querySelectorAll("#skills-list .dynamic-item").forEach((item, idx) => {
+      const field = item.querySelector("input[type='hidden']");
+      if (field) field.name = `skills[${idx}]`;
+    });
+
+    document.querySelectorAll("#portfolio-list .dynamic-item").forEach((item, idx) => {
+      item.querySelectorAll("input").forEach((field) => {
+        field.name = field.name.replace(/portfolios\[\d+\]/, `portfolios[${idx}]`);
+      });
+    });
   }
 
   static onRenderPreview() {
@@ -64,6 +206,11 @@ class CvEditor {
   static async createCv() {
     const form = document.getElementById("cv-form");
     const formData = new FormData(form);
+
+    const avatarFileInput = document.getElementById("avatar-file");
+    if (!avatarFileInput?.files?.length) {
+      formData.delete("file");
+    }
 
     const templateId =
       document.querySelector(".template-selected")?.dataset.templateId;
@@ -137,6 +284,12 @@ class CvEditor {
     const tabFile = document.getElementById("tab-avatar-file");
     const avatarFileInput = document.getElementById("avatar-file");
     const avatarUrlInput = document.getElementById("avatar-url");
+    const avatarPreview = document.getElementById("avatar-preview");
+
+    if (avatarPreview) {
+      avatarPreview.src = "";
+      avatarPreview.style.display = "none";
+    }
 
     if (tab === "url") {
       urlContainer.style.display = "block";

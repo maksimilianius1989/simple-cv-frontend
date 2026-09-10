@@ -26,7 +26,7 @@ class Main {
     }
 
     let token = localStorage.getItem(ACCESS_TOKEN);
-
+    
     let response = await fetch(url, {
       ...options,
       headers: {

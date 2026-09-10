@@ -8,18 +8,20 @@ class ErrorHandler {
   }
 
   async setErrorResponse(errorResponse) {
-    errorResponse = await errorResponse.json();
-    if (!errorResponse.error) {
-      return;
-    }
+    const data = await errorResponse.json();
+    const payload = data.error || data;
 
-    this.#errorMessage = Array.isArray(errorResponse.error.message)
-      ? errorResponse.error.message
-      : [errorResponse.error.message];
+    if (!payload) return;
 
-    this.#errorDetails = Array.isArray(errorResponse.error.details)
-      ? errorResponse.error.details
-      : [errorResponse.error.details];
+    this.#errorMessage = Array.isArray(payload.message)
+      ? payload.message
+      : [payload.message || "Помилка валідації"];
+
+    this.#errorDetails = Array.isArray(payload.details)
+      ? payload.details
+      : payload.details
+        ? [payload.details]
+        : [];
 
     this.#render();
   }
@@ -53,9 +55,11 @@ class ErrorHandler {
   }
 
   #getFieldName(field) {
-    return field.replace(/\[([^\]]+)\]/g, ".$1").includes(".")
-      ? field.replace(/^([^.[\]]+)\.([^.[\]]+)$/, "$1[$2]")
-      : field;
+    const parts = field.split(".");
+    if (parts.length === 1) return field;
+
+    const [first, ...rest] = parts;
+    return `${first}${rest.map((part) => `[${part}]`).join("")}`;
   }
 
   reset() {
