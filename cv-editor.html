@@ -54,7 +54,7 @@
                 </div>
                 <i class="fa-solid fa-user"></i>
               </div>
-              <!-- AVATAR -->
+             <!-- AVATAR -->
               <div class="avatar-upload">
                 <div class="avatar-preview">
                   <img id="avatar-preview" src="" alt="Avatar preview" />
@@ -63,15 +63,38 @@
                   </div>
                 </div>
                 <div class="avatar-upload-content">
-                  <label for="avatar-url" class="form-label"> Фото </label>
-                  <input
-                    id="avatar-url"
-                    name="avatarUrl"
-                    type="url"
-                    class="form-input"
-                    placeholder="https://..."
-                  />
-                  <p class="form-help">Вставте URL вашого фото.</p>
+                  <label class="form-label">Фото</label>
+                
+                  <div class="avatar-tabs" style="display: flex; gap: 8px; margin-bottom: 8px;">
+                    <button type="button" class="btn-tab active" id="tab-avatar-url" onclick="CvEditor.switchAvatarTab('url')">
+                      <i class="fa-solid fa-link"></i> URL
+                    </button>
+                    <button type="button" class="btn-tab" id="tab-avatar-file" onclick="CvEditor.switchAvatarTab('file')">
+                      <i class="fa-solid fa-upload"></i> Завантажити файл
+                    </button>
+                  </div>
+
+                  <div id="avatar-url-container" class="avatar-tab-content">
+                    <input
+                      id="avatar-url"
+                      name="avatarUrl"
+                      type="url"
+                      class="form-input"
+                      placeholder="https://..."
+                    />
+                    <p class="form-help">Вставте URL вашого фото.</p>
+                  </div>
+
+                  <div id="avatar-file-container" class="avatar-tab-content" style="display: none;">
+                    <input
+                      id="avatar-file"
+                      name="file"
+                      type="file"
+                      accept="image/*"
+                      class="form-input"
+                    />
+                    <p class="form-help">Оберіть зображення у форматі PNG або JPG.</p>
+                  </div>
                 </div>
               </div>
               <!-- NAME -->

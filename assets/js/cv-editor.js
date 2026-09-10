@@ -30,16 +30,35 @@ class CvEditor {
     });
 
     const form = document.getElementById("cv-form");
-    form.addEventListener("input", (event) => {
-      const activeTemplate = document.querySelector(".template-selected");
-      if (!activeTemplate) return;
+    form.addEventListener("input", () => CvEditor.onRenderPreview());
 
-      clearTimeout(CvEditor.debounceTimerForm);
+    const avatarFileInput = document.getElementById("avatar-file");
+    const avatarPreview = document.getElementById("avatar-preview");
 
-      CvEditor.debounceTimerForm = setTimeout(() => {
-        CvEditor.renderPreview(activeTemplate.dataset.templateId);
-      }, 1000);
-    });
+    if (avatarFileInput) {
+      avatarFileInput.addEventListener("change", (e) => {
+        const file = e.target.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = (event) => {
+            avatarPreview.src = event.target.result;
+            avatarPreview.style.display = "block";
+          };
+          reader.readAsDataURL(file);
+        }
+      });
+    }
+  }
+
+  static onRenderPreview() {
+    const activeTemplate = document.querySelector(".template-selected");
+    if (!activeTemplate) return;
+
+    clearTimeout(CvEditor.debounceTimerForm);
+
+    CvEditor.debounceTimerForm = setTimeout(() => {
+      CvEditor.renderPreview(activeTemplate.dataset.templateId);
+    }, 1000);
   }
 
   static async createCv() {
@@ -85,6 +104,12 @@ class CvEditor {
     const renderObj = Utils.fromCvToRender(jsonData);
     const formData = Utils.objectToFormData(renderObj);
 
+    const avatarFileInput = document.getElementById("avatar-file");
+    const file = avatarFileInput?.files?.[0];
+    if (file) {
+      formData.append("file", file);
+    }
+
     const renderRes = await fetch(
       `${APP_CONFIG.API_URL}/templates/${templateId}/render`,
       {
@@ -103,5 +128,34 @@ class CvEditor {
 
     const htmlContent = await renderRes.text();
     iframe.srcdoc = htmlContent;
+  }
+
+  static switchAvatarTab(tab) {
+    const urlContainer = document.getElementById("avatar-url-container");
+    const fileContainer = document.getElementById("avatar-file-container");
+    const tabUrl = document.getElementById("tab-avatar-url");
+    const tabFile = document.getElementById("tab-avatar-file");
+    const avatarFileInput = document.getElementById("avatar-file");
+    const avatarUrlInput = document.getElementById("avatar-url");
+
+    if (tab === "url") {
+      urlContainer.style.display = "block";
+      fileContainer.style.display = "none";
+      tabUrl.classList.add("active");
+      tabFile.classList.remove("active");
+      if (avatarFileInput) {
+        avatarFileInput.value = "";
+      }
+    } else {
+      urlContainer.style.display = "none";
+      fileContainer.style.display = "block";
+      tabFile.classList.add("active");
+      tabUrl.classList.remove("active");
+      if (avatarUrlInput) {
+        avatarUrlInput.value = "";
+      }
+    }
+
+    CvEditor.onRenderPreview();
   }
 }

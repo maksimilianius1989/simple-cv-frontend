@@ -186,7 +186,6 @@ class Utils {
           }))
         : [],
       avatarUrl: avatarUrl ?? null,
-      file: null,
       qr: content.qr ?? "",
       coverLetter: cvData.coverLetter ?? content.coverLetter ?? "",
     };
