@@ -79,14 +79,11 @@ class CvEditor {
   static async renderPreview(templateId) {
     const iframe = document.getElementById("cv-iframe");
     if (!iframe) return;
-    
+
     const form = document.getElementById("cv-form");
     const jsonData = Utils.formDataToJson(form);
-    console.log('formDataToJson', jsonData);
     const renderObj = Utils.fromCvToRender(jsonData);
-    console.log('fromCvToRender', renderObj);
     const formData = Utils.objectToFormData(renderObj);
-    console.log('objectToFormData', formData);
 
     const renderRes = await fetch(
       `${APP_CONFIG.API_URL}/templates/${templateId}/render`,
@@ -95,6 +92,14 @@ class CvEditor {
         body: formData,
       },
     );
+
+    const errorHandler = new ErrorHandler(form);
+    errorHandler.reset();
+
+    if (!renderRes.ok) {
+      errorHandler.setErrorResponse(renderRes);
+      return;
+    }
 
     const htmlContent = await renderRes.text();
     iframe.srcdoc = htmlContent;
