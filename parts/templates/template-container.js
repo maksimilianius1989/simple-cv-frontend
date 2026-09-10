@@ -7,8 +7,6 @@ class TemplateContainer {
   static EVENT_TEMPLATE_SELECT = "template::select";
   static EVENT_TEMPLATE_SELECTED = "template::selected";
 
-  static CACHE_KAY_RANDOM_DATA_TEMPLATE = "random-content-for-template_";
-
   static async init() {
     const container = document.getElementById("templates-list");
     if (!container) return;
@@ -68,7 +66,7 @@ class TemplateContainer {
       if (iframe) {
         try {
           let cvContentObj = LocalStorageCache.get(
-            TemplateContainer.CACHE_KAY_RANDOM_DATA_TEMPLATE + template.id,
+            Main.CACHE_KAY_RANDOM_DATA_TEMPLATE + template.id,
           );
 
           if (!cvContentObj) {
@@ -81,13 +79,12 @@ class TemplateContainer {
             cvContentObj = await cvContentResponse.json();
 
             LocalStorageCache.set(
-              TemplateContainer.CACHE_KAY_RANDOM_DATA_TEMPLATE + template.id,
+              Main.CACHE_KAY_RANDOM_DATA_TEMPLATE + template.id,
               cvContentObj,
             );
           }
 
           const formData = Utils.objectToFormData(cvContentObj);
-          formData.append("templateId", template.id);
 
           const templateResponse = await fetch(
             `${APP_CONFIG.API_URL}/templates/${template.id}/render`,

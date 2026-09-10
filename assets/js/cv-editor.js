@@ -77,25 +77,22 @@ class CvEditor {
   }
 
   static async renderPreview(templateId) {
-    const form = document.getElementById("cv-form");
-    const content = {};
-
     const iframe = document.getElementById("cv-iframe");
     if (!iframe) return;
-
-    const requestData = {
-      avatar: content.avatarUrl,
-      content,
-    };
+    
+    const form = document.getElementById("cv-form");
+    const jsonData = Utils.formDataToJson(form);
+    console.log('formDataToJson', jsonData);
+    const renderObj = Utils.fromCvToRender(jsonData);
+    console.log('fromCvToRender', renderObj);
+    const formData = Utils.objectToFormData(renderObj);
+    console.log('objectToFormData', formData);
 
     const renderRes = await fetch(
       `${APP_CONFIG.API_URL}/templates/${templateId}/render`,
       {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(requestData),
+        body: formData,
       },
     );
 

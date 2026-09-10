@@ -1,9 +1,10 @@
-document.addEventListener("DOMContentLoaded", () => CV.loadCV());
+document.addEventListener("DOMContentLoaded", () => Cv.loadCV());
 
-class CV {
+class Cv {
   static context = undefined;
   static isFake = false;
   static feedbackTimeoutFormTime = 3 * 60 * 1000;
+  static templateId = undefined;
 
   static async loadCV() {
     const loadingContainer = document.querySelector(".cv-container-loading");
@@ -29,21 +30,22 @@ class CV {
 
     if (!res.ok) {
       const randomContent = LocalStorageCache.get(
-        `random-content-for-template_${slug}`,
+        Main.CACHE_KAY_RANDOM_DATA_TEMPLATE + slug,
       );
       if (!randomContent) {
         cvNotFoundContainer.classList.remove("hidden");
         return;
       }
 
-      CV.isFake = true;
-      CV.context = JSON.parse(randomContent);
-      CV.context.templateId = slug;
+      Cv.isFake = true;
+      Cv.context = randomContent;
+      Cv.templateId = slug;
     } else {
-      CV.context = await res.json();
+      Cv.context = await res.json();
+      Cv.templateId = Cv.context.templateId;
     }
 
-    if (!CV.context) {
+    if (!Cv.context) {
       cvNotFoundContainer.classList.remove("hidden");
       return;
     }
@@ -54,61 +56,45 @@ class CV {
     if (!iframe) return;
 
     try {
-      const avatarId = CV.context.files?.find(
-        (file) => file.category === "AVATAR",
-      )?.id;
-
-      const avatar = avatarId
-        ? `${APP_CONFIG.API_URL}/cvs/storage/published/${avatarId}`
-        : CV.context.avatar;
+      const formData = Cv.isFake
+        ? Utils.objectToFormData(Utils.fromFakeCvToRender(Cv.context))
+        : Utils.objectToFormData(Utils.fromCvToRender(Cv.context));
 
       const renderRes = await fetch(
-        `${APP_CONFIG.API_URL}/templates/${CV.context.templateId}/render`,
+        `${APP_CONFIG.API_URL}/templates/${Cv.templateId}/render`,
         {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            avatar: avatar,
-            content: CV.context.content,
-          }),
+          body: formData,
         },
       );
 
       if (!renderRes)
-        throw new Error(`Failed to upload template ${CV.context.templateId}`);
+        throw new Error(`Failed to upload template ${Cv.templateId}`);
 
       const htmlContent = await renderRes.text();
       iframe.srcdoc = htmlContent;
 
-      if (CV.isFake) {
-        return;
-      }
+      document.getElementById("cv-letter").textContent =
+        Cv.context.coverLetter || "Немає супровідного листа";
 
-      const sideBar = document.querySelector(".cv-sidebar");
-      if (!sideBar) {
-        return;
-      }
-
-      sideBar.classList.toggle("hidden", CV.isFake);
+      if (Cv.isFake) return;
 
       const feedbackSection = document.querySelector(".feedback-section");
-      if (!feedbackSection) return;
+      if (feedbackSection) {
+        console.log("feedbackSection");
+        feedbackSection.dataset.cvId = Cv.context.id;
+        feedbackSection.classList.remove("hidden");
 
-      feedbackSection.dataset.cvId = CV.context.id;
+        Cv.showFeedbackDialog(feedbackSection);
+      }
 
-      CV.showFeedbackDialog(feedbackSection);
-
-      document.getElementById("cv-letter").textContent =
-        CV.context.coverLetter || "Немає супровідного листа";
-
-      const pdfFileId = CV.context.files?.find(
+      const pdfFileId = Cv.context.files?.find(
         (file) => file.category === "PDF",
       )?.id;
-      if (pdfFileId) {
-        document.getElementById("download-pdf").href =
-          `${APP_CONFIG.API_URL}/cvs/storage/published/${pdfFileId}`;
+      const pdfBtn = document.getElementById("download-pdf");
+      if (pdfFileId && pdfBtn) {
+        pdfBtn.href = `${APP_CONFIG.API_URL}/cvs/storage/published/${pdfFileId}`;
+        pdfBtn.classList.remove("hidden");
       }
     } catch (e) {
       console.error(e);
@@ -127,6 +113,6 @@ class CV {
           },
         }),
       );
-    }, CV.feedbackTimeoutFormTime);
+    }, Cv.feedbackTimeoutFormTime);
   }
 }

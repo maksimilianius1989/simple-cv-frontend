@@ -3,6 +3,8 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 class Main {
+  static CACHE_KAY_RANDOM_DATA_TEMPLATE = "templateDemoData:";
+
   static async uploadAuthImg(url, container) {
     try {
       const response = await Main.authFetch(url);
@@ -145,6 +147,133 @@ class Auth {
 }
 
 class Utils {
+  static fromCvToRender(cvData) {
+    const content = cvData?.content || cvData || {};
+    const avatarId = cvData.files?.find(
+      (file) => file.category === "AVATAR",
+    )?.id;
+
+    const avatarUrl = avatarId
+      ? `${APP_CONFIG.API_URL}/cvs/storage/published/${avatarId}`
+      : content?.avatarUrl;
+
+    return {
+      name: content.name ?? "",
+      position: content.position ?? "",
+      contacts: {
+        phone: content.contacts?.phone ?? "",
+        email: content.contacts?.email ?? "",
+        location: content.contacts?.location ?? "",
+        linkedin: content.contacts?.linkedin ?? "",
+      },
+      employmentType: content.employmentType ?? "",
+      portfolios: Array.isArray(content.portfolios)
+        ? content.portfolios.map((portfolio) => ({
+            name: portfolio.name ?? "",
+            url: portfolio.url ?? "",
+          }))
+        : [],
+      summary: content.summary ?? "",
+      skills: Array.isArray(content.skills) ? [...content.skills] : [],
+      salary: content.salary ?? "",
+      experience: Array.isArray(content.experience)
+        ? content.experience.map((exp) => ({
+            company: exp.company ?? "",
+            position: exp.position ?? "",
+            startDate: exp.startDate ?? null,
+            endDate: exp.endDate ?? null,
+            description: exp.description ?? "",
+          }))
+        : [],
+      avatarUrl: avatarUrl ?? null,
+      file: null,
+      qr: content.qr ?? "",
+      coverLetter: cvData.coverLetter ?? content.coverLetter ?? "",
+    };
+  }
+
+  static fromFakeCvToRender(rawData) {
+    return {
+      name: rawData.name ?? "",
+      position: rawData.position ?? "",
+      contacts: {
+        phone: rawData.contacts?.phone ?? "",
+        email: rawData.contacts?.email ?? "",
+        location: rawData.contacts?.location ?? "",
+        linkedin: rawData.contacts?.linkedin ?? "",
+      },
+      employmentType: rawData.employmentType ?? "",
+      portfolios: Array.isArray(rawData.portfolios)
+        ? rawData.portfolios.map((portfolio) => ({
+            name: portfolio.name ?? "",
+            url: portfolio.url ?? "",
+          }))
+        : [],
+      summary: rawData.summary ?? "",
+      skills: Array.isArray(rawData.skills) ? [...rawData.skills] : [],
+      salary: rawData.salary ?? "",
+      experience: Array.isArray(rawData.experience)
+        ? rawData.experience.map((exp) => ({
+            company: exp.company ?? "",
+            position: exp.position ?? "",
+            startDate: exp.startDate ?? null,
+            endDate: exp.endDate ?? null,
+            description: exp.description ?? "",
+          }))
+        : [],
+      avatarUrl: rawData.avatarUrl ?? "",
+      file: null,
+      qr: rawData.qr ?? "",
+      coverLetter: rawData.coverLetter ?? "",
+    };
+  }
+
+  static formDataToJson(form, asJsonString = false) {
+    const formData = new FormData(form);
+    const result = {};
+
+    for (const [key, value] of formData.entries()) {
+      // Розбиваємо ключі типу "experience[0][company]" або "contacts[email]" на масив ["experience", "0", "company"]
+      const keys = key.replace(/\]/g, "").split("[");
+
+      let current = result;
+
+      for (let i = 0; i < keys.length; i++) {
+        let k = keys[i];
+
+        // Якщо це останній ключ у шляху — присвоюємо значення
+        if (i === keys.length - 1) {
+          // Якщо ключ порожній (наприклад, skills[]), додаємо елемент у масив
+          if (k === "") {
+            if (!Array.isArray(current)) current = [];
+            current.push(value);
+          } else if (current[k] !== undefined) {
+            // Якщо ключ вже існує, робимо з нього масив (для multiple select або однакових inputs)
+            if (!Array.isArray(current[k])) {
+              current[k] = [current[k]];
+            }
+            current[k].push(value);
+          } else {
+            current[k] = value;
+          }
+        } else {
+          // Перевіряємо, чи наступний ключ є числом (індексом масиву)
+          const nextKey = keys[i + 1];
+          const isNextKeyIndex =
+            !isNaN(parseInt(nextKey, 10)) || nextKey === "";
+
+          if (!current[k]) {
+            current[k] = isNextKeyIndex ? [] : {};
+          }
+
+          current = current[k];
+        }
+      }
+    }
+
+    return asJsonString ? JSON.stringify(result, null, 2) : result;
+  }
+
   static objectToFormData(data, formData = new FormData(), parentKey = "") {
     Object.entries(data).forEach(([key, value]) => {
       const formKey = parentKey ? `${parentKey}[${key}]` : key;
@@ -162,11 +291,7 @@ class Utils {
       if (Array.isArray(value)) {
         value.forEach((item, index) => {
           if (typeof item === "object" && item !== null) {
-            Utils.objectToFormData(
-              item,
-              formData,
-              `${formKey}[${index}]`,
-            );
+            Utils.objectToFormData(item, formData, `${formKey}[${index}]`);
           } else {
             formData.append(`${formKey}[${index}]`, String(item));
           }
