@@ -67,32 +67,33 @@ class TemplateContainer {
 
       if (iframe) {
         try {
-          let cvContentJson = LocalStorageCache.get(
+          let cvContentObj = LocalStorageCache.get(
             TemplateContainer.CACHE_KAY_RANDOM_DATA_TEMPLATE + template.id,
           );
 
-          if (!cvContentJson) {
+          if (!cvContentObj) {
             const cvContentResponse = await fetch(
               `${APP_CONFIG.API_URL}/templates/random-content`,
             );
             if (!cvContentResponse.ok)
               throw new Error(`Failed to uplaod content ${template.id}`);
-            cvContentJson = await cvContentResponse.text();
+
+            cvContentObj = await cvContentResponse.json();
 
             LocalStorageCache.set(
               TemplateContainer.CACHE_KAY_RANDOM_DATA_TEMPLATE + template.id,
-              cvContentJson,
+              cvContentObj,
             );
           }
+
+          const formData = Utils.objectToFormData(cvContentObj);
+          formData.append("templateId", template.id);
 
           const templateResponse = await fetch(
             `${APP_CONFIG.API_URL}/templates/${template.id}/render`,
             {
               method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: cvContentJson,
+              body: formData,
             },
           );
 

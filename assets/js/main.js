@@ -145,6 +145,47 @@ class Auth {
 }
 
 class Utils {
+  static objectToFormData(data, formData = new FormData(), parentKey = "") {
+    Object.entries(data).forEach(([key, value]) => {
+      const formKey = parentKey ? `${parentKey}[${key}]` : key;
+
+      if (value instanceof File || value instanceof Blob) {
+        formData.append(formKey, value);
+        return;
+      }
+
+      if (value === null || value === undefined) {
+        formData.append(formKey, "");
+        return;
+      }
+
+      if (Array.isArray(value)) {
+        value.forEach((item, index) => {
+          if (typeof item === "object" && item !== null) {
+            Utils.objectToFormData(
+              item,
+              formData,
+              `${formKey}[${index}]`,
+            );
+          } else {
+            formData.append(`${formKey}[${index}]`, String(item));
+          }
+        });
+
+        return;
+      }
+
+      if (typeof value === "object") {
+        Utils.objectToFormData(value, formData, formKey);
+        return;
+      }
+
+      formData.append(formKey, String(value));
+    });
+
+    return formData;
+  }
+
   static dateFormatted(isoString) {
     const date = new Date(isoString);
 
