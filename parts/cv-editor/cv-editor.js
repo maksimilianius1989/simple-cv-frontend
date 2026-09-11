@@ -375,12 +375,28 @@ class CvFormLoader {
   }
 
   static async uploadDraft(cvId) {
-    const draft = await Main.authFetch(`${APP_CONFIG.API_URL}/drafts/${cvId}`, {
-      method: "GET",
-    });
-    const draftAsJson = await draft?.json();
+    const cvResponse = await Main.authFetch(
+      `${APP_CONFIG.API_URL}/cvs/ai-drafts/${cvId}`,
+      {
+        method: "GET",
+      },
+    );
 
-    console.log("uploadDraft", draftAsJson);
+    if (!cvResponse.ok) {
+      window.dispatchEvent(
+        new CustomEvent("alert::show", {
+          detail: {
+            message: `Не вдалось завантажити драфт`,
+          },
+        }),
+      );
+
+      return;
+    }
+
+    const cvObj = await cvResponse?.json();
+
+    CvFormLoader.fillFormFromCv(cvObj);
   }
 
   static fillFormFromCv(cv) {

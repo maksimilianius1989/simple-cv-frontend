@@ -108,6 +108,14 @@ class DraftCard {
       pdfBtn.href = `${APP_CONFIG.API_URL}/cvs/storage/published/${pdfFile.id}`;
       pdfBtn.addEventListener("click", (e) => e.stopPropagation());
     }
+
+    const createCvFromDraftBtn = target.querySelector(".draft-clone");
+    if (createCvFromDraftBtn) {
+      createCvFromDraftBtn.href = `/clone.html?draft=${draft.id}`;
+      createCvFromDraftBtn.addEventListener("click", (e) =>
+        e.stopPropagation(),
+      );
+    }
   }
 
   static async deleteDraft(event) {
