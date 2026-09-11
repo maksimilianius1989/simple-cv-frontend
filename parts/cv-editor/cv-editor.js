@@ -32,7 +32,7 @@ class CvEditor {
             if (params.has("cv")) {
               CvEditor.createCv(
                 `${APP_CONFIG.API_URL}/cvs/${params.get("cv")}`,
-                "PATCH",
+                "PUT",
               );
             }
             break;

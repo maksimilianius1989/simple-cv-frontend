@@ -15,7 +15,7 @@ class Main {
 
   static async uploadAuthImg(url, container) {
     try {
-      const objectUrl = await Main.getAuthFile(url);
+      const objectUrl = await Main.getAuthFile(`${url}?t=${Date.now()}`);
 
       container.src = objectUrl;
       container.onload = () => URL.revokeObjectURL(objectUrl);
