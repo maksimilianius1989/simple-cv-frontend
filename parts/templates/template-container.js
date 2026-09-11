@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", async (event) => {
 });
 
 class TemplateContainer {
-  static EVENT_TEMPLATE_SELECT = "template::select";
+  static EVENT_RENDER_FINISED = "template-render::finished";
   static EVENT_TEMPLATE_SELECTED = "template::selected";
 
   static async init() {
@@ -19,12 +19,6 @@ class TemplateContainer {
 
       const templateId = card.dataset.templateId;
       TemplateContainer.markAsSelected(container, templateId);
-
-      window.dispatchEvent(
-        new CustomEvent(TemplateContainer.EVENT_TEMPLATE_SELECT, {
-          detail: { templateId },
-        }),
-      );
     });
 
     await TemplateContainer.render(container);
@@ -40,7 +34,6 @@ class TemplateContainer {
     if (!htmlTemplate) return;
 
     container.innerHTML = "";
-    let activeTemplateId = "";
     for (const [index, template] of templates.entries()) {
       const clone = htmlTemplate.content.cloneNode(true);
 
@@ -50,11 +43,6 @@ class TemplateContainer {
       const iframe = clone.querySelector("iframe");
 
       card.dataset.templateId = template.id;
-      if (index === 0) {
-        card.classList.add("template-selected");
-        activeTemplateId = template.id;
-      }
-
       if (title && template.name) {
         title.textContent = template.name;
       }
@@ -107,9 +95,11 @@ class TemplateContainer {
       container.appendChild(clone);
     }
 
-    TemplateContainer.markAsSelected(container, activeTemplateId);
-
     document.querySelector(".template-section").classList.remove("hidden");
+    
+    window.dispatchEvent(
+      new CustomEvent(TemplateContainer.EVENT_RENDER_FINISED, {detail: {container}}),
+    );
   }
 
   static markAsSelected(container, templateId) {

@@ -2,6 +2,7 @@ document.addEventListener("DOMContentLoaded", async () => CvEditor.init());
 
 class CvEditor {
   static debounceTimerForm = undefined;
+  static renderController = null;
 
   static async init() {
     if (!Auth.checkAuth() && !(await Auth.refreshToken())) {
@@ -25,13 +26,13 @@ class CvEditor {
         switch (e.target.closest("#save-cv-button").dataset.type) {
           case "create":
           case "clone":
-            CvEditor.createCv(`${APP_CONFIG.API_URL}/cvs`, 'POST');
+            CvEditor.createCv(`${APP_CONFIG.API_URL}/cvs`, "POST");
           case "edit":
             const params = new URLSearchParams(window.location.search);
             if (params.has("cv")) {
               CvEditor.createCv(
                 `${APP_CONFIG.API_URL}/cvs/${params.get("cv")}`,
-                'PATCH'
+                "PATCH",
               );
             }
             break;
@@ -262,11 +263,10 @@ class CvEditor {
     }
   }
 
-  static createAndPublishCv(form) {
-    console.log("createAndPublishCv", form);
-  }
-
   static async renderPreview(templateId) {
+    CvEditor.renderController?.abort();
+    CvEditor.renderController = new AbortController();
+
     const iframe = document.getElementById("cv-iframe");
     if (!iframe) return;
 
@@ -286,6 +286,7 @@ class CvEditor {
       {
         method: "POST",
         body: formData,
+        signal: CvEditor.renderController.signal,
       },
     );
 
@@ -390,6 +391,7 @@ class CvFormLoader {
     CvFormLoader.fillSkills(content.skills);
     CvFormLoader.fillPortfolios(content.portfolios);
     CvFormLoader.fillAvatar(cv.files);
+    CvFormLoader.fillTemplate(cv.templateId);
   }
 
   static fillStaticFields(content) {
@@ -478,5 +480,11 @@ class CvFormLoader {
     }
 
     return date.substring(0, 7);
+  }
+
+  static fillTemplate(templateId) {
+    window.addEventListener("template-render::finished", (e) => {
+      TemplateContainer.markAsSelected(e.detail.container, templateId);
+    });
   }
 }
