@@ -5,13 +5,17 @@ document.addEventListener("DOMContentLoaded", () => {
 class Main {
   static CACHE_KAY_RANDOM_DATA_TEMPLATE = "templateDemoData:";
 
-  static async uploadAuthImg(url, container) {
-    try {
+  static async getAuthFile(url) {
       const response = await Main.authFetch(url);
-      if (!response) throw new Error("Fail to upload auth IMG");
+      if (!response) throw new Error("Fail to upload auth file");
 
       const blob = await response.blob();
-      const objectUrl = URL.createObjectURL(blob);
+      return URL.createObjectURL(blob);
+  }
+
+  static async uploadAuthImg(url, container) {
+    try {
+      const objectUrl = await Main.getAuthFile(url);
 
       container.src = objectUrl;
       container.onload = () => URL.revokeObjectURL(objectUrl);

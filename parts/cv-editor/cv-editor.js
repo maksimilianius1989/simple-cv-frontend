@@ -21,11 +21,21 @@ class CvEditor {
       if (e.target.closest("#save-cv-button")) {
         e.preventDefault();
         e.stopPropagation();
-        CvEditor.createCv();
-      } else if (e.target.closest("#publish-cv-button")) {
-        e.preventDefault();
-        e.stopPropagation();
-        CvEditor.createAndPublishCv();
+
+        switch (e.target.closest("#save-cv-button").dataset.type) {
+          case "create":
+          case "clone":
+            CvEditor.createCv(`${APP_CONFIG.API_URL}/cvs`, 'POST');
+          case "edit":
+            const params = new URLSearchParams(window.location.search);
+            if (params.has("cv")) {
+              CvEditor.createCv(
+                `${APP_CONFIG.API_URL}/cvs/${params.get("cv")}`,
+                'PATCH'
+              );
+            }
+            break;
+        }
       }
 
       if (e.target.closest("#add-experience-button")) {
@@ -83,6 +93,8 @@ class CvEditor {
         }
       });
     }
+
+    CvFormLoader.init();
   }
 
   static addExperienceItem(data = {}) {
@@ -174,22 +186,34 @@ class CvEditor {
   }
 
   static reindexDynamicLists() {
-    document.querySelectorAll("#experience-list .dynamic-item").forEach((item, idx) => {
-      item.querySelectorAll("input, textarea").forEach((field) => {
-        field.name = field.name.replace(/experience\[\d+\]/, `experience[${idx}]`);
+    document
+      .querySelectorAll("#experience-list .dynamic-item")
+      .forEach((item, idx) => {
+        item.querySelectorAll("input, textarea").forEach((field) => {
+          field.name = field.name.replace(
+            /experience\[\d+\]/,
+            `experience[${idx}]`,
+          );
+        });
       });
-    });
 
-    document.querySelectorAll("#skills-list .dynamic-item").forEach((item, idx) => {
-      const field = item.querySelector("input[type='hidden']");
-      if (field) field.name = `skills[${idx}]`;
-    });
-
-    document.querySelectorAll("#portfolio-list .dynamic-item").forEach((item, idx) => {
-      item.querySelectorAll("input").forEach((field) => {
-        field.name = field.name.replace(/portfolios\[\d+\]/, `portfolios[${idx}]`);
+    document
+      .querySelectorAll("#skills-list .dynamic-item")
+      .forEach((item, idx) => {
+        const field = item.querySelector("input[type='hidden']");
+        if (field) field.name = `skills[${idx}]`;
       });
-    });
+
+    document
+      .querySelectorAll("#portfolio-list .dynamic-item")
+      .forEach((item, idx) => {
+        item.querySelectorAll("input").forEach((field) => {
+          field.name = field.name.replace(
+            /portfolios\[\d+\]/,
+            `portfolios[${idx}]`,
+          );
+        });
+      });
   }
 
   static onRenderPreview() {
@@ -203,7 +227,7 @@ class CvEditor {
     }, 1000);
   }
 
-  static async createCv() {
+  static async createCv(url, method) {
     const form = document.getElementById("cv-form");
     const formData = new FormData(form);
 
@@ -222,8 +246,8 @@ class CvEditor {
     errorHandler.reset();
 
     try {
-      const response = await Main.authFetch(`${APP_CONFIG.API_URL}/cvs`, {
-        method: "POST",
+      const response = await Main.authFetch(url, {
+        method,
         body: formData,
       });
 
@@ -310,5 +334,149 @@ class CvEditor {
     }
 
     CvEditor.onRenderPreview();
+  }
+}
+
+class CvFormLoader {
+  static async init() {
+    const params = new URLSearchParams(window.location.search);
+
+    if (params.has("cv")) {
+      CvFormLoader.uploadCv(params.get("cv"));
+    } else if (params.has("draft")) {
+      CvFormLoader.uploadDraft(params.get("draft"));
+    }
+  }
+
+  static async uploadCv(cvId) {
+    const cvResponse = await Main.authFetch(
+      `${APP_CONFIG.API_URL}/cvs/${cvId}`,
+      {
+        method: "GET",
+      },
+    );
+
+    if (!cvResponse.ok) {
+      window.dispatchEvent(
+        new CustomEvent("alert::show", {
+          detail: {
+            message: `Не вдалось завантажити резюме`,
+          },
+        }),
+      );
+
+      return;
+    }
+
+    const cvObj = await cvResponse?.json();
+
+    CvFormLoader.fillFormFromCv(cvObj);
+  }
+
+  static async uploadDraft(cvId) {
+    const draft = await Main.authFetch(`${APP_CONFIG.API_URL}/drafts/${cvId}`, {
+      method: "GET",
+    });
+    const draftAsJson = await draft?.json();
+
+    console.log("uploadDraft", draftAsJson);
+  }
+
+  static fillFormFromCv(cv) {
+    const content = cv.content;
+
+    CvFormLoader.fillStaticFields(content);
+    CvFormLoader.fillExperience(content.experience);
+    CvFormLoader.fillSkills(content.skills);
+    CvFormLoader.fillPortfolios(content.portfolios);
+    CvFormLoader.fillAvatar(cv.files);
+  }
+
+  static fillStaticFields(content) {
+    const fields = {
+      name: content.name,
+      position: content.position,
+      employmentType: content.employmentType,
+      summary: content.summary,
+      "contacts[email]": content.contacts?.email,
+      "contacts[phone]": content.contacts?.phone,
+      "contacts[location]": content.contacts?.location,
+      "contacts[linkedin]": content.contacts?.linkedin,
+    };
+
+    Object.entries(fields).forEach(([name, value]) => {
+      const field = document.querySelector(`[name="${name}"]`);
+      if (field) {
+        field.value = value ?? "";
+      }
+    });
+  }
+
+  static fillExperience(experience = []) {
+    const list = document.getElementById("experience-list");
+    if (!list) {
+      return;
+    }
+
+    list.innerHTML = "";
+    experience.forEach((item) => {
+      CvEditor.addExperienceItem({
+        company: item.company,
+        position: item.position,
+        startDate: CvFormLoader.formatMonth(item.startDate),
+        endDate: CvFormLoader.formatMonth(item.endDate),
+        description: item.description,
+      });
+    });
+  }
+
+  static fillSkills(skills = []) {
+    const list = document.getElementById("skills-list");
+    if (!list) {
+      return;
+    }
+
+    list.innerHTML = "";
+
+    skills.forEach((skill) => {
+      CvEditor.addSkillItem(skill);
+    });
+  }
+
+  static fillPortfolios(portfolios = []) {
+    const list = document.getElementById("portfolio-list");
+    if (!list) {
+      return;
+    }
+
+    list.innerHTML = "";
+    portfolios.forEach((portfolio) => {
+      CvEditor.addPortfolioItem({
+        name: portfolio.name,
+        url: portfolio.url,
+      });
+    });
+  }
+
+  static fillAvatar(files) {
+    const avatarUrlInput = document.getElementById("avatar-url");
+    if (!avatarUrlInput) {
+      return;
+    }
+
+    const avatarId = files?.find((file) => file.category === "AVATAR")?.id;
+    if (!avatarId) {
+      return;
+    }
+
+    avatarUrlInput.value = `${APP_CONFIG.API_URL}/cvs/storage/published/${avatarId}`;
+  }
+
+  static formatMonth(date) {
+    if (!date) {
+      return "";
+    }
+
+    return date.substring(0, 7);
   }
 }

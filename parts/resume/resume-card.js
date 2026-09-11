@@ -110,7 +110,6 @@ class ResumeCard {
 
     if (cv.isPublished) {
       statusBadge.textContent = "🟢 Опубліковано";
-
     } else {
       statusBadge.textContent = "⚪ Не опубліковано";
       statusBadge.classList.add("disabled");
@@ -177,11 +176,25 @@ class ResumeCard {
       copyBtn.classList.toggle("hidden", !cv.isPublished);
     }
 
+    const editBtn = target.querySelector(".action-edit");
+    if (editBtn) {
+      editBtn.href = `/edit.html?cv=${cv.id}`;
+      editBtn.classList.toggle("hidden", !cv.isPublished);
+    }
+
+    const cloneBtn = target.querySelector(".action-clone");
+    if (cloneBtn) {
+      cloneBtn.href = `/clone.html?cv=${cv.id}`;
+      cloneBtn.classList.toggle("hidden", !cv.isPublished);
+    }
+
     const toggleBtn = target.querySelector(".action-toggle-publish");
     if (toggleBtn) {
       toggleBtn.dataset.isPublished = cv.isPublished;
       const toggleIcon = toggleBtn.querySelector("i");
-      toggleIcon.className = cv.isPublished ? "fa-solid fa-toggle-on" : "fa-solid fa-toggle-off";
+      toggleIcon.className = cv.isPublished
+        ? "fa-solid fa-toggle-on"
+        : "fa-solid fa-toggle-off";
       toggleBtn.title = cv.isPublished ? "Зняти з публікації" : "Опублікувати";
     }
   }
@@ -192,7 +205,6 @@ class ResumeCard {
 
   static async deleteResume(event) {
     if (!confirm("Ви дійсно хочете видалити це резюме?")) return;
-
 
     const cvId = event.target.closest(".resume").dataset.id;
 

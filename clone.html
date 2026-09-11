@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="uk">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Клонування резюме</title>
+
+    <link rel="stylesheet" href="/assets/css/main.css" />
+
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+      rel="stylesheet"
+    />
+
+    <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+    <script src="/assets/js/config.js"></script>
+    <script src="/assets/js/main.js"></script>
+  </head>
+  <body>
+    <!--# include virtual="/parts/header/header.html"-->
+
+    <main class="cv-builder">
+      <!-- ========================= BUILDER HEADER ========================== -->
+      <section class="builder-header">
+        <div class="builder-header-left">
+          <div class="builder-title">
+            <div class="hero-badge">✨ Клонування CV</div>
+            <h1>Створіть копію резюме на основі опублікованого</h1>
+            <p>Заповнюйте форму — резюме одразу оновлюється у preview.</p>
+          </div>
+        </div>
+        <div class="builder-header-actions">
+          <button type="button" class="btn-secondary" id="save-cv-button" data-type="clone">
+            <i class="fa-regular fa-floppy-disk"></i> Клонувати
+          </button>
+        </div>
+      </section>
+      <!-- ========================= BUILDER CONTENT ========================== -->
+      <!--# include virtual="/parts/cv-editor/cv-editor.html" -->
+    </main>
+
+    <!--# include virtual="/parts/footer/footer.html" -->
+    <!--# include virtual="/parts/modal/modal.html" -->
+    <!--# include virtual="/parts/alert-handler/alert-handler.html" -->
+  </body>
+</html>
