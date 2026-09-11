@@ -104,13 +104,14 @@ class DraftCard {
     const pdfFile = draft.files.find((file) => file.category === "PDF");
     if (pdfFile) {
       const pdfBtn = target.querySelector(".btn-pdf");
-      pdfBtn.style.display = "flex";
+      pdfBtn.classList.remove('hidden');
       pdfBtn.href = `${APP_CONFIG.API_URL}/cvs/storage/published/${pdfFile.id}`;
       pdfBtn.addEventListener("click", (e) => e.stopPropagation());
     }
 
     const createCvFromDraftBtn = target.querySelector(".draft-clone");
     if (createCvFromDraftBtn) {
+      createCvFromDraftBtn.classList.remove('hidden');
       createCvFromDraftBtn.href = `/clone.html?draft=${draft.id}`;
       createCvFromDraftBtn.addEventListener("click", (e) =>
         e.stopPropagation(),
